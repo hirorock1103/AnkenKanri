@@ -7,8 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.hirorock1103.template_01.Member.Member;
-import com.example.hirorock1103.template_01.DB.MemberManager;
+import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.Anken.Anken;
 
 import java.util.List;
 
@@ -63,18 +64,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        MemberManager manager = new MemberManager(this);
+        AnkenManager manager = new AnkenManager(this);
 
-        Member member = new Member();
-        member.setName("johnny");
-        member.setAge(23);
+        Anken anken = new Anken();
+        anken.setAnkenName("ひまわり電気");
+        anken.setAnkenType(1);
+        manager.addAnken(anken);
 
-        manager.addMember(member);
+        List<Anken> list = manager.getList();
 
-        List<Member> list = manager.getList();
-
-        for (Member m : list){
-            Log.i("INFO","m:" + m.getName());
+        for (Anken m : list){
+            Log.i("INFO","m:" + m.getAnkenName());
         }
 
 

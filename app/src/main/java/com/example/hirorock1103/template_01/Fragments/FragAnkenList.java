@@ -16,13 +16,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Common.Common;
-import com.example.hirorock1103.template_01.DB.MemberManager;
-import com.example.hirorock1103.template_01.Member.Member;
+import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.R;
 
 import java.util.List;
 
-public class FragMemberList extends Fragment {
+public class FragAnkenList extends Fragment {
 
     private RecyclerView recyclerView;
     private MyAdapter adapter;
@@ -36,8 +36,8 @@ public class FragMemberList extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
 
-        MemberManager manager = new MemberManager(getContext());
-        List<Member> list = manager.getList();
+        AnkenManager manager = new AnkenManager(getContext());
+        List<Anken> list = manager.getList();
         adapter = new MyAdapter(list, getContext());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -70,16 +70,16 @@ public class FragMemberList extends Fragment {
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
         //Field
-        List<Member> list;
+        List<Anken> list;
         private Context context;
 
         //set list
-        public void setList(List<Member> list){
+        public void setList(List<Anken> list){
             this.list = list;
         }
 
         //Constructor
-        public MyAdapter(List<Member> list, Context context){
+        public MyAdapter(List<Anken> list, Context context){
             this.list = list;
             this.context = context;
         }
@@ -96,10 +96,10 @@ public class FragMemberList extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-            Member member = list.get(i);
+            Anken anken = list.get(i);
 
-            myViewHolder.title.setText(member.getName());
-            myViewHolder.createdate.setText(member.getCreatedate());
+            myViewHolder.title.setText(anken.getAnkenName());
+            myViewHolder.createdate.setText(anken.getCreatedate());
 
             //set context menu
             registerForContextMenu(myViewHolder.layout);

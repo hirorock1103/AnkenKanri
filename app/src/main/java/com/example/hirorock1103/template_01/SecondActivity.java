@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.hirorock1103.template_01.Common.Common;
-import com.example.hirorock1103.template_01.Fragments.FragMemberList;
+import com.example.hirorock1103.template_01.Fragments.FragAnkenList;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class SecondActivity extends AppCompatActivity {
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Fragment fragment = new FragMemberList();
+        Fragment fragment = new FragAnkenList();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.frame, fragment);
         transaction.commit();

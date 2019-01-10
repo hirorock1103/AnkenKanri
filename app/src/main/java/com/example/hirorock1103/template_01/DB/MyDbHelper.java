@@ -6,14 +6,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    private final static int DBVERSION = 2;
-    private final static String DBNAME = "Samle02.db";
-    protected final static String TABLE_NAME = "Member";
-    protected final static String MEMBER_COLUMN_ID = "id";
-    protected final static String MEMBER_COLUMN_NAME = "name";
-    protected final static String MEMBER_COLUMN_AGE = "age";
-    protected final static String MEMBER_COLUMN_PROFILE_IMAGE = "profile_image";
-    protected final static String MEMBER_COLUMN_CREATEDATE = "createdate";
+    private final static int DBVERSION = 3;
+    private final static String DBNAME = "Anken.db";
+
+    protected final static String TABLE_ANKEN_NAME = "Anken";
+    protected final static String ANKEN_COLUMN_ID = "id";
+    protected final static String ANKEN_COLUMN_TITLE = "ankenName";
+    protected final static String ANKEN_COLUMN_TYPE = "ankenType";
+    protected final static String ANKEN_COLUMN_START = "startDate";
+    protected final static String ANKEN_COLUMN_END = "endDate";
+    protected final static String ANKEN_COLUMN_BUDGET = "budget";
+    protected final static String ANKEN_COLUMN_ISCOMPLETE = "isComplete";
+    protected final static String ANKEN_COLUMN_CREATEDATE = "createdate";
+
+    protected final static String TABLE_ANKEN_TYPE = "AnkenType";
+    protected final static String TYPE_COLUMN_ID = "id";
+    protected final static String TYPE_COLUMN_TYPENAME = "typeName";
+    protected final static String TYPE_COLUMN_STATUS = "status";
 
     public MyDbHelper(Context context) {
         super(context, DBNAME, null, DBVERSION);
@@ -21,20 +30,35 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-                MEMBER_COLUMN_ID + " integer primary key autoincrement ," +
-                MEMBER_COLUMN_NAME + " text ," +
-                MEMBER_COLUMN_AGE + " intger," +
-                MEMBER_COLUMN_PROFILE_IMAGE + " blob," +
-                MEMBER_COLUMN_CREATEDATE + " text" +
-                ")" ;
+
+        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_ANKEN_NAME + "(" +
+                ANKEN_COLUMN_ID + " integer primary key autoincrement, " +
+                ANKEN_COLUMN_TYPE + " integer default 0, " +
+                ANKEN_COLUMN_TITLE + " text, " +
+                ANKEN_COLUMN_START + " text, " +
+                ANKEN_COLUMN_END + " text, " +
+                ANKEN_COLUMN_BUDGET + " integer default 0, " +
+                ANKEN_COLUMN_ISCOMPLETE + " integer default 0, " +
+                ANKEN_COLUMN_CREATEDATE + " text " +
+                ")";
 
         sqLiteDatabase.execSQL(query);
+
+        query = "CREATE TABLE IF NOT EXISTS " + TABLE_ANKEN_TYPE + "(" +
+                TYPE_COLUMN_ID + " integer primary key autoincrement, " +
+                ANKEN_COLUMN_TYPE + " integer default 0, " +
+                TYPE_COLUMN_TYPENAME + " text, " +
+                TYPE_COLUMN_STATUS + " integer default 0 " +
+                ")";
+        sqLiteDatabase.execSQL(query);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        String query = "DROP TABLE IF EXISTS " + TABLE_NAME;
+        String query = "DROP TABLE IF EXISTS " + TABLE_ANKEN_NAME;
+        sqLiteDatabase.execSQL(query);
+        query = "DROP TABLE IF EXISTS " + TABLE_ANKEN_TYPE;
         sqLiteDatabase.execSQL(query);
         onCreate(sqLiteDatabase);
     }

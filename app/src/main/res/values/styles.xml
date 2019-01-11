@@ -28,14 +28,17 @@
     <style name="border_bottom">
         <item name="android:background">@drawable/border_bottom_1</item>
     </style>
+
     <style name="border_bottom_h1">
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/border_bottom_1</item>
     </style>
+
     <style name="bt_style_1">
         <item name="android:background">@drawable/btn_bg_selector</item>
         <item name="android:textColor">#FFF</item>
     </style>
+
     <style name="bt_style_1_small">
         <item name="android:background">@drawable/btn_bg_selector</item>
         <item name="android:textColor">#FFF</item>
@@ -47,10 +50,12 @@
         <item name="android:paddingTop">3dp</item>
         <item name="android:paddingBottom">3dp</item>
     </style>
+
     <style name="bt_style_2">
         <item name="android:background">@drawable/btn_radius_selector</item>
         <item name="android:textColor">#FFF</item>
     </style>
+
     <style name="bt_style_2_small">
         <item name="android:background">@drawable/btn_radius_selector</item>
         <item name="android:textColor">#FFF</item>
@@ -62,4 +67,13 @@
         <item name="android:paddingTop">3dp</item>
         <item name="android:paddingBottom">3dp</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

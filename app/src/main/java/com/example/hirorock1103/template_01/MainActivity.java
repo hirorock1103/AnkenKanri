@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         bt_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainAnkenDetailActivity.class);
+                Intent intent = new Intent(MainActivity.this, ScrollingActivity.class);
                 startActivity(intent);
             }
         });

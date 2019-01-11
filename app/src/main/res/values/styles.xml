@@ -28,7 +28,10 @@
     <style name="border_bottom">
         <item name="android:background">@drawable/border_bottom_1</item>
     </style>
-
+    <style name="border_bottom_h1">
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/border_bottom_1</item>
+    </style>
     <style name="bt_style_1">
         <item name="android:background">@drawable/btn_bg_selector</item>
         <item name="android:textColor">#FFF</item>

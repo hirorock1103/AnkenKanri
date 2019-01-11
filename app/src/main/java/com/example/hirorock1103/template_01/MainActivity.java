@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bt_2;
     private Button bt_3;
     private Button bt_4;
+    private Button bt_5;
 
 
     @Override
@@ -62,6 +63,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        bt_5 = findViewById(R.id.bt_5);
+        bt_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainAnkenDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
 
         AnkenManager manager = new AnkenManager(this);

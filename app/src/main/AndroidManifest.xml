@@ -23,7 +23,10 @@
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MainDetailActivity" />
+        <activity android:name=".MainEditActivity" />
+        <activity android:name=".MainAnkenListActivity"></activity>
     </application>
 
 </manifest>

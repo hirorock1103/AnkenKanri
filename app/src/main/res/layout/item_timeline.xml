@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:id="@+id/layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+        <com.github.vipulasri.timelineview.TimelineView
+            android:id="@+id/timeline"
+            android:paddingLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:markerSize="20dp"
+            app:lineWidth="1dp"
+            app:lineStyle="dash"
+            app:startLineColor="@color/colorPrimary"
+            app:endLineColor="@color/colorPrimary"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="anken"
+            android:id="@+id/anken_title"
+            app:layout_constraintLeft_toRightOf="@id/timeline"
+            app:layout_constraintTop_toTopOf="@id/timeline"
+
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/anken_title"
+            app:layout_constraintLeft_toLeftOf="@id/anken_title"
+            style="@style/background_corner_radius_primary_dark"
+
+            >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="期日:2019/03/03"
+                    android:textColor="#fff"
+                    />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/Small"
+                    android:text="明日までにいろいろやらんとあかんくて"
+
+                    />
+
+
+        </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

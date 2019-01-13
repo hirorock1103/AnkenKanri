@@ -12,6 +12,7 @@ import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.Anken.Anken;
 
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,14 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bt_1 = findViewById(R.id.bt_1);
-        bt_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                startActivity(intent);
-            }
-        });
 
         bt_2 = findViewById(R.id.bt_2);
         bt_2.setText("Sample");
@@ -68,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         bt_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ScrollingActivity.class);
+                Intent intent = new Intent(MainActivity.this, MainAnkenListActivity.class);
                 startActivity(intent);
             }
         });
@@ -78,8 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
         AnkenManager manager = new AnkenManager(this);
 
+        String[] ankens = {"ハルエネ","網元工業","スマ茂庭"};
+
+        Random rand = new Random();
+        int i = rand.nextInt(3);
         Anken anken = new Anken();
-        anken.setAnkenName("ひまわり電気");
+        anken.setAnkenName(ankens[i]);
+        anken.setEndDate("2019/03/05");
         anken.setAnkenType(1);
         manager.addAnken(anken);
 

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.Anken.MileStone;
 import com.example.hirorock1103.template_01.Common.Common;
 
 import java.util.ArrayList;
@@ -127,5 +128,85 @@ public class AnkenManager extends MyDbHelper {
         return insertId;
 
     }
+
+    //add milestone
+    public long addMilestone(MileStone mileStone){
+
+        ContentValues values = new ContentValues();
+        values.put(MILESTONE_COLUMN_NAME, mileStone.getName());
+        values.put(MILESTONE_COLUMN_DETAIL, mileStone.getDetail());
+        values.put(MILESTONE_COLUMN_ANKENID, mileStone.getAnkenId());
+        values.put(MILESTONE_COLUMN_ENDDATE, mileStone.getEndDate());
+        values.put(MILESTONE_COLUMN_STATUS,mileStone.getStatus());
+        values.put(MILESTONE_COLUMN_CREATEDATE, Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
+
+        SQLiteDatabase db = getWritableDatabase();
+        long insertId = db.insert(TABLE_MILESTONE, null, values);
+
+        return insertId;
+
+    }
+
+    //get milestones
+    public List<MileStone> getMilestoneByAnkenId(int ankenId){
+
+        List<MileStone> list = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_MILESTONE + " WHERE " + MILESTONE_COLUMN_ANKENID + " = " + ankenId + " ORDER BY " + MILESTONE_COLUMN_ENDDATE + " ASC ";
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            MileStone mileStone = new MileStone();
+
+            mileStone.setId(c.getInt(c.getColumnIndex(MILESTONE_COLUMN_ID)));
+            mileStone.setName(c.getString(c.getColumnIndex(MILESTONE_COLUMN_NAME)));
+            mileStone.setDetail(c.getString(c.getColumnIndex(MILESTONE_COLUMN_DETAIL)));
+            mileStone.setAnkenId(c.getInt(c.getColumnIndex(MILESTONE_COLUMN_ANKENID)));
+            mileStone.setEndDate(c.getString(c.getColumnIndex(MILESTONE_COLUMN_ENDDATE)));
+            mileStone.setStatus(c.getInt(c.getColumnIndex(MILESTONE_COLUMN_STATUS)));
+            mileStone.setCreatedate(c.getString(c.getColumnIndex(MILESTONE_COLUMN_CREATEDATE)));
+
+            list.add(mileStone);
+
+            c.moveToNext();
+        }
+
+        return list;
+
+    }
+
+    //update mileston
+    public long updateMilestone(MileStone mileStone){
+
+        ContentValues values = new ContentValues();
+        values.put(MILESTONE_COLUMN_NAME, mileStone.getName());
+        values.put(MILESTONE_COLUMN_ANKENID, mileStone.getAnkenId());
+        values.put(MILESTONE_COLUMN_DETAIL, mileStone.getDetail());
+        values.put(MILESTONE_COLUMN_ENDDATE, mileStone.getEndDate());
+        values.put(MILESTONE_COLUMN_STATUS,mileStone.getStatus());
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] args = new String[]{String.valueOf(mileStone.getId())};
+
+        long insertId = db.update(TABLE_MILESTONE, values, MILESTONE_COLUMN_ID + " = ?",args);
+
+        return insertId;
+
+    }
+
+    //delete milestone
+    public void deleteMilestone(int milestoneId){
+        String query = "DELETE FROM " + TABLE_MILESTONE + " WHERE " + MILESTONE_COLUMN_ID + " = " + milestoneId;
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(query);
+    }
+
 
 }

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    private final static int DBVERSION = 3;
+    private final static int DBVERSION = 7;
     private final static String DBNAME = "Anken.db";
 
     protected final static String TABLE_ANKEN_NAME = "Anken";
@@ -23,6 +23,16 @@ public class MyDbHelper extends SQLiteOpenHelper {
     protected final static String TYPE_COLUMN_ID = "id";
     protected final static String TYPE_COLUMN_TYPENAME = "typeName";
     protected final static String TYPE_COLUMN_STATUS = "status";
+
+    protected final static String TABLE_MILESTONE = "MileStone";
+    protected final static String MILESTONE_COLUMN_ID = "id";
+    protected final static String MILESTONE_COLUMN_NAME = "milestone_name";
+    protected final static String MILESTONE_COLUMN_DETAIL = "detail";
+    protected final static String MILESTONE_COLUMN_ANKENID = "anken_id";
+    protected final static String MILESTONE_COLUMN_ENDDATE = "endDate";
+    protected final static String MILESTONE_COLUMN_STATUS = "status";
+    protected final static String MILESTONE_COLUMN_CREATEDATE = "createdate";
+
 
     public MyDbHelper(Context context) {
         super(context, DBNAME, null, DBVERSION);
@@ -52,6 +62,17 @@ public class MyDbHelper extends SQLiteOpenHelper {
                 ")";
         sqLiteDatabase.execSQL(query);
 
+
+        query = "CREATE TABLE IF NOT EXISTS " + TABLE_MILESTONE + "(" +
+                MILESTONE_COLUMN_ID + " integer primary key autoincrement, " +
+                MILESTONE_COLUMN_NAME + " text, " +
+                MILESTONE_COLUMN_DETAIL + " text, " +
+                MILESTONE_COLUMN_ANKENID + " integer, " +
+                MILESTONE_COLUMN_STATUS + " integer default 0, " +
+                MILESTONE_COLUMN_ENDDATE + " text, " +
+                MILESTONE_COLUMN_CREATEDATE + " text " +
+                ")";
+        sqLiteDatabase.execSQL(query);
     }
 
     @Override
@@ -59,6 +80,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         String query = "DROP TABLE IF EXISTS " + TABLE_ANKEN_NAME;
         sqLiteDatabase.execSQL(query);
         query = "DROP TABLE IF EXISTS " + TABLE_ANKEN_TYPE;
+        sqLiteDatabase.execSQL(query);
+        query = "DROP TABLE IF EXISTS " + TABLE_MILESTONE;
         sqLiteDatabase.execSQL(query);
         onCreate(sqLiteDatabase);
     }

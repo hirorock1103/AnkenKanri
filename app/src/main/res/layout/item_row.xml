@@ -5,48 +5,98 @@
     android:id="@+id/layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/image"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="3dp"
+        android:padding="5dp"
+        app:cardUseCompatPadding="true"
+        android:layout_margin="2dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="title"
-        android:id="@+id/title"
-        app:layout_constraintLeft_toRightOf="@+id/image"
-        app:layout_constraintTop_toTopOf="parent"
-        />
 
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="detailsdetailsdetailsdetailsdetailsdetailsdetailsdetailsdetailsdetails"
-        android:textSize="10sp"
-        android:id="@+id/detail"
-        android:singleLine="true"
-        android:ellipsize="end"
+        <android.support.constraint.ConstraintLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        app:layout_constraintLeft_toRightOf="@+id/image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/anken_no"
+                android:text="No.1"
+                android:textSize="@dimen/Small"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintBottom_toTopOf="@id/title"
+                app:layout_constraintLeft_toLeftOf="@id/title"
+                style="@style/background_corner_radius_primary_dark"
+                />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/createdate"
-        android:text="2018/12/23"
-        android:textSize="10sp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/title"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/anken_type"
+                android:layout_marginLeft="5dp"
+                android:text="サイト制作"
+                android:textSize="@dimen/Small"
+                app:layout_constraintLeft_toRightOf="@id/anken_no"
+                app:layout_constraintBottom_toBottomOf="@id/anken_no"
+                style="@style/background_corner_radius_primary_dark"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="title"
+                android:id="@+id/title"
+                android:layout_marginTop="25dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/complete_date"
+                android:text="納品日:2019/04/03"
+                android:textSize="@dimen/Small"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintLeft_toLeftOf="@id/title"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/milestone"
+                android:text="進捗:最終チェック"
+                android:textSize="@dimen/Small"
+                app:layout_constraintLeft_toLeftOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/complete_date"
+                />
+
+
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:id="@+id/arrow"
+                android:src="@mipmap/ic_arrow"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="5dp"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+
 
 </android.support.constraint.ConstraintLayout>

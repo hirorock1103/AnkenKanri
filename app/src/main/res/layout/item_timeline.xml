@@ -45,6 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/end_date"
                     android:text="期日:2019/03/03"
                     android:textColor="#fff"
                     />
@@ -52,9 +53,12 @@
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:id="@+id/detail"
                     android:textColor="#fff"
                     android:layout_marginTop="5dp"
                     android:textSize="@dimen/Small"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:text="明日までにいろいろやらんとあかんくて"
 
                     />

@@ -82,6 +82,35 @@ public class Common {
 
 
     /**
+     * differece between 2 date
+     */
+    public static int getDateDiff(String from, String to, String format){
+
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Date dateTo = null;
+        Date dateFrom = null;
+
+        // Date型に変換
+        try {
+            dateFrom = sdf.parse(from);
+            dateTo = sdf.parse(to);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        // 差分の日数を計算する
+        long dateTimeTo = dateTo.getTime();
+        long dateTimeFrom = dateFrom.getTime();
+        long dayDiff = ( dateTimeTo - dateTimeFrom  ) / (1000 * 60 * 60 * 24 );
+
+
+        return (int)dayDiff;
+
+    }
+
+
+
+    /**
      * log
      */
     public static void log(String str){

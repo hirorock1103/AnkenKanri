@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/option4"
+        android:title="対応中に戻す"/>
+
+    <item
+        android:id="@+id/option5"
+        android:title="完全削除"/>
+
+</menu>

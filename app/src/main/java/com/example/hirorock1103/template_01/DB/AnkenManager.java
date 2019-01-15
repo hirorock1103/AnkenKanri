@@ -23,7 +23,8 @@ public class AnkenManager extends MyDbHelper {
 
         List<Anken> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE_ANKEN_NAME + " ORDER BY " + ANKEN_COLUMN_ID + " DESC ";
+        String query = "SELECT * FROM " + TABLE_ANKEN_NAME + " ORDER BY " + ANKEN_COLUMN_ID + " ASC ";
+
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor c = db.rawQuery(query,null);
@@ -41,8 +42,49 @@ public class AnkenManager extends MyDbHelper {
             anken.setStartDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_START)));
             anken.setEndDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_END)));
             anken.setManDay(c.getFloat(c.getColumnIndex(ANKEN_COLUMN_MANDAY)));
-            boolean result = (c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)) == 0) ? false : true;
-            anken.setComplete(result);
+            anken.setPrice(c.getInt(c.getColumnIndex(ANKEN_COLUMN_PRICE)));
+            anken.setComplete(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)));
+            anken.setCreatedate(c.getString(c.getColumnIndex(ANKEN_COLUMN_CREATEDATE)));
+            list.add(anken);
+            c.moveToNext();
+        }
+
+        return list;
+
+    }
+
+    //select
+    public List<Anken> getList(String mode){
+
+        List<Anken> list = new ArrayList<>();
+
+        String query;
+        if(mode == "finished"){
+            query = "SELECT * FROM " + TABLE_ANKEN_NAME + " WHERE " +ANKEN_COLUMN_ISCOMPLETE+ " = 1 ORDER BY " + ANKEN_COLUMN_ID + " ASC ";
+        }else{
+            query = "SELECT * FROM " + TABLE_ANKEN_NAME + " WHERE " +ANKEN_COLUMN_ISCOMPLETE+ " = 0 ORDER BY " + ANKEN_COLUMN_ID + " ASC ";
+        }
+
+
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query,null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            Anken anken = new Anken();
+            anken.setId(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ID)));
+            anken.setAnkenName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TITLE)));
+            //anken.setAnkenType(c.getInt(c.getColumnIndex(ANKEN_COLUMN_TYPE)));
+            anken.setAnkenTypeName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TYPENAME)));
+            anken.setBudget(c.getInt(c.getColumnIndex(ANKEN_COLUMN_BUDGET)));
+            anken.setStartDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_START)));
+            anken.setEndDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_END)));
+            anken.setManDay(c.getFloat(c.getColumnIndex(ANKEN_COLUMN_MANDAY)));
+            anken.setPrice(c.getInt(c.getColumnIndex(ANKEN_COLUMN_PRICE)));
+            anken.setComplete(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)));
             anken.setCreatedate(c.getString(c.getColumnIndex(ANKEN_COLUMN_CREATEDATE)));
             list.add(anken);
             c.moveToNext();
@@ -73,8 +115,8 @@ public class AnkenManager extends MyDbHelper {
             anken.setStartDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_START)));
             anken.setEndDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_END)));
             anken.setManDay(c.getFloat(c.getColumnIndex(ANKEN_COLUMN_MANDAY)));
-            boolean result = (c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)) == 0) ? false : true;
-            anken.setComplete(result);
+            anken.setPrice(c.getInt(c.getColumnIndex(ANKEN_COLUMN_PRICE)));
+            anken.setComplete(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)));
             anken.setCreatedate(c.getString(c.getColumnIndex(ANKEN_COLUMN_CREATEDATE)));
 
             c.moveToNext();
@@ -105,6 +147,7 @@ public class AnkenManager extends MyDbHelper {
         values.put(ANKEN_COLUMN_END, anken.getEndDate());
         values.put(ANKEN_COLUMN_MANDAY, anken.getManDay());
         values.put(ANKEN_COLUMN_ISCOMPLETE, anken.isComplete());
+        values.put(ANKEN_COLUMN_PRICE, anken.getPrice());
         values.put(ANKEN_COLUMN_CREATEDATE, Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
 
         SQLiteDatabase db = getWritableDatabase();
@@ -126,7 +169,8 @@ public class AnkenManager extends MyDbHelper {
         values.put(ANKEN_COLUMN_START, anken.getStartDate());
         values.put(ANKEN_COLUMN_END, anken.getEndDate());
         values.put(ANKEN_COLUMN_MANDAY, anken.getManDay());
-        values.put(ANKEN_COLUMN_ISCOMPLETE, anken.isComplete());
+        values.put(ANKEN_COLUMN_PRICE, anken.getPrice());
+        values.put(ANKEN_COLUMN_ISCOMPLETE,anken.isComplete());
 
         SQLiteDatabase db = getWritableDatabase();
 

@@ -8,9 +8,10 @@ public class Anken {
     private String ankenTypeName;
     private int budget;
     private float manDay;
+    private int price;
     private String startDate;
     private String endDate;
-    private boolean complete;
+    private int complete;
     private String createdate;
 
 
@@ -62,11 +63,11 @@ public class Anken {
         this.endDate = endDate;
     }
 
-    public boolean isComplete() {
+    public int isComplete() {
         return complete;
     }
 
-    public void setComplete(boolean complete) {
+    public void setComplete(int complete) {
         this.complete = complete;
     }
 
@@ -92,5 +93,17 @@ public class Anken {
 
     public void setAnkenTypeName(String ankenTypeName) {
         this.ankenTypeName = ankenTypeName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getComplete() {
+        return complete;
     }
 }

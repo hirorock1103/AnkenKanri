@@ -64,7 +64,7 @@ public class MainAnkenListActivity extends AppCompatActivity implements DialogAn
     public class MyPagerFragmentAdapter extends FragmentPagerAdapter{
 
 
-        private CharSequence[] tabTitles = {"要対応", "終了案件"};
+        private CharSequence[] tabTitles = {"対応中案件", "終了案件"};
 
         public MyPagerFragmentAdapter(FragmentManager fm) {
             super(fm);
@@ -79,9 +79,17 @@ public class MainAnkenListActivity extends AppCompatActivity implements DialogAn
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
-                    return new FragAnkenList2();
+                    Fragment fragment1 = new FragAnkenList2();
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putInt("dataType", 0);
+                    fragment1.setArguments(bundle1);
+                    return fragment1;
                 case 1:
-                    return new FragAnkenList2();
+                    Fragment fragment2 = new FragAnkenList2();
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putInt("dataType", 1);
+                    fragment2.setArguments(bundle2);
+                    return fragment2;
                 default:
                     return null;
             }

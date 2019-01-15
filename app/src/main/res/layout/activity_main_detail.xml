@@ -197,12 +197,11 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_add1"
+        android:src="@mipmap/ic_milestone"
         android:id="@+id/fab"
-        app:rippleColor="#ccc"
-        android:outlineAmbientShadowColor="#ccc"
-        android:outlineSpotShadowColor="#ccc"
-        android:backgroundTint="#ccc"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
 

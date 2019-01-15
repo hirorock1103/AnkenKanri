@@ -7,8 +7,4 @@
         android:id="@+id/option2"
         android:title="終了済みに設定する"/>
 
-    <item
-        android:id="@+id/option3"
-        android:title="完全削除"/>
-
 </menu>

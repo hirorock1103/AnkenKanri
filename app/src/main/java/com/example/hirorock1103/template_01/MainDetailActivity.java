@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +35,14 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
 
     private int ankenId;
 
+    //view anken detail
+    TextView anken_title;
+    TextView budget;
+    TextView start;
+    TextView end;
+    TextView type;
+
+    //
     private ImageView edit_mark;
     private List<MileStone> list;
     private RecyclerView recyclerView;
@@ -57,9 +66,25 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         Bundle bundle = intent.getExtras();
         ankenId = bundle.getInt("ankenId", 0);
 
-        Common.toast(this, "ankenId:" + ankenId);
+        Anken anken = ankenManager.getListByID(ankenId);
 
         //view
+        anken_title = findViewById(R.id.anken_title);
+        budget = findViewById(R.id.budget);
+        start = findViewById(R.id.start);
+        end = findViewById(R.id.end);
+        type = findViewById(R.id.type);
+
+        //setAnken
+        anken_title.setText(anken.getAnkenName());
+
+        int result = (int)(anken.getPrice() * anken.getManDay());
+        budget.setText(String.format("%,d", result ) + "円");
+        start.setText(anken.getStartDate());
+        end.setText(anken.getEndDate());
+        type.setText(anken.getAnkenTypeName());
+
+        //buttons
         fab = findViewById(R.id.fab);
         edit_mark = findViewById(R.id.edit_mark);
         recyclerView = findViewById(R.id.recycler_view);

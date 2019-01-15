@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
@@ -25,14 +27,26 @@ import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.MainDetailActivity;
 import com.example.hirorock1103.template_01.R;
 
+import java.security.spec.ECField;
 import java.util.Date;
 import java.util.List;
 
 public class FragAnkenList2 extends Fragment {
 
+    //取得mode
+    private int mode;
+
     private RecyclerView recyclerView;
     private MyAdapter adapter;
     private FloatingActionButton fab;
+
+    //id for contextmenu
+    private int ankenId;
+
+    //manager
+    private AnkenManager ankenManager;
+
+
 
 
     @Nullable
@@ -41,18 +55,41 @@ public class FragAnkenList2 extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.f_member_list, container, false);
 
+        try{
+            Bundle bundle = getArguments();
+            mode = bundle.getInt("dataType",99);
+        }catch (Exception e){
+            Common.log("mode error:" + e.getMessage());
+        }
+
+
         recyclerView = view.findViewById(R.id.recycler_view);
         fab = view.findViewById(R.id.fab);
 
         setListener();
 
         AnkenManager manager = new AnkenManager(getContext());
-        List<Anken> list = manager.getList();
+
+        List<Anken> list;
+        if(mode == 1){
+            list = manager.getList("finished");
+        }else{
+            list = manager.getList("notfinished");
+        }
+
+
+        for (Anken anken : list){
+            Common.log(anken.getAnkenName());
+        }
+
+
         adapter = new MyAdapter(list, getContext());
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        ankenManager = new AnkenManager(getContext());
 
         return view;
     }
@@ -130,8 +167,13 @@ public class FragAnkenList2 extends Fragment {
             //anken - no
             holder.ankenNo.setText("No." + String.valueOf(anken.getId()));
             //anken type
-            String ankentype = anken.getAnkenTypeName().isEmpty() || anken.getAnkenTypeName() == null ? "未設定" : anken.getAnkenTypeName();
-            holder.ankenType.setText(ankentype);
+            try{
+                String ankentype = anken.getAnkenTypeName().isEmpty() || anken.getAnkenTypeName() == null ? "未設定" : anken.getAnkenTypeName();
+                holder.ankenType.setText(ankentype);
+            }catch (Exception e){
+                Common.log(e.getMessage());
+            }
+
 
             //get diff between today and goal
             String today = Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_1);
@@ -156,6 +198,7 @@ public class FragAnkenList2 extends Fragment {
                 }
             });
 
+            holder.layout.setTag(anken.getId());
             //set context menu
             registerForContextMenu(holder.layout);
 
@@ -175,26 +218,73 @@ public class FragAnkenList2 extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.option_menu_2, menu);
+        ankenId = Integer.parseInt(v.getTag().toString());
+
+        Anken anken = ankenManager.getListByID(ankenId);
+        if(anken.isComplete() == 1){
+            //getActivity().getMenuInflater().inflate(R.menu.option_menu_3, menu);
+        }else{
+            getActivity().getMenuInflater().inflate(R.menu.option_menu_2, menu);
+        }
+
+
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
+
         switch(item.getItemId()){
 
             case R.id.option1:
-                //
-                Common.toast(getContext(), "option1 is selected");
-                break;
+                //edit
+                DialogAnken dialogAnken = new DialogAnken();
+                Bundle bundle = new Bundle();
+                bundle.putString("mode", "edit");
+                bundle.putInt("ankenId", ankenId);
+                dialogAnken.setArguments(bundle);
+                dialogAnken.show(getFragmentManager(), "dialogAnken");
+                return true;
 
             case R.id.option2:
-                Common.toast(getContext(), "option2 is selected");
-                break;
+                //make complete true
+                Anken anken = ankenManager.getListByID(ankenId);
+                anken.setComplete(1);
 
-            case R.id.option3:
-                Common.toast(getContext(), "option3 is selected");
-                break;
+                long insertId = ankenManager.update(anken);
+
+                if(insertId > 0){
+                    View v = getView();
+                    Snackbar.make(v, "終了済みにセットしました。",Snackbar.LENGTH_SHORT).show();
+                }
+
+                return true;
+
+            case R.id.option4:
+
+                Common.log("option4");
+                Common.log("ankenId:" + ankenId);
+                //make complete true
+                Anken anken2 = ankenManager.getListByID(ankenId);
+                anken2.setComplete(0);
+
+                long insertId2 = ankenManager.update(anken2);
+
+                if(insertId2 > 0){
+                    View v = getView();
+                    Snackbar.make(v, "対応中にセットしました。",Snackbar.LENGTH_SHORT).show();
+                }
+
+                return true;
+
+
+            case R.id.option5:
+                Common.log("option5");
+                //delete completely
+                ankenManager.delete(ankenId);
+                View v = getView();
+                Snackbar.make(v, "削除しました。",Snackbar.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onContextItemSelected(item);

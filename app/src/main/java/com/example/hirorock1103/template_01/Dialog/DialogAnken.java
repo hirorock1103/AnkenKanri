@@ -26,20 +26,32 @@ import java.util.List;
 
 public class DialogAnken extends AppCompatDialogFragment {
 
+    //mode
+    private String mode;
+    private int ankenId;
+
+    //each setting
+    private String title;
+
+    //views
     private EditText ankenTitle;
     private ImageView startCal;
     private ImageView endCal;
     private TextView startDate;
     private TextView endDate;
     private EditText manDay;
+    private EditText price;
     private Spinner ankenTypeSpinner;
 
+    //manager
     private AnkenManager ankenManager;
     private AnkenTypeManager ankenTypeManager;
 
+    //data set
     private List<AnkenType> ankenTypeList;
+    private String[] ankenStringlist;
 
-
+    //others
     private DialogAnkenListener listener;
     public interface DialogAnkenListener{
         public void NoticeAnkenResult();
@@ -66,14 +78,27 @@ public class DialogAnken extends AppCompatDialogFragment {
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_anken, null);
 
+        //mode
+        mode = "new";
+        title = "案件設定";
+        try{
+            Bundle bundle = getArguments();
+            mode = bundle.getString("mode", "");
+            ankenId = bundle.getInt("ankenId", 0);
+            title = "案件設定(更新)";
+        }catch (Exception e){
+            Common.log(e.getMessage());
+        }
+
+        //set view
         ankenTitle = view.findViewById(R.id.edit_title);
         startCal = view.findViewById(R.id.pick_startdate_img);
         endCal = view.findViewById(R.id.pick_enddate_img);
         endDate = view.findViewById(R.id.end_date);
         startDate = view.findViewById(R.id.start_date);
         manDay = view.findViewById(R.id.edit_man_day);
+        price = view.findViewById(R.id.edit_price);
         ankenTypeSpinner = view.findViewById(R.id.edit_anken_type);
-
 
         //setManger
         ankenManager = new AnkenManager(getContext());
@@ -82,11 +107,21 @@ public class DialogAnken extends AppCompatDialogFragment {
 
         setListener();
 
+        if(ankenId > 0){
+            Anken anken = ankenManager.getListByID(ankenId);
+            ankenTitle.setText(anken.getAnkenName());
+            endDate.setText(anken.getEndDate());
+            startDate.setText(anken.getStartDate());
+            manDay.setText(String.valueOf(anken.getManDay()));
+            price.setText(String.valueOf(anken.getPrice()));
+            int position = getIndexOfItem(anken.getAnkenTypeName(),ankenStringlist);
+            ankenTypeSpinner.setSelection(position);
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         builder.setView(view)
-                .setTitle("案件設定")
+                .setTitle(title)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -98,21 +133,24 @@ public class DialogAnken extends AppCompatDialogFragment {
                         anken.setEndDate(endDate.getText().toString());
                         Float f = manDay.getText().toString().isEmpty() ? 0 : Float.parseFloat(manDay.getText().toString());
                         anken.setManDay(f);
-
+                        int pricedata = price.getText().toString().isEmpty() ? 0 : Integer.parseInt(price.getText().toString());
+                        anken.setPrice(pricedata);
                         anken.setAnkenTypeName(ankenTypeSpinner.getSelectedItem().toString());
-
                         //check
                         String error = validate(anken);
-
                         if(error.isEmpty()){
-                            long insertId = ankenManager.addAnken(anken);
-                            listener.NoticeAnkenResult();
+                            if(mode == "edit"){
+                                anken.setId(ankenId);
+                                long insertId = ankenManager.update(anken);
+                                listener.NoticeAnkenResult();
+                            }else{
+                                long insertId = ankenManager.addAnken(anken);
+                                listener.NoticeAnkenResult();
+                            }
+
                         }else{
                             Common.log(error);
                         }
-
-
-
                     }
                 });
 
@@ -121,6 +159,18 @@ public class DialogAnken extends AppCompatDialogFragment {
         return dialog;
 
 
+    }
+
+    private int getIndexOfItem(String name, String[] list){
+
+        for(int i = 0; i < list.length; i++){
+
+            if(list[i].equals(name)){
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     private String validate(Anken anken){
@@ -132,7 +182,7 @@ public class DialogAnken extends AppCompatDialogFragment {
         }
 
         if(anken.getManDay() == 0){
-            error += "工数は必須です。";
+            //error += "工数は必須です。";
         }
 
         return error;
@@ -164,17 +214,18 @@ public class DialogAnken extends AppCompatDialogFragment {
             }
         });
 
-        Common.log("ankenTypeList:" + ankenTypeList.size());
 
-        String[] list = new String[ankenTypeList.size()];
+
+        ankenStringlist = new String[ankenTypeList.size()];
 
         int i = 0;
         for (AnkenType data : ankenTypeList){
-            list[i] = data.getTypeName();
+            ankenStringlist[i] = data.getTypeName();
             i++;
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,ankenStringlist);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ankenTypeSpinner.setAdapter(adapter);
 

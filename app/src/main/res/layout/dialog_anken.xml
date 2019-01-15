@@ -139,11 +139,24 @@
         android:id="@+id/edit_man_day"
         android:inputType="numberDecimal"
         android:hint="数値"
-        android:textSize="@dimen/Small"
         app:layout_constraintLeft_toLeftOf="@id/edit_title"
         app:layout_constraintTop_toBottomOf="@id/end_date"
         android:layout_marginTop="45dp"
         />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="単価(円)"
+        android:id="@+id/price"
+        android:layout_marginLeft="20dp"
+        android:textSize="@dimen/Small"
+        app:layout_constraintBottom_toBottomOf="@id/man_day"
+        app:layout_constraintLeft_toRightOf="@id/man_day"
+
+        />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -154,6 +167,17 @@
         android:textSize="@dimen/Small"
         app:layout_constraintBottom_toTopOf="@id/edit_anken_type"
         app:layout_constraintLeft_toLeftOf="@id/title1"
+        />
+
+    <EditText
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_price"
+        android:inputType="number"
+        android:hint="金額"
+        app:layout_constraintLeft_toLeftOf="@id/price"
+        app:layout_constraintTop_toBottomOf="@id/end_date"
+        android:layout_marginTop="45dp"
         />
 
     <Spinner

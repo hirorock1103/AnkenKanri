@@ -5,7 +5,9 @@ public class Anken {
     private int id;
     private String ankenName;
     private int ankenType;
+    private String ankenTypeName;
     private int budget;
+    private float manDay;
     private String startDate;
     private String endDate;
     private boolean complete;
@@ -74,5 +76,21 @@ public class Anken {
 
     public void setCreatedate(String createdate) {
         this.createdate = createdate;
+    }
+
+    public float getManDay() {
+        return manDay;
+    }
+
+    public void setManDay(float manDay) {
+        this.manDay = manDay;
+    }
+
+    public String getAnkenTypeName() {
+        return ankenTypeName;
+    }
+
+    public void setAnkenTypeName(String ankenTypeName) {
+        this.ankenTypeName = ankenTypeName;
     }
 }

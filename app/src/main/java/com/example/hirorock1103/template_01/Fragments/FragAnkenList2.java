@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.MainDetailActivity;
 import com.example.hirorock1103.template_01.R;
 
@@ -30,6 +32,7 @@ public class FragAnkenList2 extends Fragment {
 
     private RecyclerView recyclerView;
     private MyAdapter adapter;
+    private FloatingActionButton fab;
 
 
     @Nullable
@@ -39,6 +42,9 @@ public class FragAnkenList2 extends Fragment {
         View view = inflater.inflate(R.layout.f_member_list, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
+        fab = view.findViewById(R.id.fab);
+
+        setListener();
 
         AnkenManager manager = new AnkenManager(getContext());
         List<Anken> list = manager.getList();
@@ -51,6 +57,19 @@ public class FragAnkenList2 extends Fragment {
         return view;
     }
 
+
+
+    private void setListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+                DialogAnken dialogAnken = new DialogAnken();
+                dialogAnken.show(getFragmentManager(),"dialogAnken");
+            }
+        });
+    }
+
     /*******************
      * Recycler View class
      *******************/
@@ -60,6 +79,7 @@ public class FragAnkenList2 extends Fragment {
         TextView title;
         TextView ankenNo;
         TextView completeDate;
+        TextView ankenType;
         ConstraintLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -67,6 +87,7 @@ public class FragAnkenList2 extends Fragment {
             title = itemView.findViewById(R.id.title);
             ankenNo = itemView.findViewById(R.id.anken_no);
             completeDate = itemView.findViewById(R.id.complete_date);
+            ankenType = itemView.findViewById(R.id.anken_type);
             layout = itemView.findViewById(R.id.layout);
 
         }
@@ -104,12 +125,25 @@ public class FragAnkenList2 extends Fragment {
         public void onBindViewHolder(@NonNull FragAnkenList2.MyViewHolder holder, int i) {
             Anken anken = list.get(i);
 
+            //title
             holder.title.setText(anken.getAnkenName());
+            //anken - no
             holder.ankenNo.setText("No." + String.valueOf(anken.getId()));
+            //anken type
+            String ankentype = anken.getAnkenTypeName().isEmpty() || anken.getAnkenTypeName() == null ? "未設定" : anken.getAnkenTypeName();
+            holder.ankenType.setText(ankentype);
+
+            //get diff between today and goal
             String today = Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_1);
-            String msg = anken.getEndDate() == null ? "完成日未定" : "完成予定:"+anken.getEndDate()+"(あと"+(Common.getDateDiff(today, anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_1))+"日)";
+            String msg = "";
+            if(anken.getEndDate() == null || anken.getEndDate().isEmpty()){
+                msg = "完成日未定";
+            }else{
+                msg = "完成予定:"+anken.getEndDate()+"(あと"+(Common.getDateDiff(today, anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_1))+"日)";
+            }
             holder.completeDate.setText(msg);
 
+            //other settings
             final int ankenId = anken.getId();
             holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,7 +175,7 @@ public class FragAnkenList2 extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.option_menu_1, menu);
+        getActivity().getMenuInflater().inflate(R.menu.option_menu_2, menu);
     }
 
     @Override
@@ -158,6 +192,9 @@ public class FragAnkenList2 extends Fragment {
                 Common.toast(getContext(), "option2 is selected");
                 break;
 
+            case R.id.option3:
+                Common.toast(getContext(), "option3 is selected");
+                break;
         }
 
         return super.onContextItemSelected(item);

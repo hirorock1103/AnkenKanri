@@ -49,7 +49,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="recycler view sample"
+        android:text="種別登録"
         android:id="@+id/bt_4"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

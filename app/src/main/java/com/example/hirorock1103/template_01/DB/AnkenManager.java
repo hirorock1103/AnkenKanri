@@ -35,10 +35,12 @@ public class AnkenManager extends MyDbHelper {
             Anken anken = new Anken();
             anken.setId(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ID)));
             anken.setAnkenName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TITLE)));
-            anken.setAnkenType(c.getInt(c.getColumnIndex(ANKEN_COLUMN_TYPE)));
+            //anken.setAnkenType(c.getInt(c.getColumnIndex(ANKEN_COLUMN_TYPE)));
+            anken.setAnkenTypeName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TYPENAME)));
             anken.setBudget(c.getInt(c.getColumnIndex(ANKEN_COLUMN_BUDGET)));
             anken.setStartDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_START)));
             anken.setEndDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_END)));
+            anken.setManDay(c.getFloat(c.getColumnIndex(ANKEN_COLUMN_MANDAY)));
             boolean result = (c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)) == 0) ? false : true;
             anken.setComplete(result);
             anken.setCreatedate(c.getString(c.getColumnIndex(ANKEN_COLUMN_CREATEDATE)));
@@ -65,10 +67,12 @@ public class AnkenManager extends MyDbHelper {
 
             anken.setId(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ID)));
             anken.setAnkenName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TITLE)));
-            anken.setAnkenType(c.getInt(c.getColumnIndex(ANKEN_COLUMN_TYPE)));
+            //anken.setAnkenType(c.getInt(c.getColumnIndex(ANKEN_COLUMN_TYPE)));
+            anken.setAnkenTypeName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TYPENAME)));
             anken.setBudget(c.getInt(c.getColumnIndex(ANKEN_COLUMN_BUDGET)));
             anken.setStartDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_START)));
             anken.setEndDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_END)));
+            anken.setManDay(c.getFloat(c.getColumnIndex(ANKEN_COLUMN_MANDAY)));
             boolean result = (c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)) == 0) ? false : true;
             anken.setComplete(result);
             anken.setCreatedate(c.getString(c.getColumnIndex(ANKEN_COLUMN_CREATEDATE)));
@@ -95,9 +99,11 @@ public class AnkenManager extends MyDbHelper {
         ContentValues values = new ContentValues();
         values.put(ANKEN_COLUMN_TITLE, anken.getAnkenName());
         values.put(ANKEN_COLUMN_BUDGET, anken.getBudget());
-        values.put(ANKEN_COLUMN_TYPE, anken.getAnkenType());
+        //values.put(ANKEN_COLUMN_TYPE, anken.getAnkenType());
+        values.put(ANKEN_COLUMN_TYPENAME, anken.getAnkenTypeName());
         values.put(ANKEN_COLUMN_START, anken.getStartDate());
         values.put(ANKEN_COLUMN_END, anken.getEndDate());
+        values.put(ANKEN_COLUMN_MANDAY, anken.getManDay());
         values.put(ANKEN_COLUMN_ISCOMPLETE, anken.isComplete());
         values.put(ANKEN_COLUMN_CREATEDATE, Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
 
@@ -115,9 +121,11 @@ public class AnkenManager extends MyDbHelper {
         ContentValues values = new ContentValues();
         values.put(ANKEN_COLUMN_TITLE, anken.getAnkenName());
         values.put(ANKEN_COLUMN_BUDGET, anken.getBudget());
-        values.put(ANKEN_COLUMN_TYPE, anken.getAnkenType());
+        //values.put(ANKEN_COLUMN_TYPE, anken.getAnkenType());
+        values.put(ANKEN_COLUMN_TYPENAME, anken.getAnkenTypeName());
         values.put(ANKEN_COLUMN_START, anken.getStartDate());
         values.put(ANKEN_COLUMN_END, anken.getEndDate());
+        values.put(ANKEN_COLUMN_MANDAY, anken.getManDay());
         values.put(ANKEN_COLUMN_ISCOMPLETE, anken.isComplete());
 
         SQLiteDatabase db = getWritableDatabase();

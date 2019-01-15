@@ -52,8 +52,12 @@ public class MainActivity extends AppCompatActivity {
         bt_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainDetailActivity.class);
+
+                //open dialog
+                Intent intent = new Intent(MainActivity.this, MainAnkenTypeListActivity.class);
                 startActivity(intent);
+
+
             }
         });
 
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+        /*
         AnkenManager manager = new AnkenManager(this);
 
         String[] ankens = {"ハルエネ","網元工業","スマ茂庭"};
@@ -86,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         for (Anken m : list){
             Log.i("INFO","m:" + m.getAnkenName());
         }
+
+        */
 
 
     }

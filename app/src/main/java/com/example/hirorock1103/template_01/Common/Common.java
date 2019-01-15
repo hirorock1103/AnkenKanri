@@ -3,6 +3,7 @@ package com.example.hirorock1103.template_01.Common;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -138,5 +139,7 @@ public class Common {
 
         }
     }
+
+
 
 }

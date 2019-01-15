@@ -30,6 +30,23 @@ public class AnkenTypeManager extends MyDbHelper {
 
     }
 
+    //check same string
+    public boolean isDuplicate(String title){
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_ANKEN_TYPE + " WHERE " + TYPE_COLUMN_TYPENAME + " = " + " '"+title+"' ";
+
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        if(c.getCount() > 0){
+            return true;
+        }
+
+        return false;
+
+    }
+
     //get type
     public List<AnkenType> getList(){
         String query = "SELECT * FROM " + TABLE_ANKEN_TYPE + " ORDER BY " + ANKEN_COLUMN_ID + " DESC ";

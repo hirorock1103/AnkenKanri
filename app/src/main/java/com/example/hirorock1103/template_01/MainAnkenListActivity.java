@@ -1,5 +1,6 @@
 package com.example.hirorock1103.template_01;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,10 +10,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.hirorock1103.template_01.Common.Common;
+import com.example.hirorock1103.template_01.Dialog.DialogAnken;
+import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
 
-public class MainAnkenListActivity extends AppCompatActivity {
+public class MainAnkenListActivity extends AppCompatActivity implements DialogAnken.DialogAnkenListener, DialogDatePick.DateListener {
+
+    private MyPagerFragmentAdapter adapter;
+    private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +30,33 @@ public class MainAnkenListActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        MyPagerFragmentAdapter adapter = new MyPagerFragmentAdapter(getSupportFragmentManager());
-        ViewPager pager = findViewById(R.id.viewPager);
+        setListener();
+
+        adapter = new MyPagerFragmentAdapter(getSupportFragmentManager());
+        pager = findViewById(R.id.viewPager);
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
 
         TabLayout layout = findViewById(R.id.tabLayout);
         layout.setupWithViewPager(pager);
+
+    }
+
+    @Override
+    public void NoticeAnkenResult() {
+        Common.log("NoticeAnkenResult");
+    }
+
+    @Override
+    public void getDate(String date, String tag) {
+
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("dialogAnken");
+
+        DialogAnken dialogAnken;
+        if(fragment != null ){
+            dialogAnken = (DialogAnken)fragment;
+            dialogAnken.setText(date, tag);
+        }
 
     }
 
@@ -74,4 +102,12 @@ public class MainAnkenListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void setListener()
+    {
+
+    }
+
+
+
 }

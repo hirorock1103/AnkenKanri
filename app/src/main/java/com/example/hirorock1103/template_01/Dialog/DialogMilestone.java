@@ -9,12 +9,17 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.hirorock1103.template_01.Anken.AnkenType;
 import com.example.hirorock1103.template_01.Anken.MileStone;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.DB.AnkenTypeManager;
 import com.example.hirorock1103.template_01.R;
+
+import java.util.List;
 
 public class DialogMilestone extends AppCompatDialogFragment {
 
@@ -30,6 +35,9 @@ public class DialogMilestone extends AppCompatDialogFragment {
 
     //anken kanager
     private AnkenManager ankenManager;
+    private AnkenTypeManager ankenTypeManager;
+
+    private List<AnkenType> ankenTypeList;
 
     //listener
     private MilestoneListener listener;
@@ -37,6 +45,7 @@ public class DialogMilestone extends AppCompatDialogFragment {
     public interface MilestoneListener{
         public void noticeMilestoneResult();
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -50,6 +59,8 @@ public class DialogMilestone extends AppCompatDialogFragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_milestone, null);
 
         ankenManager = new AnkenManager(getContext());
+        ankenTypeManager = new AnkenTypeManager(getContext());
+        ankenTypeList = ankenTypeManager.getList();
 
         try{
             Bundle bundle = getArguments();

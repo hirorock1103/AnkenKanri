@@ -25,7 +25,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainDetailActivity" />
         <activity android:name=".MainEditActivity" />
-        <activity android:name=".MainAnkenListActivity"></activity>
+        <activity android:name=".MainAnkenListActivity" />
+        <activity android:name=".MainAnkenTypeListActivity"></activity>
     </application>
 
 </manifest>

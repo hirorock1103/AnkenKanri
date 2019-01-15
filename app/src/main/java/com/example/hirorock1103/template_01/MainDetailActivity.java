@@ -123,7 +123,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     }
 
     @Override
-    public void getDate(String date) {
+    public void getDate(String date, String tag) {
 
         Common.log("Noticed to Activity :" + date);
 
@@ -134,6 +134,8 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         }
 
     }
+
+
 
     @Override
     public void noticeMilestoneResult() {
@@ -200,7 +202,8 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
 
             holder.milestoneName.setText(list.get(i).getName());
 
-            holder.detail.setText(list.get(i).getDetail());
+            String detail = list.get(i).getDetail().isEmpty() ? "詳細:なし" : "詳細:" + list.get(i).getDetail();
+            holder.detail.setText(detail);
 
             try{
                 if(list.get(i).getEndDate() != null){
@@ -214,7 +217,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
                 Common.log(e.getMessage());
                 holder.endDate.setText("期日:未設定");
             }
-            
+
         }
 
         @Override

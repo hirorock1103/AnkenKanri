@@ -14,9 +14,10 @@ import java.util.Calendar;
 public class DialogDatePick extends AppCompatDialogFragment implements DatePickerDialog.OnDateSetListener {
 
     public DateListener listener;
+    private String tag;
 
     public interface DateListener{
-        public void getDate(String date);
+        public void getDate(String date, String tag);
     }
 
     @Override
@@ -35,6 +36,13 @@ public class DialogDatePick extends AppCompatDialogFragment implements DatePicke
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        try{
+            Bundle bundle = getArguments();
+            tag = bundle.getString("from");
+        }catch(Exception e){
+            Common.log("not tag");
+        }
+
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -51,7 +59,7 @@ public class DialogDatePick extends AppCompatDialogFragment implements DatePicke
 
         //取得した値を呼び出し元に通知する
         try{
-            listener.getDate(year +"/"+ String.format("%02d",(month + 1)) +"/"+ String.format("%02d",dayOfMonth));
+            listener.getDate(year +"/"+ String.format("%02d",(month + 1)) +"/"+ String.format("%02d",dayOfMonth), tag);
         }catch (Exception e){
             Common.log(e.getMessage());
         }

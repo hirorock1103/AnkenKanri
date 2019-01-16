@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
@@ -48,6 +49,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     private RecyclerView recyclerView;
     private MyAdapter adapter;
     private FloatingActionButton fab;
+    private ScrollView scroll;
 
     private AnkenManager ankenManager;
 
@@ -88,6 +90,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         fab = findViewById(R.id.fab);
         edit_mark = findViewById(R.id.edit_mark);
         recyclerView = findViewById(R.id.recycler_view);
+        scroll = findViewById(R.id.scroll);
 
         setListener();
 
@@ -131,6 +134,8 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
                 dialogFragment.show(getSupportFragmentManager(),"milestoneDialog");
             }
         });
+
+        scroll.smoothScrollTo(0,0);
 
     }
 

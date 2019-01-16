@@ -3,7 +3,7 @@ package com.example.hirorock1103.template_01.Anken;
 public class LearnMemo {
     private int id;
     private int learnId;
-    private int type;
+    private int type;//0:通常メモ 1:URL 9:その他
     private String memo;
 
     public int getId() {

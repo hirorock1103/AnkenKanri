@@ -4,7 +4,7 @@ public class Learn {
 
     private int id;
     private String learnTitle;
-    private int status;//完了、不明点
+    private int status;//1:完了,2:疑問,3:疑問→解決
     private String createdate;
 
     public int getId() {

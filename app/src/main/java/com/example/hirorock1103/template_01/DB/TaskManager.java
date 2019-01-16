@@ -44,10 +44,11 @@ public class TaskManager extends MyDbHelper {
             c.moveToNext();
         }
 
-
         return list;
 
     }
+
+
 
     //select by id
     public Task getListById(int id){

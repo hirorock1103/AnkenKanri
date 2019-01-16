@@ -2,6 +2,7 @@ package com.example.hirorock1103.template_01;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,9 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     TextView end;
     TextView type;
 
+    ConstraintLayout taskArea;
+    ConstraintLayout learnArea;
+
     //
     private ImageView edit_mark;
     private List<MileStone> list;
@@ -76,6 +80,10 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         start = findViewById(R.id.start);
         end = findViewById(R.id.end);
         type = findViewById(R.id.type);
+
+        //
+        taskArea = findViewById(R.id.task_area);
+        learnArea = findViewById(R.id.learn_area);
 
         //setAnken
         anken_title.setText(anken.getAnkenName());
@@ -136,6 +144,22 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         });
 
         scroll.smoothScrollTo(0,0);
+
+        taskArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainDetailActivity.this, MainTaskActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        learnArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainDetailActivity.this, MainLearnActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -7,7 +7,7 @@ public class Task {
     private int ankenId;
     private String detail;
     private String endDate;
-    private String isComplete;
+    private int status;//0:未対応 1:comlete 2:対応中
     private String createdate;
 
     public int getId() {
@@ -50,12 +50,12 @@ public class Task {
         this.endDate = endDate;
     }
 
-    public String getIsComplete() {
-        return isComplete;
+    public int getStatus() {
+        return status;
     }
 
-    public void setIsComplete(String isComplete) {
-        this.isComplete = isComplete;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getCreatedate() {

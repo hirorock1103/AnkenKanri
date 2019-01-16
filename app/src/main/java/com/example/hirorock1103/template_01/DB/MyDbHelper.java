@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    private final static int DBVERSION = 17;
+    private final static int DBVERSION = 19;
     private final static String DBNAME = "Anken.db";
 
     protected final static String TABLE_ANKEN_NAME = "Anken";
@@ -42,8 +42,21 @@ public class MyDbHelper extends SQLiteOpenHelper {
     protected final static String TASK_COLUMN_ANKENID = "anken_id";
     protected final static String TASK_COLUMN_DETAIL = "detail";
     protected final static String TASK_COLUMN_ENDDATE = "endDate";
-    protected final static String TASK_COLUMN_ISCOMPLETE = "is_complete";
+    protected final static String TASK_COLUMN_STATUS = "status";
     protected final static String TASK_COLUMN_CREATEDATE = "createdate";
+
+    protected final static String TABLE_LEARN = "Learn";
+    protected final static String LEARN_COLUMN_ID = "id";
+    protected final static String LEARN_COLUMN_TITLE = "learnTitle";
+    protected final static String LEARN_COLUMN_STATUS = "status";
+    protected final static String LEARN_COLUMN_CREATEDATE = "createdate";
+
+    protected final static String TABLE_LEARN_MEMO = "LearnMemo";
+    protected final static String LEARN_COLUMN_MEMO_ID = "id";
+    protected final static String LEARN_COLUMN_MEMO_LERANID = "learnId";
+    protected final static String LEARN_COLUMN_MEMO_TYPE = "type";
+    protected final static String LEARN_COLUMN_MEMO_CONTENTS = "memo";
+
 
 
 
@@ -95,12 +108,28 @@ public class MyDbHelper extends SQLiteOpenHelper {
                 TASK_COLUMN_NAME + " text, " +
                 TASK_COLUMN_DETAIL + " text, " +
                 TASK_COLUMN_ANKENID + " integer, " +
-                TASK_COLUMN_ISCOMPLETE + " integer default 0, " +
+                TASK_COLUMN_STATUS + " integer default 0, " +
                 TASK_COLUMN_ENDDATE + " text, " +
                 TASK_COLUMN_CREATEDATE + " text " +
                 ")";
         sqLiteDatabase.execSQL(query);
 
+        query = "CREATE TABLE IF NOT EXISTS " + TABLE_LEARN + "(" +
+                LEARN_COLUMN_ID + " integer primary key autoincrement, " +
+                LEARN_COLUMN_TITLE + " text, " +
+                LEARN_COLUMN_STATUS + " integer default 0, " +
+                LEARN_COLUMN_CREATEDATE + " text " +
+                ")";
+        sqLiteDatabase.execSQL(query);
+
+        query = "CREATE TABLE IF NOT EXISTS " + TABLE_LEARN_MEMO + "(" +
+                LEARN_COLUMN_MEMO_ID + " integer primary key autoincrement, " +
+                LEARN_COLUMN_MEMO_LERANID + " integer, " +
+                LEARN_COLUMN_MEMO_TYPE + " integer default 0, " +
+                LEARN_COLUMN_MEMO_CONTENTS + " text " +
+                ")";
+
+        sqLiteDatabase.execSQL(query);
 
     }
 
@@ -113,6 +142,10 @@ public class MyDbHelper extends SQLiteOpenHelper {
         query = "DROP TABLE IF EXISTS " + TABLE_MILESTONE;
         sqLiteDatabase.execSQL(query);
         query = "DROP TABLE IF EXISTS " + TABLE_TASK;
+        sqLiteDatabase.execSQL(query);
+        query = "DROP TABLE IF EXISTS " + TABLE_LEARN;
+        sqLiteDatabase.execSQL(query);
+        query = "DROP TABLE IF EXISTS " + TABLE_LEARN_MEMO;
         sqLiteDatabase.execSQL(query);
         onCreate(sqLiteDatabase);
     }

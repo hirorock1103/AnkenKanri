@@ -1,4 +1,4 @@
-package com.example.hirorock1103.template_01;
+package com.example.hirorock1103.template_01.Sample;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.hirorock1103.template_01.Dialog.DialogSourceView;
+import com.example.hirorock1103.template_01.R;
 
 public class ThirdActivity extends AppCompatActivity {
 

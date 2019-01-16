@@ -21,7 +21,9 @@
         <activity android:name=".MainDetailActivity" />
         <activity android:name=".MainEditActivity" />
         <activity android:name=".MainAnkenListActivity" />
-        <activity android:name=".MainAnkenTypeListActivity"></activity>
+        <activity android:name=".MainAnkenTypeListActivity" />
+        <activity android:name=".MainTaskActivity" />
+        <activity android:name=".MainLearnActivity"></activity>
     </application>
 
 </manifest>

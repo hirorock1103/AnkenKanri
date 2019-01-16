@@ -63,7 +63,6 @@ public class MainAnkenListActivity extends AppCompatActivity implements DialogAn
 
     public class MyPagerFragmentAdapter extends FragmentPagerAdapter{
 
-
         private CharSequence[] tabTitles = {"対応中案件", "終了案件"};
 
         public MyPagerFragmentAdapter(FragmentManager fm) {

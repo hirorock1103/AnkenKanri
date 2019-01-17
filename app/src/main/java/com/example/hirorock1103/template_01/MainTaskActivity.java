@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.Common.Common;
+import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
 import com.example.hirorock1103.template_01.Fragments.FragTaskList;
 import com.example.hirorock1103.template_01.R;
@@ -19,6 +22,10 @@ public class MainTaskActivity extends AppCompatActivity {
     private MyPagerAdapter adapter;
     private ViewPager pager;
 
+    private int ankenId;
+    private AnkenManager ankenManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +34,15 @@ public class MainTaskActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        //anken id
+        ankenId = getIntent().getExtras().getInt("ankenId", 0);
+        ankenManager = new AnkenManager(this);
+
+        Anken anken;
+        if(ankenId > 0){
+            anken = ankenManager.getListByID(ankenId);
+        }
+
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager = findViewById(R.id.viewPager);
         pager.setOffscreenPageLimit(2);
@@ -34,8 +50,6 @@ public class MainTaskActivity extends AppCompatActivity {
 
         TabLayout layout = findViewById(R.id.tabLayout);
         layout.setupWithViewPager(pager);
-
-
 
 
     }

@@ -7,6 +7,7 @@ public class Task {
     private int ankenId;
     private String detail;
     private String endDate;
+    private float manDays;
     private int status;//0:未対応 1:comlete 2:対応中
     private String createdate;
 
@@ -64,5 +65,13 @@ public class Task {
 
     public void setCreatedate(String createdate) {
         this.createdate = createdate;
+    }
+
+    public float getManDays() {
+        return manDays;
+    }
+
+    public void setManDays(float manDays) {
+        this.manDays = manDays;
     }
 }

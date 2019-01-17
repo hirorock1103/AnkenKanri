@@ -1,6 +1,8 @@
 package com.example.hirorock1103.template_01;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -149,6 +151,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainDetailActivity.this, MainTaskActivity.class);
+                intent.putExtra("ankenId", ankenId);
                 startActivity(intent);
             }
         });
@@ -157,6 +160,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainDetailActivity.this, MainLearnActivity.class);
+                intent.putExtra("ankenId", ankenId);
                 startActivity(intent);
             }
         });
@@ -210,6 +214,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         TextView milestoneName;
         TextView endDate;
         TextView detail;
+        LinearLayout timelineLayout;
 
         public TimeLineViewHolder(View itemView, int viewType) {
             super(itemView);
@@ -217,6 +222,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
             milestoneName = itemView.findViewById(R.id.anken_title);
             endDate = itemView.findViewById(R.id.end_date);
             detail = itemView.findViewById(R.id.detail);
+            timelineLayout = itemView.findViewById(R.id.timeline_layout);
             mTimelineView.initLine(viewType);
         }
     }
@@ -255,17 +261,25 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         public void onBindViewHolder(@NonNull TimeLineViewHolder holder, int i) {
 
             holder.milestoneName.setText(list.get(i).getName());
+            //holder.timelineLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            //holder.mTimelineView.setMarkerInCenter(true);
 
             String detail = list.get(i).getDetail().isEmpty() ? "詳細:なし" : "詳細:" + list.get(i).getDetail();
             holder.detail.setText(detail);
 
             try{
-                if(list.get(i).getEndDate() != null){
+                if(list.get(i).getEndDate() != null && list.get(i).getEndDate().isEmpty() == false){
                     String today = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_1);
                     int diff = Common.getDateDiff(today, list.get(i).getEndDate(), Common.DATE_FORMAT_SAMPLE_1);
                     holder.endDate.setText("期日:" + list.get(i).getEndDate() + "(あと"+diff+"日)");
+
+                    if(diff < 0){
+                        holder.mTimelineView.setMarkerColor(Color.RED);
+                    }
+
                 }else{
                     holder.endDate.setText("期日:未設定");
+                    holder.mTimelineView.setMarkerColor(Color.parseColor("#CCCCCC"));
                 }
             }catch (Exception e){
                 Common.log(e.getMessage());

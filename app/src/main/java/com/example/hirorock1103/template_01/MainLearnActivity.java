@@ -10,13 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
+import com.example.hirorock1103.template_01.Fragments.FragLearnList;
 
 public class MainLearnActivity extends AppCompatActivity {
 
     private MyPagerAdapter adapter;
     private ViewPager pager;
 
+    private int ankenId;
+    private AnkenManager ankenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,16 @@ public class MainLearnActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        //anken id
+        ankenId = getIntent().getExtras().getInt("ankenId", 0);
+        ankenManager = new AnkenManager(this);
+
+        Anken anken;
+        if(ankenId > 0){
+            anken = ankenManager.getListByID(ankenId);
+        }
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager = findViewById(R.id.viewPager);
@@ -54,7 +69,7 @@ public class MainLearnActivity extends AppCompatActivity {
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
-                    Fragment fragment1 = new FragAnkenList2();
+                    Fragment fragment1 = new FragLearnList();
                     Bundle bundle1 = new Bundle();
                     bundle1.putInt("dataType", 0);
                     fragment1.setArguments(bundle1);

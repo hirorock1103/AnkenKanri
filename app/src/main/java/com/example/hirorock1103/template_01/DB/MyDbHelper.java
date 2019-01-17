@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    private final static int DBVERSION = 19;
+    private final static int DBVERSION = 20;
     private final static String DBNAME = "Anken.db";
 
     protected final static String TABLE_ANKEN_NAME = "Anken";
@@ -43,6 +43,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     protected final static String TASK_COLUMN_DETAIL = "detail";
     protected final static String TASK_COLUMN_ENDDATE = "endDate";
     protected final static String TASK_COLUMN_STATUS = "status";
+    protected final static String TASK_COLUMN_MANDAYS = "man_days";
     protected final static String TASK_COLUMN_CREATEDATE = "createdate";
 
     protected final static String TABLE_LEARN = "Learn";
@@ -108,6 +109,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
                 TASK_COLUMN_NAME + " text, " +
                 TASK_COLUMN_DETAIL + " text, " +
                 TASK_COLUMN_ANKENID + " integer, " +
+                TASK_COLUMN_MANDAYS + " float default 0, " +
                 TASK_COLUMN_STATUS + " integer default 0, " +
                 TASK_COLUMN_ENDDATE + " text, " +
                 TASK_COLUMN_CREATEDATE + " text " +

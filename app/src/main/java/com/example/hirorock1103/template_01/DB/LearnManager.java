@@ -13,9 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 public class LearnManager extends MyDbHelper {
+
+    private String[] statusStr = {"未設定","完了","疑問","疑問→解決"};//0:未設定, 1:完了,2:疑問,3:疑問→解決
+
     public LearnManager(Context context) {
         super(context);
     }
+
 
     //select
     public List<Learn> getList(){
@@ -109,4 +113,18 @@ public class LearnManager extends MyDbHelper {
         SQLiteDatabase db  =getWritableDatabase();
         db.execSQL(query);
     }
+
+    //変換
+    public String convertStatusName(int status){
+
+        for (int i = 0; i < this.statusStr.length; i++){
+            if(status == i ){
+                return this.statusStr[i];
+            }
+        }
+
+        return null;
+    }
+
+
 }

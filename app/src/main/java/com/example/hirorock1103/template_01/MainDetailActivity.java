@@ -6,6 +6,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Anken.MileStone;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Dialog.DialogMilestone;
 import com.github.vipulasri.timelineview.TimelineView;
@@ -35,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainDetailActivity extends AppCompatActivity implements DialogDatePick.DateListener,DialogMilestone.MilestoneListener {
+public class MainDetailActivity extends AppCompatActivity implements DialogDatePick.DateListener,DialogMilestone.MilestoneListener, DialogAnken.DialogAnkenListener {
 
     private int ankenId;
 
@@ -45,6 +48,10 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     TextView start;
     TextView end;
     TextView type;
+    TextView manDay;
+
+    //when clicked
+    private int milestoneId;
 
     ConstraintLayout taskArea;
     ConstraintLayout learnArea;
@@ -82,6 +89,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         start = findViewById(R.id.start);
         end = findViewById(R.id.end);
         type = findViewById(R.id.type);
+        manDay = findViewById(R.id.man_day);
 
         //
         taskArea = findViewById(R.id.task_area);
@@ -95,6 +103,8 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         start.setText(anken.getStartDate());
         end.setText(anken.getEndDate());
         type.setText(anken.getAnkenTypeName());
+        String str = anken.getManDay()+"人日"+"("+(anken.getManDay() * 8)+"h)";
+        manDay.setText(str);
 
         //buttons
         fab = findViewById(R.id.fab);
@@ -127,14 +137,21 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
             public void onClick(View v) {
                 //open edit dialog
                 Common.log("click");
+
+                DialogAnken anken = new DialogAnken();
+                Bundle bundle = new Bundle();
+                bundle.putInt("ankenId", ankenId);
+                bundle.putString("mode", "edit");
+                anken.setArguments(bundle);
+                anken.show(getSupportFragmentManager(), "ankenDialog");
+
+
             }
         });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Common.log("dialog");
 
                 //open dialog
                 DialogMilestone dialogFragment = new DialogMilestone();
@@ -191,8 +208,15 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
             dialogMilestone.setText(date);
         }
 
-    }
+        fragment = getSupportFragmentManager().findFragmentByTag("ankenDialog");
 
+        DialogAnken dialogAnken;
+        if(fragment != null ){
+            dialogAnken = (DialogAnken)fragment;
+            dialogAnken.setText(date, tag);
+        }
+
+    }
 
 
     @Override
@@ -204,7 +228,16 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     public void reloadRecyclerView(){
         list = ankenManager.getMilestoneByAnkenId(ankenId);
         adapter.setList(list);
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
+        View v = findViewById(android.R.id.content);
+        Snackbar.make(v, "milestoneが更新されました。",Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void NoticeAnkenResult() {
+        View view = findViewById(android.R.id.content);
+        Snackbar.make(view, "更新が完了しました。",Snackbar.LENGTH_SHORT).show();
     }
 
     //
@@ -252,7 +285,6 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
 
             TimeLineViewHolder holder = new TimeLineViewHolder(view, i);
 
-
             return holder;
 
         }
@@ -286,6 +318,10 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
                 holder.endDate.setText("期日:未設定");
             }
 
+            //timelineLayout
+            holder.timelineLayout.setTag(String.valueOf(list.get(i).getId()));
+            registerForContextMenu(holder.timelineLayout);
+
         }
 
         @Override
@@ -295,5 +331,40 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     }
 
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.option_menu_1, menu);
+        milestoneId = Integer.parseInt(v.getTag().toString());
 
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.option1:
+                Common.log("option1 is clicd");
+                //open dialog as edit
+                DialogMilestone dialogFragment = new DialogMilestone();
+                Bundle bundle = new Bundle();
+                bundle.putInt("ankenId", ankenId);
+                bundle.putInt("milestoneId",milestoneId);
+                dialogFragment.setArguments(bundle);
+                dialogFragment.show(getSupportFragmentManager(),"milestoneDialog");
+                return true;
+            case R.id.option2:
+                Common.log("option2 is clicd");
+                ankenManager.deleteMilestone(milestoneId);
+                View view = findViewById(android.R.id.content);
+                reloadRecyclerView();
+                Snackbar.make(view, "削除しました", Snackbar.LENGTH_SHORT).show();
+                return true;
+            default:
+                Common.log("default");
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
 }

@@ -63,7 +63,7 @@ public class FragLearnList extends Fragment {
         learn1.setCreatedate(Common.formatDate(new Date(),Common.DB_DATE_FORMAT));
         list.add(learn1);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),1);
         adapter = new MyAdapter(list);
 
         recyclerView.setLayoutManager(layoutManager);

@@ -233,6 +233,37 @@ public class AnkenManager extends MyDbHelper {
 
     }
 
+    //get milestones
+    public MileStone getMilestoneByMileStoneId(int milestone){
+
+        MileStone mileStone = new MileStone();
+
+        String query = "SELECT * FROM " + TABLE_MILESTONE + " WHERE " + MILESTONE_COLUMN_ID + " = " + milestone ;
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            mileStone.setId(c.getInt(c.getColumnIndex(MILESTONE_COLUMN_ID)));
+            mileStone.setName(c.getString(c.getColumnIndex(MILESTONE_COLUMN_NAME)));
+            mileStone.setDetail(c.getString(c.getColumnIndex(MILESTONE_COLUMN_DETAIL)));
+            mileStone.setAnkenId(c.getInt(c.getColumnIndex(MILESTONE_COLUMN_ANKENID)));
+            mileStone.setEndDate(c.getString(c.getColumnIndex(MILESTONE_COLUMN_ENDDATE)));
+            mileStone.setStatus(c.getInt(c.getColumnIndex(MILESTONE_COLUMN_STATUS)));
+            mileStone.setCreatedate(c.getString(c.getColumnIndex(MILESTONE_COLUMN_CREATEDATE)));
+
+            c.moveToNext();
+        }
+
+        return mileStone;
+
+    }
+
+
     //update mileston
     public long updateMilestone(MileStone mileStone){
 

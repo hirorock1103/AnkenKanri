@@ -46,19 +46,82 @@
                 app:layout_constraintLeft_toLeftOf="@id/learn_status"
                 app:layout_constraintTop_toBottomOf="@id/learn_status"
 
-
                 />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/learn_title"
+                android:orientation="vertical"
+                android:padding="5dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="3dp"
+
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:layout_marginRight="5dp"
+                        style="@style/background_corner_radius_primary_light"
+                        android:text="URL"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="http://www.yahoo.co.jp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="3dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:layout_marginRight="5dp"
+                        style="@style/background_corner_radius_primary_light"
+                        android:text="MEMO"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="今日こんなことがありましたがそれでよかったと思います"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="2018/09/08 12:09"
                 android:textSize="@dimen/Small"
                 android:id="@+id/createdate"
                 android:layout_marginTop="5dp"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/learn_title"
+                app:layout_constraintBottom_toBottomOf="@id/learn_status"
                 />
 
 

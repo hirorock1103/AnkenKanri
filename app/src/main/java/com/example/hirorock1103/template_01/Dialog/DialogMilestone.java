@@ -24,6 +24,7 @@ import java.util.List;
 public class DialogMilestone extends AppCompatDialogFragment {
 
     private int ankenId;
+    private int milestoneId;
 
     private String mode;
 
@@ -32,6 +33,8 @@ public class DialogMilestone extends AppCompatDialogFragment {
     private TextView endDate;
     private TextView milestoneTitle;
     private TextView detail;
+
+    private MileStone mileStone;
 
     //anken kanager
     private AnkenManager ankenManager;
@@ -62,16 +65,23 @@ public class DialogMilestone extends AppCompatDialogFragment {
         ankenTypeManager = new AnkenTypeManager(getContext());
         ankenTypeList = ankenTypeManager.getList();
 
+        Bundle bundle = getArguments();
         try{
-            Bundle bundle = getArguments();
             ankenId = bundle.getInt("ankenId", 0);
         }catch (Exception e){
             ankenId = 0;
         }
 
-        //judge mode
-        mode = ankenId > 0 ? "edit" : "insert";
+        try{
+            milestoneId = bundle.getInt("milestoneId", 0);
+        }catch (Exception e){
+            milestoneId = 0;
+        }
 
+        //judge mode
+        mode = milestoneId > 0 ? "edit" : "insert";
+
+        Common.log("mode:" + mode);
 
         //setView
         pickDate = view.findViewById(R.id.pick_date);
@@ -79,6 +89,15 @@ public class DialogMilestone extends AppCompatDialogFragment {
         endDate = view.findViewById(R.id.end_date);
         milestoneTitle = view.findViewById(R.id.edit_title);
         detail = view.findViewById(R.id.detail);
+
+        if(milestoneId > 0){
+
+            mileStone = ankenManager.getMilestoneByMileStoneId(milestoneId);
+            endDate.setText(mileStone.getEndDate());
+            milestoneTitle.setText(mileStone.getName());
+            detail.setText(mileStone.getDetail());
+
+        }
 
         setListener();
 
@@ -92,16 +111,34 @@ public class DialogMilestone extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //add milestone
-                        MileStone mileStone = new MileStone();
-                        mileStone.setName(milestoneTitle.getText().toString());
-                        mileStone.setEndDate(endDate.getText().toString());
-                        mileStone.setAnkenId(ankenId);
-                        mileStone.setStatus(0);
-                        mileStone.setDetail(detail.getText().toString());
 
-                        long insertId = ankenManager.addMilestone(mileStone);
+                        long insertId = 0;
 
-                        listener.noticeMilestoneResult();
+                        if(milestoneId > 0 ){
+                            mileStone = ankenManager.getMilestoneByMileStoneId(milestoneId);
+                            mileStone.setName(milestoneTitle.getText().toString());
+                            mileStone.setEndDate(endDate.getText().toString());
+                            mileStone.setAnkenId(ankenId);
+                            mileStone.setStatus(0);
+                            mileStone.setDetail(detail.getText().toString());
+
+                            insertId = ankenManager.updateMilestone(mileStone);
+                        }else{
+                            MileStone mileStone = new MileStone();
+                            mileStone.setName(milestoneTitle.getText().toString());
+                            mileStone.setEndDate(endDate.getText().toString());
+                            mileStone.setAnkenId(ankenId);
+                            mileStone.setStatus(0);
+                            mileStone.setDetail(detail.getText().toString());
+
+                            insertId = ankenManager.addMilestone(mileStone);
+                        }
+
+                        if(insertId > 0){
+                            listener.noticeMilestoneResult();
+                        }
+
+
 
                     }
                 });

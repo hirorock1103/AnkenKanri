@@ -6,16 +6,46 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.hirorock1103.template_01.Anken.Task;
+import com.example.hirorock1103.template_01.Anken.TaskHistory;
 import com.example.hirorock1103.template_01.Common.Common;
+import com.example.hirorock1103.template_01.R;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class TaskManager extends MyDbHelper {
+
+    String[] strList = {"未対応","完了","対応中"};
+
     public TaskManager(Context context) {
         super(context);
     }
+
+    //arrayname
+    public String convertStatusName(int num)
+    {
+
+        for (int i = 0; i < this.strList.length; i ++){
+            if(i == num){
+                return strList[i];
+            }
+        }
+
+        return null;
+
+    }
+
+    //by status
+    public int getEachCountByStatus(int ankenId, int status){
+        int count = 0;
+
+
+
+        return count;
+    }
+
+
 
     //select
     public List<Task> getList(){
@@ -122,5 +152,78 @@ public class TaskManager extends MyDbHelper {
         SQLiteDatabase db  =getWritableDatabase();
         db.execSQL(query);
     }
+
+
+    /**
+     * task history
+     */
+    public List<TaskHistory> getTaskHistoryByTaskId(int taskId){
+        List<TaskHistory> list = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_TASKHISTORY + " WHERE " + TASKHISTORY_TASK_ID + " = " + taskId;
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            TaskHistory history = new TaskHistory();
+            history.setId(c.getInt(c.getColumnIndex(TASKHISTORY_ID)));
+            history.setTaskId(c.getInt(c.getColumnIndex(TASKHISTORY_TASK_ID)));
+            history.setTargetdate(c.getString(c.getColumnIndex(TASKHISTORY_TARGETDATE)));
+            history.setContent(c.getString(c.getColumnIndex(TASKHISTORY_CONTENTS)));
+            history.setManDay(c.getFloat(c.getColumnIndex(TASKHISTORY_MANDAY)));
+            history.setCreatedate(c.getString(c.getColumnIndex(TASKHISTORY_CREATEDATE)));
+
+            list.add(history);
+
+            c.moveToNext();
+        }
+
+        return list;
+    }
+
+    public long addTaskHistory(TaskHistory history){
+
+        ContentValues values = new ContentValues();
+        values.put(TASKHISTORY_TASK_ID, history.getTaskId());
+        values.put(TASKHISTORY_CONTENTS, history.getContent());
+        values.put(TASKHISTORY_TARGETDATE, history.getTargetdate());
+        values.put(TASKHISTORY_MANDAY, history.getManDay());
+        values.put(TASKHISTORY_CREATEDATE, Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        long insertId = db.insert(TABLE_TASKHISTORY,null, values);
+
+        return insertId;
+
+    }
+
+    public long updateTaskHistory(TaskHistory history){
+
+        ContentValues values = new ContentValues();
+        values.put(TASKHISTORY_TASK_ID, history.getTaskId());
+        values.put(TASKHISTORY_CONTENTS, history.getContent());
+        values.put(TASKHISTORY_TARGETDATE, history.getTargetdate());
+        values.put(TASKHISTORY_MANDAY, history.getManDay());
+        values.put(TASKHISTORY_CREATEDATE, history.getCreatedate());
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] args = {String.valueOf(history.getId())};
+
+        long insertId = db.update(TABLE_TASKHISTORY, values, TASKHISTORY_ID + " = ? ", args);
+
+        return insertId;
+
+    }
+
+    public void deleteTaskHistory(int id){
+        String query = "DELETE FROM " + TABLE_TASKHISTORY + " WHERE " + TASKHISTORY_ID + " = " + id;
+        SQLiteDatabase db  =getWritableDatabase();
+        db.execSQL(query);
+    }
+
 
 }

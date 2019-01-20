@@ -126,5 +126,12 @@ public class LearnManager extends MyDbHelper {
         return null;
     }
 
+    //by status
+    public int getEachCountByStatus(int ankenId, int status){
+        int count = 0;
 
+
+
+        return count;
+    }
 }

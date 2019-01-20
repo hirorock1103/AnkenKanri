@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    private final static int DBVERSION = 20;
+    private final static int DBVERSION = 21;
     private final static String DBNAME = "Anken.db";
 
     protected final static String TABLE_ANKEN_NAME = "Anken";
@@ -59,6 +59,13 @@ public class MyDbHelper extends SQLiteOpenHelper {
     protected final static String LEARN_COLUMN_MEMO_CONTENTS = "memo";
 
 
+    protected final static String TABLE_TASKHISTORY = "TaskHistory";
+    protected final static String TASKHISTORY_ID = "id";
+    protected final static String TASKHISTORY_TASK_ID = "task_id";
+    protected final static String TASKHISTORY_CONTENTS = "content";
+    protected final static String TASKHISTORY_TARGETDATE = "targetdate";
+    protected final static String TASKHISTORY_MANDAY = "man_day";
+    protected final static String TASKHISTORY_CREATEDATE = "createdate";
 
 
     public MyDbHelper(Context context) {
@@ -82,6 +89,16 @@ public class MyDbHelper extends SQLiteOpenHelper {
                 ANKEN_COLUMN_CREATEDATE + " text " +
                 ")";
 
+        sqLiteDatabase.execSQL(query);
+
+        query = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKHISTORY + "(" +
+                TASKHISTORY_ID + " integer primary key autoincrement, " +
+                TASKHISTORY_TASK_ID + " integer default 0, " +
+                TASKHISTORY_TARGETDATE + " text, " +
+                TASKHISTORY_CONTENTS + " text, " +
+                TASKHISTORY_MANDAY + " real default 0, " +
+                TASKHISTORY_CREATEDATE + " text " +
+                ")";
         sqLiteDatabase.execSQL(query);
 
         query = "CREATE TABLE IF NOT EXISTS " + TABLE_ANKEN_TYPE + "(" +
@@ -148,6 +165,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         query = "DROP TABLE IF EXISTS " + TABLE_LEARN;
         sqLiteDatabase.execSQL(query);
         query = "DROP TABLE IF EXISTS " + TABLE_LEARN_MEMO;
+        sqLiteDatabase.execSQL(query);
+        query = "DROP TABLE IF EXISTS " + TABLE_TASKHISTORY;
         sqLiteDatabase.execSQL(query);
         onCreate(sqLiteDatabase);
     }

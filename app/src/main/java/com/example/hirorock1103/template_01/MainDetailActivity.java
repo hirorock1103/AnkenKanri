@@ -29,6 +29,8 @@ import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Anken.MileStone;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.DB.LearnManager;
+import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Dialog.DialogMilestone;
@@ -49,6 +51,11 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     TextView end;
     TextView type;
     TextView manDay;
+    TextView taskCount0;
+    TextView taskCount1;
+    TextView taskCount2;
+    TextView learnCount0;
+    TextView learnCount1;
 
     //when clicked
     private int milestoneId;
@@ -64,7 +71,10 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     private FloatingActionButton fab;
     private ScrollView scroll;
 
+    //manager
     private AnkenManager ankenManager;
+    private TaskManager taskManager;
+    private LearnManager learnManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +84,10 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        //initiate manager
         ankenManager = new AnkenManager(this);
+        taskManager = new TaskManager(this);
+        learnManager = new LearnManager(this);
 
         //recieve ankenId
         Intent intent = getIntent();
@@ -93,7 +106,13 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
 
         //
         taskArea = findViewById(R.id.task_area);
+        taskCount0 = findViewById(R.id.task_count_0);
+        taskCount1 = findViewById(R.id.task_count_1);
+        taskCount2 = findViewById(R.id.task_count_2);
+
         learnArea = findViewById(R.id.learn_area);
+        learnCount0 = findViewById(R.id.learn_0);
+        learnCount1 = findViewById(R.id.learn_1);
 
         //setAnken
         anken_title.setText(anken.getAnkenName());
@@ -105,6 +124,15 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         type.setText(anken.getAnkenTypeName());
         String str = anken.getManDay()+"人日"+"("+(anken.getManDay() * 8)+"h)";
         manDay.setText(str);
+
+        ////task infomation
+        taskCount0.setText(taskManager.getEachCountByStatus( ankenId, 0) + "件");
+        taskCount1.setText(taskManager.getEachCountByStatus( ankenId, 1) + "件");
+        taskCount2.setText(taskManager.getEachCountByStatus( ankenId, 2) + "件");
+
+        ////learn infomation
+        learnCount0.setText(learnManager.getEachCountByStatus( ankenId, 0) + "件");
+        learnCount1.setText(learnManager.getEachCountByStatus( ankenId, 1) + "件");
 
         //buttons
         fab = findViewById(R.id.fab);

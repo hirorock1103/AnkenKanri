@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+    private int id;
+    private String taskName;
+    private int ankenId;
+    private String detail;
+    private String endDate;
+    private float manDays;
+    private int status;//0:未対応 1:comlete 2:対応中
+    private String createdate;
+    -->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="タイトル"
+        android:id="@+id/title1"
+        android:textSize="@dimen/Small"
+        app:layout_constraintBottom_toTopOf="@id/edit_title"
+        app:layout_constraintLeft_toLeftOf="@id/edit_title"
+        />
+
+    <EditText
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_title"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="期日"
+        android:id="@+id/title2"
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/Small"
+        app:layout_constraintBottom_toTopOf="@id/pick_date"
+        app:layout_constraintLeft_toLeftOf="@id/title1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="日付選択"
+        android:id="@+id/pick_date"
+        android:textSize="@dimen/Small"
+        android:layout_marginTop="30dp"
+        style="@style/background_corner_radius_primary_dark"
+        app:layout_constraintLeft_toLeftOf="@id/edit_title"
+        app:layout_constraintTop_toBottomOf="@id/edit_title"
+        />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/ic_cal"
+        android:id="@+id/pick_date_img"
+        app:layout_constraintLeft_toRightOf="@id/pick_date"
+        app:layout_constraintBottom_toBottomOf="@id/pick_date"
+        app:layout_constraintTop_toTopOf="@id/pick_date"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/end_date"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toRightOf="@id/pick_date_img"
+        app:layout_constraintBottom_toBottomOf="@id/pick_date"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title3"
+        android:layout_marginBottom="5dp"
+        android:text="説明"
+        android:textSize="@dimen/Small"
+        app:layout_constraintLeft_toLeftOf="@id/title1"
+        app:layout_constraintBottom_toTopOf="@id/detail"
+        />
+
+    <EditText
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/detail"
+        android:background="#fffbe3"
+        android:textSize="@dimen/Small"
+        android:padding="3dp"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:overScrollMode="always"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:lines="6"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:scrollHorizontally="false"
+        android:layout_marginTop="35dp"
+        app:layout_constraintLeft_toLeftOf="@id/edit_title"
+        app:layout_constraintTop_toBottomOf="@id/pick_date"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="工数(人日) ※1人日:8h"
+        android:id="@+id/title4"
+        android:textSize="@dimen/Small"
+        app:layout_constraintBottom_toTopOf="@id/edit_man_day"
+        app:layout_constraintLeft_toLeftOf="@id/edit_man_day"
+        />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_man_day"
+        android:inputType="numberDecimal|number"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/detail"
+        app:layout_constraintLeft_toLeftOf="@id/detail"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="人日"
+        android:layout_marginLeft="3dp"
+        android:layout_marginBottom="6dp"
+        android:textSize="@dimen/Small"
+        app:layout_constraintLeft_toRightOf="@id/edit_man_day"
+        app:layout_constraintBottom_toBottomOf="@id/edit_man_day"
+        />
+
+
+
+
+</android.support.constraint.ConstraintLayout>

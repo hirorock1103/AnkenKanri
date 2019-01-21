@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
+import com.example.hirorock1103.template_01.Dialog.DialogTask;
 import com.example.hirorock1103.template_01.R;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class FragTaskList extends Fragment {
         //setview
         recyclerView = view.findViewById(R.id.recycler_view);
         fab = view.findViewById(R.id.fab);
+
+        setListener();
 
         //test
         Task task1 = new Task();
@@ -70,6 +73,16 @@ public class FragTaskList extends Fragment {
 
         return view;
 
+    }
+
+    private void setListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogTask dialogTask = new DialogTask();
+                dialogTask.show(getFragmentManager(),"taskDialog");
+            }
+        });
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

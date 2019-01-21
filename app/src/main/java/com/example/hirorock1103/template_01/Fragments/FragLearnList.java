@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.hirorock1103.template_01.Anken.Learn;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.LearnManager;
+import com.example.hirorock1103.template_01.Dialog.DialogLearn;
 import com.example.hirorock1103.template_01.R;
 
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class FragLearnList extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         fab = view.findViewById(R.id.fab);
 
+        setListener();
+
         list = new ArrayList<>();
 
         //learn
@@ -71,6 +74,16 @@ public class FragLearnList extends Fragment {
 
         return view;
 
+    }
+
+    private void setListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogLearn dialogLearn = new DialogLearn();
+                dialogLearn.show(getFragmentManager(), "dialogLearn");
+            }
+        });
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

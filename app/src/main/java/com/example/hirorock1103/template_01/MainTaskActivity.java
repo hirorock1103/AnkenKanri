@@ -1,5 +1,6 @@
 package com.example.hirorock1103.template_01;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,15 +10,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.Dialog.DialogTask;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
 import com.example.hirorock1103.template_01.Fragments.FragTaskList;
 import com.example.hirorock1103.template_01.R;
 
 public class MainTaskActivity extends AppCompatActivity {
+
+    //view
 
     private MyPagerAdapter adapter;
     private ViewPager pager;

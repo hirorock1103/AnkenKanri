@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
+import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.Dialog.DialogTask;
 import com.example.hirorock1103.template_01.R;
 
@@ -23,16 +24,33 @@ import java.util.List;
 
 public class FragTaskList extends Fragment {
 
+    private int ankenId;
+
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private MyAdapter adapter;
+
+    //manager
+    TaskManager taskManager;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
 
+        taskManager = new TaskManager(getContext());
+
         View view = LayoutInflater.from(getContext()).inflate(R.layout.f_task_list, container, false);
+
+        Bundle bundle = getArguments();
+
+        try {
+            ankenId =  bundle.getInt("ankenId");
+        }catch (Exception e){
+            ankenId = 0;
+            Common.log("ankenId is empty!");
+        }
 
         //setview
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -40,30 +58,7 @@ public class FragTaskList extends Fragment {
 
         setListener();
 
-        //test
-        Task task1 = new Task();
-        task1.setId(1);
-        task1.setTaskName("test");
-        task1.setAnkenId(1);
-        task1.setStatus(0);
-        task1.setManDays(5);
-        task1.setEndDate("2019/02/22");
-        task1.setDetail("this task is ...");
-        task1.setCreatedate(Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
-
-        Task task2 = new Task();
-        task2.setId(1);
-        task2.setTaskName("サーバー申し込みしてドメイン申し込み");
-        task2.setAnkenId(1);
-        task2.setStatus(0);
-        task2.setManDays((float)4.8);
-        task2.setEndDate("2019/02/22");
-        task2.setDetail("this task is ...");
-        task2.setCreatedate(Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
-
-        List<Task> list = new ArrayList<>();
-        list.add(task1);
-        list.add(task2);
+        List<Task> list = taskManager.getListByAnkenId(ankenId);
 
         adapter = new MyAdapter(list);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
@@ -80,7 +75,11 @@ public class FragTaskList extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogTask dialogTask = new DialogTask();
-                dialogTask.show(getFragmentManager(),"taskDialog");
+                Bundle bundle = new Bundle();
+                bundle.putInt("ankenId", ankenId);
+                Common.log("ankenId" + ankenId);
+                dialogTask.setArguments(bundle);
+                dialogTask.show(getFragmentManager(),"dialogTask");
             }
         });
     }
@@ -120,8 +119,6 @@ public class FragTaskList extends Fragment {
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_task_row, viewGroup, false);
-
-
             MyViewHolder holder = new MyViewHolder(view);
 
             return holder;
@@ -135,14 +132,17 @@ public class FragTaskList extends Fragment {
             holder.taskNo.setText("タスクNo."+String.valueOf(task.getId()));
             holder.taskName.setText(task.getTaskName());
             //rest
-            int diff = Common.getDateDiff(Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_1), task.getEndDate(), Common.DATE_FORMAT_SAMPLE_1);
-            holder.endDate.setText(task.getEndDate()+"(あと" +diff+ "日)");
+            if(task.getEndDate().isEmpty() || task.getEndDate() == null){
+                holder.endDate.setText("期限がセットされていません。");
+            }else{
+                int diff = Common.getDateDiff(Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_1), task.getEndDate(), Common.DATE_FORMAT_SAMPLE_1);
+                holder.endDate.setText(task.getEndDate()+"(あと" +diff+ "日)");
+            }
+
             holder.manDay.setText(task.getManDays()+"人日(×8h="+(task.getManDays()*8)+"h)");//10人日(×8h=80h)
 
             //残工数
             float restManDays = task.getManDays();
-
-
 
         }
 

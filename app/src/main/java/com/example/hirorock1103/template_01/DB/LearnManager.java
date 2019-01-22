@@ -36,6 +36,7 @@ public class LearnManager extends MyDbHelper {
 
             Learn learn = new Learn();
             learn.setId(c.getInt(c.getColumnIndex(LEARN_COLUMN_ID)));
+            learn.setAnkenId(c.getInt(c.getColumnIndex(LEARN_COLUMN_ANKENID)));
             learn.setLearnTitle(c.getString(c.getColumnIndex(LEARN_COLUMN_TITLE)));
             learn.setCreatedate(c.getString(c.getColumnIndex(LEARN_COLUMN_CREATEDATE)));
 
@@ -48,6 +49,38 @@ public class LearnManager extends MyDbHelper {
         return list;
 
     }
+
+
+    //select
+    public List<Learn> getListByAnkenId(int ankenId){
+
+        List<Learn> list = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_LEARN + " WHERE " + LEARN_COLUMN_ANKENID + " = " + ankenId + " ORDER BY " + LEARN_COLUMN_ID + " ASC ";
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            Learn learn = new Learn();
+            learn.setId(c.getInt(c.getColumnIndex(LEARN_COLUMN_ID)));
+            learn.setAnkenId(c.getInt(c.getColumnIndex(LEARN_COLUMN_ANKENID)));
+            learn.setLearnTitle(c.getString(c.getColumnIndex(LEARN_COLUMN_TITLE)));
+            learn.setCreatedate(c.getString(c.getColumnIndex(LEARN_COLUMN_CREATEDATE)));
+
+            list.add(learn);
+
+            c.moveToNext();
+        }
+
+
+        return list;
+
+    }
+
+
 
     //select by id
     public Learn getListById(int id){
@@ -65,6 +98,7 @@ public class LearnManager extends MyDbHelper {
 
             learn.setId(c.getInt(c.getColumnIndex(LEARN_COLUMN_ID)));
             learn.setLearnTitle(c.getString(c.getColumnIndex(LEARN_COLUMN_TITLE)));
+            learn.setAnkenId(c.getInt(c.getColumnIndex(LEARN_COLUMN_ANKENID)));
             learn.setCreatedate(c.getString(c.getColumnIndex(LEARN_COLUMN_CREATEDATE)));
 
             c.moveToNext();
@@ -82,6 +116,7 @@ public class LearnManager extends MyDbHelper {
         ContentValues values = new ContentValues();
         values.put(LEARN_COLUMN_TITLE, learn.getLearnTitle());
         values.put(LEARN_COLUMN_STATUS, learn.getStatus());
+        values.put(LEARN_COLUMN_ANKENID, learn.getAnkenId());
         values.put(LEARN_COLUMN_CREATEDATE, Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
 
         SQLiteDatabase db = getWritableDatabase();

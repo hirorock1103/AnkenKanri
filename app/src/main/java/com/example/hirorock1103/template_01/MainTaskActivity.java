@@ -15,12 +15,13 @@ import android.view.View;
 import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Dialog.DialogTask;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
 import com.example.hirorock1103.template_01.Fragments.FragTaskList;
 import com.example.hirorock1103.template_01.R;
 
-public class MainTaskActivity extends AppCompatActivity {
+public class MainTaskActivity extends AppCompatActivity implements DialogTask.DialogTaskListener,DialogDatePick.DateListener {
 
     //view
 
@@ -29,6 +30,9 @@ public class MainTaskActivity extends AppCompatActivity {
 
     private int ankenId;
     private AnkenManager ankenManager;
+
+    //view
+
 
 
     @Override
@@ -59,6 +63,22 @@ public class MainTaskActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void noticeDialogTaskResult() {
+        //finish
+        Common.log("noticeDialogTaskResult");
+    }
+
+    @Override
+    public void getDate(String date, String tag) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("dialogTask");
+        if(fragment != null){
+            Common.log("getDate");
+            DialogTask dialogTask = (DialogTask)fragment;
+            dialogTask.setText(date);
+        }
+    }
+
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
@@ -80,6 +100,7 @@ public class MainTaskActivity extends AppCompatActivity {
                 case 0:
                     Fragment fragment1 = new FragTaskList();
                     Bundle bundle1 = new Bundle();
+                    bundle1.putInt("ankenId", ankenId);
                     bundle1.putInt("dataType", 0);
                     fragment1.setArguments(bundle1);
                     return fragment1;

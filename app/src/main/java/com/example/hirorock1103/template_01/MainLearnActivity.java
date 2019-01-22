@@ -72,6 +72,7 @@ public class MainLearnActivity extends AppCompatActivity {
                     Fragment fragment1 = new FragLearnList();
                     Bundle bundle1 = new Bundle();
                     bundle1.putInt("dataType", 0);
+                    bundle1.putInt("ankenId", ankenId);
                     fragment1.setArguments(bundle1);
                     return fragment1;
                 case 1:

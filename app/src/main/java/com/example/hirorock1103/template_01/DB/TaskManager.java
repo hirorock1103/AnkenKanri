@@ -78,6 +78,36 @@ public class TaskManager extends MyDbHelper {
 
     }
 
+    //select
+    public List<Task> getListByAnkenId(int ankenId){
+
+        List<Task> list = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_COLUMN_ANKENID + " = " + ankenId + " ORDER BY " + TASK_COLUMN_ID + " ASC ";
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            Task task = new Task();
+            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
+            task.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
+            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
+            task.setDetail(c.getString(c.getColumnIndex(TASK_COLUMN_DETAIL)));
+            task.setEndDate(c.getString(c.getColumnIndex(TASK_COLUMN_ENDDATE)));
+            task.setStatus(c.getInt(c.getColumnIndex(TASK_COLUMN_STATUS)));
+            task.setCreatedate(c.getString(c.getColumnIndex(TASK_COLUMN_CREATEDATE)));
+
+            list.add(task);
+
+            c.moveToNext();
+        }
+
+        return list;
+
+    }
 
 
     //select by id

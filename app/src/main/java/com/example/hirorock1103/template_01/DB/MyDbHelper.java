@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    private final static int DBVERSION = 21;
+    private final static int DBVERSION = 22;
     private final static String DBNAME = "Anken.db";
 
     protected final static String TABLE_ANKEN_NAME = "Anken";
@@ -49,6 +49,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     protected final static String TABLE_LEARN = "Learn";
     protected final static String LEARN_COLUMN_ID = "id";
     protected final static String LEARN_COLUMN_TITLE = "learnTitle";
+    protected final static String LEARN_COLUMN_ANKENID = "anken_id";
     protected final static String LEARN_COLUMN_STATUS = "status";
     protected final static String LEARN_COLUMN_CREATEDATE = "createdate";
 
@@ -136,6 +137,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
         query = "CREATE TABLE IF NOT EXISTS " + TABLE_LEARN + "(" +
                 LEARN_COLUMN_ID + " integer primary key autoincrement, " +
                 LEARN_COLUMN_TITLE + " text, " +
+                LEARN_COLUMN_ANKENID + " integer, " +
                 LEARN_COLUMN_STATUS + " integer default 0, " +
                 LEARN_COLUMN_CREATEDATE + " text " +
                 ")";

@@ -4,11 +4,17 @@ import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,8 +31,13 @@ import java.util.List;
 
 public class FragLearnList extends Fragment {
 
+    //ankenId
+    private int ankenId;
+
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
+
+    private int learnId;//for edit
 
     //manager
     LearnManager learnManager;
@@ -41,6 +52,15 @@ public class FragLearnList extends Fragment {
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.f_learn_list, container, false);
 
+        try{
+            Bundle bundle = getArguments();
+            ankenId = bundle.getInt("ankenId");
+        }catch (Exception e){
+            ankenId = 0;
+        }
+
+        Common.log("ankenId:" + ankenId);
+
         learnManager = new LearnManager(getContext());
 
         //setview
@@ -49,22 +69,9 @@ public class FragLearnList extends Fragment {
 
         setListener();
 
-        list = new ArrayList<>();
+        list = learnManager.getListByAnkenId(ankenId);
 
-        //learn
-        Learn learn = new Learn();
-        learn.setId(1);
-        learn.setLearnTitle("サーバーの申し込み方法");
-        learn.setStatus(0);
-        learn.setCreatedate(Common.formatDate(new Date(),Common.DB_DATE_FORMAT));
-        list.add(learn);
-
-        Learn learn1 = new Learn();
-        learn1.setId(2);
-        learn1.setLearnTitle("権限付与の方法がわかった");
-        learn1.setStatus(2);
-        learn1.setCreatedate(Common.formatDate(new Date(),Common.DB_DATE_FORMAT));
-        list.add(learn1);
+        Common.log("size:" + list.size());
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),1);
         adapter = new MyAdapter(list);
@@ -81,6 +88,9 @@ public class FragLearnList extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogLearn dialogLearn = new DialogLearn();
+                Bundle bundle = new Bundle();
+                bundle.putInt("ankenId" , ankenId);
+                dialogLearn.setArguments(bundle);
                 dialogLearn.show(getFragmentManager(), "dialogLearn");
             }
         });
@@ -91,6 +101,7 @@ public class FragLearnList extends Fragment {
         private TextView learnStatus;
         private TextView learnTitle;
         private TextView createdate;
+        private ConstraintLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +109,7 @@ public class FragLearnList extends Fragment {
             learnStatus = itemView.findViewById(R.id.learn_status);
             learnTitle = itemView.findViewById(R.id.learn_title);
             createdate = itemView.findViewById(R.id.createdate);
+            layout = itemView.findViewById(R.id.layout);
 
         }
     }
@@ -141,6 +153,10 @@ public class FragLearnList extends Fragment {
             }
 
 
+            holder.layout.setTag(String.valueOf(learn.getId()));
+            registerForContextMenu(holder.layout);
+
+
         }
 
         @Override
@@ -149,4 +165,48 @@ public class FragLearnList extends Fragment {
         }
     }
 
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.option_menu_1, menu);
+
+        learnId = Integer.parseInt(v.getTag().toString());
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.option1:
+                //edit
+                Bundle bundle = new Bundle();
+                bundle.putInt("learnId", learnId);
+
+                DialogLearn dialogLearn = new DialogLearn();
+                dialogLearn.setArguments(bundle);
+                dialogLearn.show(getFragmentManager(), "dialogLearn");
+
+                return true;
+            case R.id.option2:
+                //delete
+                if(learnId > 0){
+                    learnManager.delete(learnId);
+                    View view = getActivity().findViewById(android.R.id.content);
+                    Snackbar.make(view,"削除しました。", Snackbar.LENGTH_SHORT).show();
+                }
+                return true;
+
+            default:
+                break;
+
+
+        }
+
+        return super.onContextItemSelected(item);
+    }
 }

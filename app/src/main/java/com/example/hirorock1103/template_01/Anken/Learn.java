@@ -4,6 +4,7 @@ public class Learn {
 
     private int id;
     private String learnTitle;
+    private int ankenId;
     private int status;//0:未設定, 1:完了,2:疑問,3:疑問→解決
     private String createdate;
 
@@ -37,5 +38,13 @@ public class Learn {
 
     public void setCreatedate(String createdate) {
         this.createdate = createdate;
+    }
+
+    public int getAnkenId() {
+        return ankenId;
+    }
+
+    public void setAnkenId(int ankenId) {
+        this.ankenId = ankenId;
     }
 }

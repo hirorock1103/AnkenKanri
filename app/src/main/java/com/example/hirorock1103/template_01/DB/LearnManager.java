@@ -165,7 +165,19 @@ public class LearnManager extends MyDbHelper {
     public int getEachCountByStatus(int ankenId, int status){
         int count = 0;
 
+        //
+        String query = "SELECT COUNT(*) as total FROM " + TABLE_LEARN + " WHERE " + LEARN_COLUMN_ANKENID + " = " + ankenId + " AND " + LEARN_COLUMN_STATUS + " = " + status;
 
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            count = c.getInt(c.getColumnIndex("total"));
+            c.moveToNext();
+        }
+        
 
         return count;
     }

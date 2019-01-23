@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
@@ -83,7 +84,7 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
 
-        private CharSequence[] tabTitles = {"未対応", "対応中", "終了"};
+        private CharSequence[] tabTitles = Task.getStatusArray();
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

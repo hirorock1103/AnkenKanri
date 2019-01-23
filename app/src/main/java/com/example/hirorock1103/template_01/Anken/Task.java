@@ -11,6 +11,11 @@ public class Task {
     private int status;//0:未対応 1:comlete 2:対応中
     private String createdate;
 
+    public static String[] getStatusArray(){
+        String[] str = {"未対応", "対応済", "対応中"};
+        return str;
+    }
+
     public int getId() {
         return id;
     }

@@ -8,6 +8,12 @@ public class Learn {
     private int status;//0:未設定, 1:完了,2:疑問,3:疑問→解決
     private String createdate;
 
+    public static String[] getStatusArray(){
+        String[] str = {"未設定", "完了", "疑問", "疑問→解決"};
+        return str;
+    }
+
+
     public int getId() {
         return id;
     }

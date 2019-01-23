@@ -72,12 +72,14 @@ public class TaskManager extends MyDbHelper {
         while(!c.isAfterLast()){
 
             Task task = new Task();
-            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
+            task.setId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
+            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
             task.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
             task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
             task.setDetail(c.getString(c.getColumnIndex(TASK_COLUMN_DETAIL)));
             task.setEndDate(c.getString(c.getColumnIndex(TASK_COLUMN_ENDDATE)));
             task.setStatus(c.getInt(c.getColumnIndex(TASK_COLUMN_STATUS)));
+            task.setManDays(c.getFloat(c.getColumnIndex(TASK_COLUMN_MANDAYS)));
             task.setCreatedate(c.getString(c.getColumnIndex(TASK_COLUMN_CREATEDATE)));
 
             list.add(task);
@@ -103,11 +105,13 @@ public class TaskManager extends MyDbHelper {
         while(!c.isAfterLast()){
 
             Task task = new Task();
-            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
+            task.setId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
+            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
             task.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
             task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
             task.setDetail(c.getString(c.getColumnIndex(TASK_COLUMN_DETAIL)));
             task.setEndDate(c.getString(c.getColumnIndex(TASK_COLUMN_ENDDATE)));
+            task.setManDays(c.getFloat(c.getColumnIndex(TASK_COLUMN_MANDAYS)));
             task.setStatus(c.getInt(c.getColumnIndex(TASK_COLUMN_STATUS)));
             task.setCreatedate(c.getString(c.getColumnIndex(TASK_COLUMN_CREATEDATE)));
 
@@ -135,12 +139,14 @@ public class TaskManager extends MyDbHelper {
 
         while(!c.isAfterLast()){
 
+            task.setId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
             task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
             task.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
             task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
             task.setDetail(c.getString(c.getColumnIndex(TASK_COLUMN_DETAIL)));
             task.setEndDate(c.getString(c.getColumnIndex(TASK_COLUMN_ENDDATE)));
             task.setStatus(c.getInt(c.getColumnIndex(TASK_COLUMN_STATUS)));
+            task.setManDays(c.getFloat(c.getColumnIndex(TASK_COLUMN_MANDAYS)));
             task.setCreatedate(c.getString(c.getColumnIndex(TASK_COLUMN_CREATEDATE)));
 
             c.moveToNext();
@@ -153,11 +159,19 @@ public class TaskManager extends MyDbHelper {
     //add
     public long addTask(Task task){
 
+        Common.log("getTaskName:" + task.getTaskName());
+        Common.log("getDetail:" + task.getDetail());
+        Common.log("getAnkenId:" + task.getAnkenId());
+        Common.log("getStatus:" + task.getStatus());
+        Common.log("getManDays:" + task.getManDays());
+        Common.log("getEndDate:" + task.getEndDate());
+
         ContentValues values = new ContentValues();
         values.put(TASK_COLUMN_NAME, task.getTaskName());
         values.put(TASK_COLUMN_DETAIL, task.getDetail());
         values.put(TASK_COLUMN_ANKENID, task.getAnkenId());
         values.put(TASK_COLUMN_STATUS, task.getStatus());
+        values.put(TASK_COLUMN_MANDAYS, task.getManDays());
         values.put(TASK_COLUMN_ENDDATE, task.getEndDate());
         values.put(TASK_COLUMN_CREATEDATE, Common.formatDate(new Date(), Common.DB_DATE_FORMAT));
 
@@ -223,6 +237,35 @@ public class TaskManager extends MyDbHelper {
 
         return list;
     }
+
+    /**
+     * task history
+     */
+    public TaskHistory getTaskHistoryByTaskHistoryId(int taskHistoryId){
+
+        String query = "SELECT * FROM " + TABLE_TASKHISTORY + " WHERE " + TASKHISTORY_ID + " = " + taskHistoryId;
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        TaskHistory history = new TaskHistory();
+
+        while(!c.isAfterLast()){
+
+
+            history.setId(c.getInt(c.getColumnIndex(TASKHISTORY_ID)));
+            history.setTaskId(c.getInt(c.getColumnIndex(TASKHISTORY_TASK_ID)));
+            history.setTargetdate(c.getString(c.getColumnIndex(TASKHISTORY_TARGETDATE)));
+            history.setContent(c.getString(c.getColumnIndex(TASKHISTORY_CONTENTS)));
+            history.setManDay(c.getFloat(c.getColumnIndex(TASKHISTORY_MANDAY)));
+            history.setCreatedate(c.getString(c.getColumnIndex(TASKHISTORY_CREATEDATE)));
+
+            c.moveToNext();
+        }
+
+        return history;
+    }
+
 
     public long addTaskHistory(TaskHistory history){
 

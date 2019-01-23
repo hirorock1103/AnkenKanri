@@ -122,7 +122,6 @@ public class DialogTask extends AppCompatDialogFragment {
                                 //update task
                                 task = taskManager.getListById(taskId);
                                 task.setTaskName(edit_title.getText().toString());
-
                                 insertId = taskManager.update(task);
                                 msg = "タスクを更新しました。";
 
@@ -132,12 +131,16 @@ public class DialogTask extends AppCompatDialogFragment {
                                 task.setAnkenId(ankenId);
                                 task.setDetail(detail.getText().toString());
                                 task.setEndDate(end_date.getText().toString());
-
                                 float num = edit_man_day.getText().toString().isEmpty() == true ? 0 : Float.parseFloat(edit_man_day.getText().toString());
                                 task.setManDays(num);
 
                                 insertId = taskManager.addTask(task);
-                                msg = "タスクを登録しました。";
+
+                                if(insertId > 0){
+                                    msg = "タスクを登録しました。";
+                                }else{
+                                    msg = "Failed!。";
+                                }
 
                             }
 
@@ -146,15 +149,17 @@ public class DialogTask extends AppCompatDialogFragment {
                                 Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
                                 listener.noticeDialogTaskResult();
 
-                            }
+                            }else{
 
+                                Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
+
+                            }
 
                         }else{
 
                             Snackbar.make(view,stringBuilder.toString(), Snackbar.LENGTH_SHORT).show();
 
                         }
-
 
                     }
                 });

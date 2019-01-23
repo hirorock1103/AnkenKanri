@@ -90,6 +90,7 @@ public class FragTaskList extends Fragment {
         private TextView taskName;//task_name
         private TextView endDate;//end_date
         private TextView manDay;//man_day
+        private TextView usageManDay;//usage_man_day
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +99,7 @@ public class FragTaskList extends Fragment {
             taskName = itemView.findViewById(R.id.task_name);
             endDate = itemView.findViewById(R.id.end_date);
             manDay = itemView.findViewById(R.id.man_day);
+            usageManDay = itemView.findViewById(R.id.usage_man_day);
 
         }
     }
@@ -139,10 +141,12 @@ public class FragTaskList extends Fragment {
                 holder.endDate.setText(task.getEndDate()+"(あと" +diff+ "日)");
             }
 
-            holder.manDay.setText(task.getManDays()+"人日(×8h="+(task.getManDays()*8)+"h)");//10人日(×8h=80h)
+            //予定工数
+            holder.manDay.setText(task.getManDays()+"人日("+(task.getManDays()*8)+"h)");//10人日(×8h=80h)
 
-            //残工数
+            //消費した工数
             float restManDays = task.getManDays();
+            holder.usageManDay.setText(restManDays + "人日(12h)");
 
         }
 

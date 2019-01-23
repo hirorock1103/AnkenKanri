@@ -177,7 +177,7 @@ public class LearnManager extends MyDbHelper {
             count = c.getInt(c.getColumnIndex("total"));
             c.moveToNext();
         }
-        
+
 
         return count;
     }

@@ -1,9 +1,11 @@
 package com.example.hirorock1103.template_01.Dialog;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,9 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
     //manager
     private TaskManager taskManager;
 
+    public void setText(String date){
+        targetDate.setText(date);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -95,6 +100,38 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        StringBuilder builder = new StringBuilder();
+
+                        View view = getActivity().findViewById(android.R.id.content);
+                        long insertId = 0;
+
+                        if(builder.toString().isEmpty()){
+
+                            String msg = "";
+                            
+                            if(mode == "edit"){
+                                //update
+
+                            }else{
+
+                                //add
+
+                            }
+
+                            //登録できてれば
+                            if(insertId > 0){
+                                Snackbar.make(view, msg,  Snackbar.LENGTH_SHORT).show();
+                            }else{
+                                Snackbar.make(view, "登録に失敗しました。",  Snackbar.LENGTH_SHORT).show();
+                            }
+
+                        }else{
+
+                            Snackbar.make(view, builder.toString(),  Snackbar.LENGTH_SHORT).show();
+
+                        }
+
+
                     }
                 });
 
@@ -108,14 +145,18 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
         pickdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //datepick
+                DialogDatePick datePick = new DialogDatePick();
+                datePick.show(getFragmentManager(), "datepicker");
             }
         });
 
         cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //datepick
+                DialogDatePick datePick = new DialogDatePick();
+                datePick.show(getFragmentManager(), "datepicker");
             }
         });
 

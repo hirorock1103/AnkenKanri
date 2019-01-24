@@ -203,9 +203,16 @@ public class TaskManager extends MyDbHelper {
 
     //delete
     public void delete(int id){
+        
         String query = "DELETE FROM " + TABLE_TASK + " WHERE " + TASK_COLUMN_ID + " = " + id;
         SQLiteDatabase db  =getWritableDatabase();
         db.execSQL(query);
+
+        //delete task history
+        query = "DELETE FROM " + TABLE_TASKHISTORY + " WHERE " + TASKHISTORY_TASK_ID + " = " + id;
+        db.execSQL(query);
+
+
     }
 
 

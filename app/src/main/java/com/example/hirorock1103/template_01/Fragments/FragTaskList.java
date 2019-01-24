@@ -220,6 +220,10 @@ public class FragTaskList extends Fragment {
                 return true;
 
             case R.id.option2:
+
+                //delete
+                taskManager.delete(taskId);
+
                 return true;
 
         }

@@ -177,7 +177,6 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
 
                         }
 
-
                     }
                 });
 

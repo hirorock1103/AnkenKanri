@@ -3,14 +3,18 @@ package com.example.hirorock1103.template_01.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Task;
@@ -27,6 +31,8 @@ import java.util.List;
 public class FragTaskList extends Fragment {
 
     private int ankenId;
+
+    private int taskId;
 
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
@@ -95,6 +101,7 @@ public class FragTaskList extends Fragment {
         private TextView usageManDay;//usage_man_day
         private TextView availableManday;//available_manday
         private Button bthistory;
+        private ConstraintLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +113,8 @@ public class FragTaskList extends Fragment {
             usageManDay = itemView.findViewById(R.id.usage_man_day);
             bthistory = itemView.findViewById(R.id.bt_open_taskhistory);
             availableManday = itemView.findViewById(R.id.available_manday);
+            layout = itemView.findViewById(R.id.layout);
+
 
         }
     }
@@ -175,6 +184,10 @@ public class FragTaskList extends Fragment {
             float availableManday = task.getManDays() - restManDays;
             holder.availableManday.setText(availableManday + "("+(availableManday*8)+"h)");
 
+            //context menu
+            holder.layout.setTag(String.valueOf(taskId));
+            registerForContextMenu(holder.layout);
+
 
         }
 
@@ -185,4 +198,32 @@ public class FragTaskList extends Fragment {
     }
 
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.option_menu_1, menu);
+        taskId = Integer.parseInt(v.getTag().toString());
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+
+            case R.id.option1:
+
+                //edit
+                DialogTask dialogTask = new DialogTask();
+                Bundle bundle = new Bundle();
+                bundle.putInt("taskId", taskId);
+                dialogTask.show(getFragmentManager(), "dialogTaskHistory");
+                return true;
+
+            case R.id.option2:
+                return true;
+
+        }
+
+        return super.onContextItemSelected(item);
+    }
 }

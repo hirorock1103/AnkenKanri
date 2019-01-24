@@ -10,12 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.Dialog.DialogTask;
+import com.example.hirorock1103.template_01.Dialog.DialogTaskHistory;
 import com.example.hirorock1103.template_01.R;
 
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class FragTaskList extends Fragment {
         List<Task> list = taskManager.getListByAnkenId(ankenId);
 
         adapter = new MyAdapter(list);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         layoutManager.setSmoothScrollbarEnabled(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -91,6 +93,8 @@ public class FragTaskList extends Fragment {
         private TextView endDate;//end_date
         private TextView manDay;//man_day
         private TextView usageManDay;//usage_man_day
+        private TextView availableManday;//available_manday
+        private Button bthistory;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,6 +104,8 @@ public class FragTaskList extends Fragment {
             endDate = itemView.findViewById(R.id.end_date);
             manDay = itemView.findViewById(R.id.man_day);
             usageManDay = itemView.findViewById(R.id.usage_man_day);
+            bthistory = itemView.findViewById(R.id.bt_open_taskhistory);
+            availableManday = itemView.findViewById(R.id.available_manday);
 
         }
     }
@@ -130,10 +136,27 @@ public class FragTaskList extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
 
-            Task task = list.get(i);
+            final Task task = list.get(i);
+            final int taskId = task.getId();
+
             holder.taskNo.setText("タスクNo."+String.valueOf(task.getId()));
             holder.taskName.setText(task.getTaskName());
-            //rest
+
+            //bthistory -- open dialog
+            holder.bthistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //open dialog
+                    DialogTaskHistory taskHistory = new DialogTaskHistory();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ankenId", ankenId);
+                    bundle.putInt("taskId", taskId);
+                    taskHistory.setArguments(bundle);
+                    taskHistory.show(getFragmentManager(),"dialogTaskHistory");
+                }
+            });
+
+            //rest of deadline
             if(task.getEndDate().isEmpty() || task.getEndDate() == null){
                 holder.endDate.setText("期限がセットされていません。");
             }else{
@@ -145,8 +168,13 @@ public class FragTaskList extends Fragment {
             holder.manDay.setText(task.getManDays()+"人日("+(task.getManDays()*8)+"h)");//10人日(×8h=80h)
 
             //消費した工数
-            float restManDays = task.getManDays();
-            holder.usageManDay.setText(restManDays + "人日(12h)");
+            float restManDays = taskManager.getTaskHistoryMandaysByTaskId(taskId);
+            holder.usageManDay.setText(restManDays + "人日(" + (restManDays*8) + "h)");
+
+            //使用可能工数
+            float availableManday = task.getManDays() - restManDays;
+            holder.availableManday.setText(availableManday + "("+(availableManday*8)+"h)");
+
 
         }
 

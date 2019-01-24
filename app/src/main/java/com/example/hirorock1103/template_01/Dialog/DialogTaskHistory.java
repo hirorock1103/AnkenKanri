@@ -7,10 +7,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.TaskHistory;
+import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.R;
+
+import java.util.Date;
 
 public class DialogTaskHistory extends AppCompatDialogFragment {
 
@@ -19,6 +26,13 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
     private int taskHistoryId;
 
     private String mode;
+
+    //views
+    TextView historyContents;
+    TextView targetDate;
+    ImageView cal;
+    TextView pickdate;
+    TextView manHour;
 
 
     //manager
@@ -58,12 +72,18 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
             mode = "edit";
             TaskHistory history = taskManager.getTaskHistoryByTaskHistoryId(taskHistoryId);
 
-
         }
 
-
-
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_task_history, null);
+
+        historyContents = view.findViewById(R.id.edit_man_day);
+        targetDate = view.findViewById(R.id.start_date);
+        cal = view.findViewById(R.id.pick_startdate_img);
+        pickdate = view.findViewById(R.id.pick_startdate);
+        manHour = view.findViewById(R.id.man_day);
+
+        //setview
+        targetDate.setText(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_1));
 
         seListener();
 
@@ -85,6 +105,19 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
     }
 
     private void seListener(){
+        pickdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 }

@@ -238,6 +238,30 @@ public class TaskManager extends MyDbHelper {
         return list;
     }
 
+    //消費工数を取得する
+    public float getTaskHistoryMandaysByTaskId(int taskId){
+
+        String query = "SELECt SUM(" + TASKHISTORY_MANDAY +") as totalManday FROM " + TABLE_TASKHISTORY +
+                " WHERE " + TASKHISTORY_TASK_ID + " = " + taskId ;
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        float manday = 0;
+
+        while(!c.isAfterLast()){
+
+            manday = c.getFloat(c.getColumnIndex("totalManday"));
+            c.moveToNext();
+        }
+
+        return manday;
+
+    }
+
     /**
      * task history
      */

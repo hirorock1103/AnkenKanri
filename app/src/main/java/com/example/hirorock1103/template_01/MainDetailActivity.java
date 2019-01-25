@@ -34,7 +34,16 @@ import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Dialog.DialogMilestone;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
@@ -157,6 +166,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         adapter = new MyAdapter(list);
 
         recyclerView.setAdapter(adapter);
+
 
 
     }

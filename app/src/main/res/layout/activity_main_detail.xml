@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.hirorock1103.template_01.MainDetailActivity">
 
     <ScrollView
@@ -363,97 +364,72 @@
                         />
 
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@id/benefit"
-                    app:layout_constraintLeft_toLeftOf="@id/benefit"
-                    style="@style/background_corner_radius_primary_dark"
-                    >
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:id="@+id/image2_1"
-                        android:layout_marginRight="5dp"
-                        android:src="@mipmap/ic_doller"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/title2_1"
-                        app:layout_constraintBottom_toBottomOf="@id/title2_1"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/Small"
-                        android:textColor="#fff"
-                        android:id="@+id/title2_1"
-                        android:text="登録タスク合計予算"
-                        android:layout_marginLeft="2dp"
-                        app:layout_constraintLeft_toRightOf="@id/image2_1"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        />
-
-                </android.support.constraint.ConstraintLayout>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/benefit"
-                    android:text="3090円"
-                    android:layout_marginTop="25dp"
-                    app:layout_constraintTop_toBottomOf="@id/type"
-                    app:layout_constraintLeft_toLeftOf="@id/budget"
-                    />
-
-                
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@id/result"
-                    app:layout_constraintLeft_toLeftOf="@id/result"
-                    style="@style/background_corner_radius_primary_dark"
-                    >
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:id="@+id/image2_2"
-                        android:layout_marginRight="5dp"
-                        android:src="@mipmap/ic_doller"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/title2_2"
-                        app:layout_constraintBottom_toBottomOf="@id/title2_2"
-                        />
-
-                    <TextView
-                        android:id="@+id/title2_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:text="作業実績計算"
-                        android:textColor="#fff"
-                        android:textSize="@dimen/Small"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/image2_2"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </android.support.constraint.ConstraintLayout>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/result"
-                    android:text="3090円"
-                    android:layout_marginTop="25dp"
-                    app:layout_constraintTop_toBottomOf="@id/benefit"
-                    app:layout_constraintLeft_toLeftOf="@id/budget"
-                    />
-
 
             </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/chartarea"
+                android:paddingLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintTop_toBottomOf="@id/image_side"
+                app:layout_constraintLeft_toLeftOf="parent"
+
+                >
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toTopOf="@id/chart1"
+                        app:layout_constraintLeft_toLeftOf="@id/chart1"
+                        style="@style/background_corner_radius_primary_dark"
+                        >
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:id="@+id/image3_1"
+                            android:layout_marginRight="5dp"
+                            android:src="@mipmap/ic_doller"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/title3_1"
+                            app:layout_constraintBottom_toBottomOf="@id/title3_1"
+                            />
+
+                        <TextView
+                            android:id="@+id/title3_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:text="作業実績計算"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/Small"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/image3_1"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+
+                    <az.plainpie.PieView
+                        android:id="@+id/chart1"
+                        android:layout_marginTop="30dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        plainpie:inner_pie_padding="15"
+                        plainpie:percentage="75"
+                        plainpie:percentage_size="5"
+                        plainpie:inner_text_visibility="true"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        />
+
+            </android.support.constraint.ConstraintLayout>
+
+
 
             <!--task-->
             <ImageView
@@ -475,7 +451,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
-                app:layout_constraintTop_toBottomOf="@id/image_side"
+                app:layout_constraintTop_toBottomOf="@id/chartarea"
                 app:layout_constraintLeft_toLeftOf="parent"
                 />
             <android.support.constraint.ConstraintLayout

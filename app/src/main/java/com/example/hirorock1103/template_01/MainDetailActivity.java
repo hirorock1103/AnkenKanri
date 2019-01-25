@@ -34,9 +34,11 @@ import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Dialog.DialogMilestone;
+import com.github.mikephil.charting.components.Legend;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -75,6 +77,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     private AnkenManager ankenManager;
     private TaskManager taskManager;
     private LearnManager learnManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -395,4 +398,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
 
         return super.onContextItemSelected(item);
     }
+
+
+
 }

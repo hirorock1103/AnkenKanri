@@ -51,7 +51,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="e52c06" />
+                                                <entry key="color" value="ffffff" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -62,7 +62,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_cancel_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_local_atm_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -73,8 +73,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundColor" value="e5e012" />
-                                      <entry key="iconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="ic_close" />
+                                      <entry key="iconShape" value="NONE" />
+                                      <entry key="outputName" value="ic_doller" />
                                     </map>
                                   </option>
                                 </PersistentState>

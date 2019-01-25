@@ -1,10 +1,12 @@
 package com.example.hirorock1103.template_01.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.Dialog.DialogTask;
 import com.example.hirorock1103.template_01.Dialog.DialogTaskHistory;
+import com.example.hirorock1103.template_01.MainTaskHistoryActivity;
 import com.example.hirorock1103.template_01.R;
 
 import java.util.ArrayList;
@@ -101,6 +104,7 @@ public class FragTaskList extends Fragment {
         private TextView usageManDay;//usage_man_day
         private TextView availableManday;//available_manday
         private Button bthistory;
+        private Button btHistoryList;
         private ConstraintLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -112,6 +116,7 @@ public class FragTaskList extends Fragment {
             manDay = itemView.findViewById(R.id.man_day);
             usageManDay = itemView.findViewById(R.id.usage_man_day);
             bthistory = itemView.findViewById(R.id.bt_open_taskhistory);
+            btHistoryList = itemView.findViewById(R.id.bt_open_tasklist);
             availableManday = itemView.findViewById(R.id.available_manday);
             layout = itemView.findViewById(R.id.layout);
 
@@ -165,6 +170,18 @@ public class FragTaskList extends Fragment {
                 }
             });
 
+            //btHistoryList -- move to activity
+            holder.btHistoryList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getActivity(), MainTaskHistoryActivity.class);
+                    intent.putExtra("ankenId", ankenId);
+                    intent.putExtra("taskId", taskId);
+                    startActivity(intent);
+                }
+            });
+
             //rest of deadline
             if(task.getEndDate().isEmpty() || task.getEndDate() == null){
                 holder.endDate.setText("期限がセットされていません。");
@@ -208,6 +225,8 @@ public class FragTaskList extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
+        View view = getActivity().findViewById(android.R.id.content);
+
         switch(item.getItemId()){
 
             case R.id.option1:
@@ -223,6 +242,9 @@ public class FragTaskList extends Fragment {
 
                 //delete
                 taskManager.delete(taskId);
+                Snackbar.make(view,"削除しました。",Snackbar.LENGTH_SHORT).show();
+
+
 
                 return true;
 

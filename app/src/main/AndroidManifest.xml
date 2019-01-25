@@ -23,7 +23,8 @@
         <activity android:name=".MainAnkenListActivity" />
         <activity android:name=".MainAnkenTypeListActivity" />
         <activity android:name=".MainTaskActivity" />
-        <activity android:name=".MainLearnActivity"></activity>
+        <activity android:name=".MainLearnActivity" />
+        <activity android:name=".MainTaskHistoryActivity"></activity>
     </application>
 
 </manifest>

@@ -86,6 +86,7 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
 
         private CharSequence[] tabTitles = Task.getStatusArray();
 
+
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }

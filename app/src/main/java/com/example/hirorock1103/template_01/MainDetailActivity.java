@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -64,9 +65,19 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     TextView manDay;
     TextView taskCount0;
     TextView taskCount1;
-    TextView taskCount2;
     TextView learnCount0;
     TextView learnCount1;
+    TextView taskResult1;
+    TextView taskResult2;
+    TextView taskResult3;
+    TextView span;
+    TextView progress1_start;
+    TextView progress1_end;
+    ProgressBar progress1;
+    TextView progress2_start;
+    TextView progress2_end;
+    ProgressBar progress2;
+
 
     //when clicked
     private int milestoneId;
@@ -115,12 +126,21 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         end = findViewById(R.id.end);
         type = findViewById(R.id.type);
         manDay = findViewById(R.id.man_day);
+        taskResult1 = findViewById(R.id.task_result1);
+        taskResult2 = findViewById(R.id.task_result2);
+        taskResult3 = findViewById(R.id.task_result3);
+        span = findViewById(R.id.span);
+        progress1_start = findViewById(R.id.progress1_start);
+        progress1_end = findViewById(R.id.progress1_end);
+        progress1 = findViewById(R.id.progress1);
+        progress2_start = findViewById(R.id.progress2_start);
+        progress2_end = findViewById(R.id.progress2_end);
+        progress2 = findViewById(R.id.progress2);
 
         //
         taskArea = findViewById(R.id.task_area);
         taskCount0 = findViewById(R.id.task_count_0);
         taskCount1 = findViewById(R.id.task_count_1);
-        taskCount2 = findViewById(R.id.task_count_2);
 
         learnArea = findViewById(R.id.learn_area);
         learnCount0 = findViewById(R.id.learn_0);
@@ -137,14 +157,72 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         String str = anken.getManDay()+"人日"+"("+(anken.getManDay() * 8)+"h)";
         manDay.setText(str);
 
+        //span
+        String startDate = anken.getStartDate();
+        String endDate = anken.getEndDate();
+
+        String spanStr = "";
+        if(startDate.isEmpty() || endDate.isEmpty()){
+            spanStr = "期間取得失敗";
+        }else{
+            int span = Common.getDateDiff(startDate, endDate, Common.DATE_FORMAT_SAMPLE_1);
+            spanStr = span+"days";
+        }
+        span.setText(spanStr);
+
+
+        //実績の登録 taskresult2
+        float resultManday = taskManager.getTaskHistoryMandaysByAnkenId(ankenId);
+        float resultHour = resultManday * 8;
+        float scheduledManday = anken.getManDay();
+        float scheduledHour = scheduledManday * 8;
+        String resultStr = resultManday + "人日";
+        taskResult2.setText(resultStr);
+
+        //実績ベースの費用 taskresult1
+        int resultCost = (int)(resultManday * anken.getPrice());
+        taskResult1.setText(String.format("%,d",resultCost) + "円");
+
+        //残日数
+        String result3str = "";
+        result3str = (scheduledManday - resultManday) + "人日";
+        taskResult3.setText(result3str);
+
+        //progress1
+        progress1_start.setText("start:" + (anken.getStartDate().isEmpty() ? "未セット" : anken.getStartDate()));
+        progress1_end.setText("end:" +  (anken.getEndDate().isEmpty() ? "未セット" : anken.getEndDate()));
+
+        int span = 100;
+        int restDays = 0;
+        int progressDay = 0;
+        if(anken.getEndDate().isEmpty() || anken.getStartDate().isEmpty()){
+
+        }else{
+
+            span = Common.getDateDiff(startDate, endDate, Common.DATE_FORMAT_SAMPLE_1);
+            restDays = Common.getDateDiff(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_1), anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_1);
+            progressDay = span - restDays;
+        }
+
+        progress1.setMax(span);
+        progress1.setProgress(progressDay);
+
+        //progress2
+        int tmp1 = taskManager.getEachCountByStatus(ankenId, 0);
+        int tmp2 = taskManager.getEachCountByStatus(ankenId, 1);
+
+        int tasktotal = tmp1 + tmp2;
+
+        progress2_start.setText("終了タスク:" + tmp2);
+        progress2_end.setText("全タスク:" +  tasktotal);
+
+        progress2.setMax(tasktotal);
+        progress2.setProgress(tmp2);
+
+
         ////task infomation
         taskCount0.setText(taskManager.getEachCountByStatus( ankenId, 0) + "件");
         taskCount1.setText(taskManager.getEachCountByStatus( ankenId, 1) + "件");
-        taskCount2.setText(taskManager.getEachCountByStatus( ankenId, 2) + "件");
-
-        ////learn infomation
-        learnCount0.setText(learnManager.getEachCountByStatus( ankenId, 0) + "件");
-        learnCount1.setText(learnManager.getEachCountByStatus( ankenId, 1) + "件");
 
         //buttons
         fab = findViewById(R.id.fab);
@@ -166,8 +244,6 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         adapter = new MyAdapter(list);
 
         recyclerView.setAdapter(adapter);
-
-
 
     }
 

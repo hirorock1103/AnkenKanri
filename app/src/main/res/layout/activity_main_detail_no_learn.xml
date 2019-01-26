@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.hirorock1103.template_01.MainDetailActivity">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/inner_layout"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/anken_title"
+                android:text="案件名：ひまわり電気"
+                style="@style/h1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/ic_edit"
+                android:id="@+id/edit_mark"
+                android:layout_marginRight="10dp"
+                app:layout_constraintTop_toTopOf="@id/anken_title"
+                app:layout_constraintBottom_toBottomOf="@id/anken_title"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+            <!--Anken-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/anken_info_img"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/ic_info"
+                app:layout_constraintTop_toTopOf="@id/anken_info"
+                app:layout_constraintBottom_toBottomOf="@id/anken_info"
+                app:layout_constraintLeft_toLeftOf="@id/recycler_view"
+                />
+            <TextView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:text="Infomation"
+                android:id="@+id/anken_info"
+                style="@style/border_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toBottomOf="@id/anken_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="edit"
+                android:textSize="@dimen/Small"
+                app:layout_constraintTop_toBottomOf="@id/edit_mark"
+                app:layout_constraintRight_toRightOf="@id/edit_mark"
+                app:layout_constraintLeft_toLeftOf="@id/edit_mark"
+                />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/newyork"
+                android:id="@+id/image"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toLeftOf="@id/anken_info_img"
+                app:layout_constraintTop_toBottomOf="@id/anken_info_img"
+                />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                style="@style/background_corner_radius_primary_light"
+                app:layout_constraintLeft_toRightOf="@id/image"
+                app:layout_constraintTop_toTopOf="@id/image"
+                android:id="@+id/image_side"
+                >
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/budget"
+                    app:layout_constraintLeft_toLeftOf="@id/budget"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:id="@+id/image1"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_doller"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title1"
+                        app:layout_constraintBottom_toBottomOf="@id/title1"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:textColor="#fff"
+                        android:id="@+id/title1"
+                        android:text="予算"
+                        android:layout_marginLeft="2dp"
+                        app:layout_constraintLeft_toRightOf="@id/image1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/budget"
+                    android:text="56,200円"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/man_day"
+                    app:layout_constraintLeft_toLeftOf="@id/man_day"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:id="@+id/image2"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_code"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title2"
+                        app:layout_constraintBottom_toBottomOf="@id/title2"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:textColor="#fff"
+                        android:id="@+id/title2"
+                        android:text="工数"
+                        android:layout_marginLeft="2dp"
+                        app:layout_constraintLeft_toRightOf="@id/image2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/man_day"
+                    android:text="1.5人日(5h)"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="20dp"
+                    app:layout_constraintLeft_toRightOf="@id/budget"
+                    app:layout_constraintBottom_toBottomOf="@id/budget"
+                    />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/start"
+                    app:layout_constraintLeft_toLeftOf="@id/start"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:id="@+id/image3"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_tag"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title3"
+                        app:layout_constraintBottom_toBottomOf="@id/title3"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:textColor="#fff"
+                        android:id="@+id/title3"
+                        android:text="開始日"
+                        android:layout_marginLeft="2dp"
+                        app:layout_constraintLeft_toRightOf="@id/image3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/start"
+                    android:text="2019/01/05"
+                    android:layout_marginTop="25dp"
+                    app:layout_constraintTop_toBottomOf="@id/budget"
+                    app:layout_constraintLeft_toLeftOf="@id/budget"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/Small"
+                    android:text="～"
+                    android:id="@+id/from"
+                    android:layout_marginLeft="5dp"
+                    app:layout_constraintBottom_toBottomOf="@id/start"
+                    app:layout_constraintTop_toTopOf="@id/start"
+                    app:layout_constraintLeft_toRightOf="@id/start"
+
+                    />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/end"
+                    app:layout_constraintLeft_toLeftOf="@id/end"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:id="@+id/image4"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_tag"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title4"
+                        app:layout_constraintBottom_toBottomOf="@id/title4"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:textColor="#fff"
+                        android:id="@+id/title4"
+                        android:text="終了日"
+                        android:layout_marginLeft="2dp"
+                        app:layout_constraintLeft_toRightOf="@id/image4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/end"
+                    android:text="2019/01/05"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="25dp"
+                    app:layout_constraintBottom_toBottomOf="@id/start"
+                    app:layout_constraintLeft_toRightOf="@id/from"
+                    />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/span"
+                    app:layout_constraintLeft_toLeftOf="@id/span"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:id="@+id/image5"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_tag"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title5"
+                        app:layout_constraintBottom_toBottomOf="@id/title5"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:textColor="#fff"
+                        android:id="@+id/title5"
+                        android:text="作業期間"
+                        android:layout_marginLeft="2dp"
+                        app:layout_constraintLeft_toRightOf="@id/image5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/span"
+                    android:text="12days"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
+                    app:layout_constraintBottom_toBottomOf="@id/start"
+                    app:layout_constraintLeft_toRightOf="@id/end"
+                    />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/type"
+                    app:layout_constraintLeft_toLeftOf="@id/type"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:id="@+id/image6"
+                        android:layout_marginRight="15dp"
+                        android:src="@mipmap/ic_tag"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title6"
+                        app:layout_constraintBottom_toBottomOf="@id/title6"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/Small"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/title6"
+                        android:text="案件種別"
+                        app:layout_constraintLeft_toRightOf="@id/image6"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/type"
+                    android:text="サイト制作"
+                    android:layout_marginTop="25dp"
+                    app:layout_constraintTop_toBottomOf="@id/end"
+                    app:layout_constraintLeft_toLeftOf="@id/budget"
+                    />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <!--Anken-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/anken_progress_img"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/ic_pr"
+                app:layout_constraintTop_toTopOf="@id/anken_progress"
+                app:layout_constraintBottom_toBottomOf="@id/anken_progress"
+                app:layout_constraintLeft_toLeftOf="@id/recycler_view"
+                />
+            <TextView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:text="進捗"
+                android:id="@+id/anken_progress"
+                style="@style/border_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toBottomOf="@id/image_side"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/chartarea"
+                android:layout_margin="15dp"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@id/anken_progress_img"
+                app:layout_constraintLeft_toLeftOf="parent"
+                style="@style/background_corner_radius_primary_light"
+
+                >
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/title3_0"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:id="@+id/image3_1"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_doller"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title3_1"
+                        app:layout_constraintBottom_toBottomOf="@id/title3_1"
+                        />
+
+                    <TextView
+                        android:id="@+id/title3_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:text="コスト"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/Small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/image3_1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_result1"
+                    android:text="3899円"
+                    app:layout_constraintTop_toBottomOf="@id/title3_0"
+                    app:layout_constraintLeft_toLeftOf="@id/title3_0"
+                    />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title4_0"
+                    android:layout_marginLeft="15dp"
+                    app:layout_constraintHorizontal_bias="0.4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/title3_0"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:id="@+id/image4_2"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/ic_code"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title4_1"
+                        app:layout_constraintBottom_toBottomOf="@id/title4_1"
+                        />
+
+                    <TextView
+                        android:id="@+id/title4_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:text="作業実績"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/Small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/image4_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_result2"
+                    android:text="10.6人日(4h) "
+                    app:layout_constraintTop_toBottomOf="@id/title4_0"
+                    app:layout_constraintLeft_toLeftOf="@id/title4_0"
+                    />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title5_0"
+                    android:layout_marginLeft="15dp"
+                    app:layout_constraintHorizontal_bias="0.9"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/title4_0"
+                    style="@style/background_corner_radius_primary_dark"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:id="@+id/image5_2"
+                        android:layout_marginRight="5dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/title5_1"
+                        app:layout_constraintBottom_toBottomOf="@id/title5_1"
+                        />
+
+                    <TextView
+                        android:id="@+id/title5_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:text="利用可能工数"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/Small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/image5_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_result3"
+                    android:text="10days"
+                    app:layout_constraintTop_toBottomOf="@id/title5_0"
+                    app:layout_constraintLeft_toLeftOf="@id/title5_0"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/Small"
+                    android:text="start"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/progress1_start"
+                    app:layout_constraintLeft_toLeftOf="@id/progress1"
+                    app:layout_constraintTop_toBottomOf="@id/task_result3"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/Small"
+                    android:text="end"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/progress1_end"
+                    app:layout_constraintRight_toRightOf="@id/progress1"
+                    app:layout_constraintTop_toBottomOf="@id/task_result3"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="経過"
+                    android:layout_marginRight="5dp"
+                    app:layout_constraintRight_toLeftOf="@id/progress1"
+                    app:layout_constraintBottom_toBottomOf="@id/progress1"
+                    app:layout_constraintTop_toTopOf="@id/progress1"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progress1"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="16dp"
+                    android:visibility="visible"
+                    app:layout_constraintLeft_toLeftOf="@id/progress1_start"
+                    app:layout_constraintTop_toBottomOf="@id/progress1_start"
+                    tools:visibility="visible" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/Small"
+                    android:text="start"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/progress2_start"
+                    app:layout_constraintLeft_toLeftOf="@id/progress1"
+                    app:layout_constraintTop_toBottomOf="@id/progress1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/Small"
+                    android:text="end"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/progress2_end"
+                    app:layout_constraintRight_toRightOf="@id/progress2"
+                    app:layout_constraintTop_toBottomOf="@id/progress1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="進捗"
+                    android:layout_marginRight="5dp"
+                    app:layout_constraintRight_toLeftOf="@id/progress2"
+                    app:layout_constraintBottom_toBottomOf="@id/progress2"
+                    app:layout_constraintTop_toTopOf="@id/progress2"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progress2"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="16dp"
+                    android:visibility="visible"
+                    app:layout_constraintLeft_toLeftOf="@id/progress2_start"
+                    app:layout_constraintTop_toBottomOf="@id/progress2_start"
+                    tools:visibility="visible" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+
+            <!--task-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/task_img"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/ic_task_img"
+                app:layout_constraintTop_toTopOf="@id/task_title"
+                app:layout_constraintBottom_toBottomOf="@id/task_title"
+                app:layout_constraintLeft_toLeftOf="@id/recycler_view"
+                />
+            <TextView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:text="Task"
+                android:id="@+id/task_title"
+                style="@style/border_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toBottomOf="@id/chartarea"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/task_area"
+                style="@style/background_corner_radius_primary_light"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                app:layout_constraintTop_toBottomOf="@id/task_title"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="対応中"
+                    android:id="@+id/task_count_title0"
+                    android:textSize="@dimen/Small"
+                    android:layout_marginLeft="20dp"
+                    style="@style/background_corner_radius_primary_dark"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_count_0"
+                    android:text="6件"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/Middiam"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintLeft_toRightOf="@id/task_count_title0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="対応済"
+                    android:id="@+id/task_count_title1"
+                    android:textSize="@dimen/Small"
+                    android:layout_marginLeft="20dp"
+                    style="@style/background_corner_radius_primary_dark"
+                    app:layout_constraintLeft_toRightOf="@id/task_count_0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_count_1"
+                    android:text="2件"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/Middiam"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintLeft_toRightOf="@id/task_count_title1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/ic_arrow"
+                    android:layout_marginRight="1dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!--&lt;!&ndash;learm&ndash;&gt;-->
+            <!--<ImageView-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:id="@+id/learn_img"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:src="@mipmap/ic_learn_img"-->
+                <!--app:layout_constraintTop_toTopOf="@id/learn_title"-->
+                <!--app:layout_constraintBottom_toBottomOf="@id/learn_title"-->
+                <!--app:layout_constraintLeft_toLeftOf="@id/recycler_view"-->
+                <!--/>-->
+            <!--<TextView-->
+                <!--android:layout_width="280dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Learn"-->
+                <!--android:id="@+id/learn_title"-->
+                <!--style="@style/border_bottom"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:layout_marginTop="30dp"-->
+                <!--app:layout_constraintTop_toBottomOf="@id/task_area"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--/>-->
+            <!--<android.support.constraint.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/learn_area"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--app:layout_constraintTop_toBottomOf="@id/learn_title"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--style="@style/background_corner_radius_primary_light"-->
+                <!--&gt;-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="未解決"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:id="@+id/learn_title_0"-->
+                    <!--android:textSize="@dimen/Small"-->
+                    <!--style="@style/background_corner_radius_primary_dark"-->
+                    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--/>-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/learn_0"-->
+                    <!--android:text="6件"-->
+                    <!--android:textColor="@color/colorAccent"-->
+                    <!--android:textSize="@dimen/Middiam"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--app:layout_constraintLeft_toRightOf="@id/learn_title_0"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--/>-->
+
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="解決済"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:id="@+id/learn_title_1"-->
+                    <!--android:textSize="@dimen/Small"-->
+                    <!--style="@style/background_corner_radius_primary_dark"-->
+                    <!--app:layout_constraintLeft_toRightOf="@id/learn_0"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/learn_1"-->
+                    <!--android:text="6件"-->
+                    <!--android:textColor="@color/colorAccent"-->
+                    <!--android:textSize="@dimen/Middiam"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--app:layout_constraintLeft_toRightOf="@id/learn_title_1"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--/>-->
+
+
+                <!--<ImageView-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:src="@mipmap/ic_arrow"-->
+                    <!--android:layout_marginRight="1dp"-->
+                    <!--app:layout_constraintRight_toRightOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--/>-->
+
+            <!--</android.support.constraint.ConstraintLayout>-->
+
+            <!--milestone-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/milestone_img"
+                android:src="@mipmap/ic_milestone_img"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintTop_toTopOf="@id/milestone_title"
+                app:layout_constraintBottom_toBottomOf="@id/milestone_title"
+                app:layout_constraintLeft_toLeftOf="@id/recycler_view"
+                />
+            <TextView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:text="MileStone"
+                android:id="@+id/milestone_title"
+                style="@style/border_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toBottomOf="@id/task_area"
+                app:layout_constraintLeft_toLeftOf="@id/recycler_view"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recycler_view"
+                app:layout_constraintTop_toBottomOf="@id/milestone_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_milestone"
+        android:id="@+id/fab"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -54,6 +54,8 @@ import java.util.List;
 
 public class MainDetailActivity extends AppCompatActivity implements DialogDatePick.DateListener,DialogMilestone.MilestoneListener, DialogAnken.DialogAnkenListener {
 
+    private final static String PAGEMODE = "NOLEARN";//NOLEARN
+
     private int ankenId;
 
     //view anken detail
@@ -103,7 +105,14 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_detail);
+
+        if(PAGEMODE == "NOLEARN"){
+            setContentView(R.layout.activity_main_detail_no_learn);
+        }else{
+            setContentView(R.layout.activity_main_detail);
+        }
+
+
 
         innerLayout = findViewById(R.id.inner_layout);
 
@@ -145,9 +154,13 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         taskCount0 = findViewById(R.id.task_count_0);
         taskCount1 = findViewById(R.id.task_count_1);
 
-        learnArea = findViewById(R.id.learn_area);
-        learnCount0 = findViewById(R.id.learn_0);
-        learnCount1 = findViewById(R.id.learn_1);
+        //開発中
+        if(PAGEMODE != "NOLEARN"){
+            learnArea = findViewById(R.id.learn_area);
+            learnCount0 = findViewById(R.id.learn_0);
+            learnCount1 = findViewById(R.id.learn_1);
+        }
+
 
         //setAnken
         anken_title.setText(anken.getAnkenName());
@@ -294,14 +307,20 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
             }
         });
 
-        learnArea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainDetailActivity.this, MainLearnActivity.class);
-                intent.putExtra("ankenId", ankenId);
-                startActivity(intent);
-            }
-        });
+
+        if(PAGEMODE != "NOLEARN"){
+            learnArea.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainDetailActivity.this, MainLearnActivity.class);
+                    intent.putExtra("ankenId", ankenId);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+
 
     }
 

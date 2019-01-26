@@ -78,6 +78,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     TextView progress2_end;
     ProgressBar progress2;
 
+    private ConstraintLayout innerLayout;
 
     //when clicked
     private int milestoneId;
@@ -103,6 +104,8 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_detail);
+
+        innerLayout = findViewById(R.id.inner_layout);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -244,6 +247,7 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         adapter = new MyAdapter(list);
 
         recyclerView.setAdapter(adapter);
+
 
     }
 

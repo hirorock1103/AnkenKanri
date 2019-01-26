@@ -12,7 +12,7 @@ public class Task {
     private String createdate;
 
     public static String[] getStatusArray(){
-        String[] str = {"未対応", "対応済", "対応中"};
+        String[] str = {"対応中", "対応済"};
         return str;
     }
 

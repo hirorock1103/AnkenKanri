@@ -112,12 +112,6 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
                     bundle2.putInt("dataType", 1);
                     fragment2.setArguments(bundle2);
                     return fragment2;
-                case 2:
-                    Fragment fragment3 = new FragTaskList();
-                    Bundle bundle3 = new Bundle();
-                    bundle3.putInt("dataType", 1);
-                    fragment3.setArguments(bundle3);
-                    return fragment3;
 
                 default:
                     return null;

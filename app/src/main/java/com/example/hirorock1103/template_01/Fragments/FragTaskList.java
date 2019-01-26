@@ -218,7 +218,7 @@ public class FragTaskList extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.option_menu_1, menu);
+        getActivity().getMenuInflater().inflate(R.menu.option_menu_4, menu);
         taskId = Integer.parseInt(v.getTag().toString());
     }
 
@@ -240,6 +240,23 @@ public class FragTaskList extends Fragment {
 
             case R.id.option2:
 
+                //update status = 1
+                Task task = taskManager.getListById(taskId);
+                task.setStatus(1);
+                long insertId = taskManager.update(task);
+
+                if(insertId > 0){
+                    Snackbar.make(view, "終了済みにセットしました", Snackbar.LENGTH_SHORT).show();
+                }else{
+                    Snackbar.make(view, "更新に失敗しました。", Snackbar.LENGTH_SHORT).show();
+                }
+
+
+
+                return true;
+
+            case R.id.option3:
+
                 //delete
                 taskManager.delete(taskId);
                 Snackbar.make(view,"削除しました。",Snackbar.LENGTH_SHORT).show();
@@ -247,7 +264,6 @@ public class FragTaskList extends Fragment {
 
 
                 return true;
-
         }
 
         return super.onContextItemSelected(item);

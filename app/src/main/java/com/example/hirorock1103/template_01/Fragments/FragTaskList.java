@@ -1,5 +1,6 @@
 package com.example.hirorock1103.template_01.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,6 +35,7 @@ import java.util.List;
 public class FragTaskList extends Fragment {
 
     private int ankenId;
+    private int dataType;
 
     private int taskId;
 
@@ -63,19 +65,30 @@ public class FragTaskList extends Fragment {
             Common.log("ankenId is empty!");
         }
 
+        try{
+            dataType = bundle.getInt("dataType");
+        }catch (Exception e){
+            dataType = 0;
+        }
+
+
         //setview
         recyclerView = view.findViewById(R.id.recycler_view);
         fab = view.findViewById(R.id.fab);
 
         setListener();
 
-        List<Task> list = taskManager.getListByAnkenId(ankenId);
+        Common.log("data:" + dataType);
+        List<Task> list = taskManager.getListByAnkenIdAndStatus(ankenId, dataType);
+
 
         adapter = new MyAdapter(list);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         layoutManager.setSmoothScrollbarEnabled(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        registerForContextMenu(recyclerView);
 
         return view;
 
@@ -95,7 +108,7 @@ public class FragTaskList extends Fragment {
         });
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements  View.OnCreateContextMenuListener{
 
         private TextView taskNo;//task_no
         private TextView taskName;//task_name
@@ -119,7 +132,16 @@ public class FragTaskList extends Fragment {
             btHistoryList = itemView.findViewById(R.id.bt_open_tasklist);
             availableManday = itemView.findViewById(R.id.available_manday);
             layout = itemView.findViewById(R.id.layout);
+            layout.setOnCreateContextMenuListener(this);
 
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+
+            menu.add(getAdapterPosition(),1,2,"do test");
+            menu.add(getAdapterPosition(),2,1,"action");
 
         }
     }
@@ -135,6 +157,9 @@ public class FragTaskList extends Fragment {
         public void setList(List<Task> list){
             this.list = list;
         }
+        public List<Task> getList(){
+            return this.list;
+        }
 
         @NonNull
         @Override
@@ -142,7 +167,6 @@ public class FragTaskList extends Fragment {
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_task_row, viewGroup, false);
             MyViewHolder holder = new MyViewHolder(view);
-
             return holder;
 
         }
@@ -201,11 +225,6 @@ public class FragTaskList extends Fragment {
             float availableManday = task.getManDays() - restManDays;
             holder.availableManday.setText(availableManday + "("+(availableManday*8)+"h)");
 
-            //context menu
-            holder.layout.setTag(String.valueOf(taskId));
-            registerForContextMenu(holder.layout);
-
-
         }
 
         @Override
@@ -216,14 +235,12 @@ public class FragTaskList extends Fragment {
 
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.option_menu_4, menu);
-        taskId = Integer.parseInt(v.getTag().toString());
-    }
-
-    @Override
     public boolean onContextItemSelected(MenuItem item) {
+
+        Common.log("item:" + item.getGroupId());
+
+        List<Task> list = adapter.getList();
+        String.valueOf(adapter.getItemCount());
 
         View view = getActivity().findViewById(android.R.id.content);
 
@@ -252,7 +269,6 @@ public class FragTaskList extends Fragment {
                 }
 
 
-
                 return true;
 
             case R.id.option3:
@@ -260,9 +276,6 @@ public class FragTaskList extends Fragment {
                 //delete
                 taskManager.delete(taskId);
                 Snackbar.make(view,"削除しました。",Snackbar.LENGTH_SHORT).show();
-
-
-
                 return true;
         }
 

@@ -109,6 +109,7 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
                 case 1:
                     Fragment fragment2 = new FragTaskList();
                     Bundle bundle2 = new Bundle();
+                    bundle2.putInt("ankenId", ankenId);
                     bundle2.putInt("dataType", 1);
                     fragment2.setArguments(bundle2);
                     return fragment2;

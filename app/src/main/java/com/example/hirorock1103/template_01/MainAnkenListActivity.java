@@ -16,8 +16,10 @@ import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
+import com.example.hirorock1103.template_01.Fragments.FragTaskList;
 
-public class MainAnkenListActivity extends AppCompatActivity implements DialogAnken.DialogAnkenListener, DialogDatePick.DateListener {
+public class MainAnkenListActivity extends AppCompatActivity
+        implements DialogAnken.DialogAnkenListener, DialogDatePick.DateListener {
 
     private MyPagerFragmentAdapter adapter;
     private ViewPager pager;
@@ -31,20 +33,22 @@ public class MainAnkenListActivity extends AppCompatActivity implements DialogAn
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         setListener();
+        setViews();
 
+    }
+
+    private void setViews(){
         adapter = new MyPagerFragmentAdapter(getSupportFragmentManager());
         pager = findViewById(R.id.viewPager);
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
-
         TabLayout layout = findViewById(R.id.tabLayout);
         layout.setupWithViewPager(pager);
-
     }
 
     @Override
     public void NoticeAnkenResult() {
-        Common.log("NoticeAnkenResult");
+        setViews();
     }
 
     @Override
@@ -58,6 +62,12 @@ public class MainAnkenListActivity extends AppCompatActivity implements DialogAn
             dialogAnken.setText(date, tag);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setViews();
     }
 
 

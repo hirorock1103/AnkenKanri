@@ -35,6 +35,7 @@ import com.example.hirorock1103.template_01.DB.TaskManager;
 import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Dialog.DialogMilestone;
+import com.example.hirorock1103.template_01.Dialog.DialogTask;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -52,7 +53,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class MainDetailActivity extends AppCompatActivity implements DialogDatePick.DateListener,DialogMilestone.MilestoneListener, DialogAnken.DialogAnkenListener {
+public class MainDetailActivity extends AppCompatActivity
+        implements DialogDatePick.DateListener,DialogMilestone.MilestoneListener, DialogAnken.DialogAnkenListener, DialogTask.DialogTaskListener {
 
     private final static String PAGEMODE = "NOLEARN";//NOLEARN
 
@@ -113,7 +115,6 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         }
 
 
-
         innerLayout = findViewById(R.id.inner_layout);
 
         ActionBar actionBar = getSupportActionBar();
@@ -129,7 +130,6 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         Bundle bundle = intent.getExtras();
         ankenId = bundle.getInt("ankenId", 0);
 
-        Anken anken = ankenManager.getListByID(ankenId);
 
         //view
         anken_title = findViewById(R.id.anken_title);
@@ -161,6 +161,36 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
             learnCount1 = findViewById(R.id.learn_1);
         }
 
+        //setView
+        setViews();
+
+        //buttons
+        fab = findViewById(R.id.fab);
+        edit_mark = findViewById(R.id.edit_mark);
+        recyclerView = findViewById(R.id.recycler_view);
+        scroll = findViewById(R.id.scroll);
+
+        setListener();
+
+        list = new ArrayList<>();
+        //getMileStone
+        list = ankenManager.getMilestoneByAnkenId(ankenId);
+
+
+        //set recyclerView
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new MyAdapter(list);
+
+        recyclerView.setAdapter(adapter);
+
+
+    }
+
+    private void setViews(){
+
+        Anken anken = ankenManager.getListByID(ankenId);
 
         //setAnken
         anken_title.setText(anken.getAnkenName());
@@ -239,28 +269,6 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
         ////task infomation
         taskCount0.setText(taskManager.getEachCountByStatus( ankenId, 0) + "件");
         taskCount1.setText(taskManager.getEachCountByStatus( ankenId, 1) + "件");
-
-        //buttons
-        fab = findViewById(R.id.fab);
-        edit_mark = findViewById(R.id.edit_mark);
-        recyclerView = findViewById(R.id.recycler_view);
-        scroll = findViewById(R.id.scroll);
-
-        setListener();
-
-        list = new ArrayList<>();
-        //getMileStone
-        list = ankenManager.getMilestoneByAnkenId(ankenId);
-
-
-        //set recyclerView
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new MyAdapter(list);
-
-        recyclerView.setAdapter(adapter);
-
 
     }
 
@@ -376,8 +384,25 @@ public class MainDetailActivity extends AppCompatActivity implements DialogDateP
 
     @Override
     public void NoticeAnkenResult() {
+
+        //reload view
+        setViews();
         View view = findViewById(android.R.id.content);
         Snackbar.make(view, "更新が完了しました。",Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void noticeDialogTaskResult() {
+
+        Common.log("noticeDialog");
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setViews();
     }
 
     //

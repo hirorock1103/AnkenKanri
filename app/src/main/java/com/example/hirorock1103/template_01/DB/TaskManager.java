@@ -124,6 +124,44 @@ public class TaskManager extends MyDbHelper {
 
     }
 
+    //select
+    public List<Task> getListByAnkenIdAndStatus(int ankenId, int status){
+
+        List<Task> list = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_TASK
+                + " WHERE " + TASK_COLUMN_ANKENID + " = " + ankenId + " AND " + TASK_COLUMN_STATUS + " = " + status
+                + " ORDER BY " + TASK_COLUMN_ID + " ASC ";
+
+        Common.log("query" + query);
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            Task task = new Task();
+            task.setId(c.getInt(c.getColumnIndex(TASK_COLUMN_ID)));
+            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
+            task.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
+            task.setAnkenId(c.getInt(c.getColumnIndex(TASK_COLUMN_ANKENID)));
+            task.setDetail(c.getString(c.getColumnIndex(TASK_COLUMN_DETAIL)));
+            task.setEndDate(c.getString(c.getColumnIndex(TASK_COLUMN_ENDDATE)));
+            task.setManDays(c.getFloat(c.getColumnIndex(TASK_COLUMN_MANDAYS)));
+            task.setStatus(c.getInt(c.getColumnIndex(TASK_COLUMN_STATUS)));
+            task.setCreatedate(c.getString(c.getColumnIndex(TASK_COLUMN_CREATEDATE)));
+
+            list.add(task);
+
+            c.moveToNext();
+        }
+
+        return list;
+
+    }
+
 
     //select by id
     public Task getListById(int id){

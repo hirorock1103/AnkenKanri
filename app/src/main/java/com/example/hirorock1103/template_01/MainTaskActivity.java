@@ -32,10 +32,6 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
     private int ankenId;
     private AnkenManager ankenManager;
 
-    //view
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +49,7 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
             anken = ankenManager.getListByID(ankenId);
         }
 
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
-        pager = findViewById(R.id.viewPager);
-        pager.setOffscreenPageLimit(2);
-        pager.setAdapter(adapter);
-
-        TabLayout layout = findViewById(R.id.tabLayout);
-        layout.setupWithViewPager(pager);
-
+        setViews();
 
     }
 
@@ -68,6 +57,24 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
     public void noticeDialogTaskResult() {
         //finish
         Common.log("noticeDialogTaskResult");
+        //setView
+        setViews();
+    }
+
+    private void setViews(){
+        adapter = new MyPagerAdapter(getSupportFragmentManager());
+        pager = findViewById(R.id.viewPager);
+        pager.setOffscreenPageLimit(2);
+        pager.setAdapter(adapter);
+
+        TabLayout layout = findViewById(R.id.tabLayout);
+        layout.setupWithViewPager(pager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setViews();
     }
 
     @Override

@@ -561,6 +561,7 @@
                     />
 
 
+                <!--progress1-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -603,7 +604,7 @@
                     app:layout_constraintTop_toBottomOf="@id/progress1_start"
                     tools:visibility="visible" />
 
-
+                <!--progress2-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -644,6 +645,49 @@
                     android:visibility="visible"
                     app:layout_constraintLeft_toLeftOf="@id/progress2_start"
                     app:layout_constraintTop_toBottomOf="@id/progress2_start"
+                    tools:visibility="visible" />
+
+                <!--progress3-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/Small"
+                    android:text="消費"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/progress3_start"
+                    app:layout_constraintLeft_toLeftOf="@id/progress1"
+                    app:layout_constraintTop_toBottomOf="@id/progress2"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/Small"
+                    android:text="全時間"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/progress3_end"
+                    app:layout_constraintRight_toRightOf="@id/progress3"
+                    app:layout_constraintTop_toBottomOf="@id/progress2"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作業"
+                    android:layout_marginRight="5dp"
+                    app:layout_constraintRight_toLeftOf="@id/progress3"
+                    app:layout_constraintBottom_toBottomOf="@id/progress3"
+                    app:layout_constraintTop_toTopOf="@id/progress3"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progress3"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="16dp"
+                    android:visibility="visible"
+                    app:layout_constraintLeft_toLeftOf="@id/progress3_start"
+                    app:layout_constraintTop_toBottomOf="@id/progress3_start"
                     tools:visibility="visible" />
 
 

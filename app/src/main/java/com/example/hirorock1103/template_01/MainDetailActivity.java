@@ -81,7 +81,9 @@ public class MainDetailActivity extends AppCompatActivity
     TextView progress2_start;
     TextView progress2_end;
     ProgressBar progress2;
-
+    TextView progress3_start;
+    TextView progress3_end;
+    ProgressBar progress3;
     private ConstraintLayout innerLayout;
 
     //when clicked
@@ -148,7 +150,9 @@ public class MainDetailActivity extends AppCompatActivity
         progress2_start = findViewById(R.id.progress2_start);
         progress2_end = findViewById(R.id.progress2_end);
         progress2 = findViewById(R.id.progress2);
-
+        progress3_start = findViewById(R.id.progress3_start);
+        progress3_end = findViewById(R.id.progress3_end);
+        progress3 = findViewById(R.id.progress3);
         //
         taskArea = findViewById(R.id.task_area);
         taskCount0 = findViewById(R.id.task_count_0);
@@ -273,6 +277,24 @@ public class MainDetailActivity extends AppCompatActivity
             taskCount0.setTextColor(getResources().getColor(R.color.colorAccent));
         }
         taskCount1.setText(taskManager.getEachCountByStatus( ankenId, 1) + "件");
+
+
+        //progress3
+        /**
+         * ここでは全作業時間に対する消費作業時間の割合を表示
+         */
+        float allHours = anken.getManDay() * 8;
+        float usageHours = taskManager.getTaskHistoryMandaysByAnkenId(ankenId) * 8;
+
+        progress3_start.setText("作業時間(h)" + String.valueOf(usageHours));
+        progress3_end.setText("全時間(h)" + String.valueOf(allHours));
+
+
+        progress3.setMax((int)allHours);
+        progress3.setProgress((int)usageHours);
+
+
+
 
     }
 

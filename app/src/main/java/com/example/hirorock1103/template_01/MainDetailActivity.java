@@ -267,7 +267,11 @@ public class MainDetailActivity extends AppCompatActivity
 
 
         ////task infomation
-        taskCount0.setText(taskManager.getEachCountByStatus( ankenId, 0) + "件");
+        int c1 = taskManager.getEachCountByStatus( ankenId, 0);
+        taskCount0.setText( c1 + "件");
+        if(c1 > 0){
+            taskCount0.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
         taskCount1.setText(taskManager.getEachCountByStatus( ankenId, 1) + "件");
 
     }

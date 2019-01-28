@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.hirorock1103.template_01.Anken.JoinedData;
 import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Anken.TaskHistory;
 import com.example.hirorock1103.template_01.Common.Common;
@@ -83,6 +84,37 @@ public class TaskManager extends MyDbHelper {
             task.setCreatedate(c.getString(c.getColumnIndex(TASK_COLUMN_CREATEDATE)));
 
             list.add(task);
+
+            c.moveToNext();
+        }
+
+        return list;
+
+    }
+
+    public List<JoinedData.ValidTask> getAllValidTasks(){
+
+        List<JoinedData.ValidTask> list = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_TASK + " ORDER BY " + TASK_COLUMN_ID + " ASC ";
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            JoinedData.ValidTask validTask = new JoinedData.ValidTask();
+
+            validTask.setId(1);
+            validTask.setAnkenId(2);
+            validTask.setTaskId(2);
+            validTask.setTaskName("test");
+            validTask.setAnkenEndDate("2019/03/03");
+            validTask.setAnkenName("anken");
+            validTask.setAnkenStatus(1);
+
+            list.add(validTask);
 
             c.moveToNext();
         }

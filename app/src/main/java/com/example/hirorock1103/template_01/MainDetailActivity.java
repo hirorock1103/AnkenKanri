@@ -84,6 +84,8 @@ public class MainDetailActivity extends AppCompatActivity
     TextView progress3_start;
     TextView progress3_end;
     ProgressBar progress3;
+    ImageView mileStoneExtends;
+    ImageView taskExtends;
     private ConstraintLayout innerLayout;
 
     //when clicked
@@ -99,6 +101,7 @@ public class MainDetailActivity extends AppCompatActivity
     private MyAdapter adapter;
     //private FloatingActionButton fab;
     private ImageView addMileStone;
+    private ImageView addTaskStone;
     private ScrollView scroll;
 
     //manager
@@ -154,6 +157,12 @@ public class MainDetailActivity extends AppCompatActivity
         progress3_start = findViewById(R.id.progress3_start);
         progress3_end = findViewById(R.id.progress3_end);
         progress3 = findViewById(R.id.progress3);
+        //add
+        mileStoneExtends = findViewById(R.id.img_milestone_extends);
+        taskExtends = findViewById(R.id.img_task_extends);
+        addTaskStone = findViewById(R.id.img_add_task);
+
+
         //
         taskArea = findViewById(R.id.task_area);
         taskCount0 = findViewById(R.id.task_count_0);
@@ -336,7 +345,23 @@ public class MainDetailActivity extends AppCompatActivity
             }
         });
 
+        addTaskStone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //open dialog
+                DialogTask dialogTask = new DialogTask();
+                Bundle bundle = new Bundle();
+                bundle.putInt("ankenId", ankenId);
+                Common.log("ankenId" + ankenId);
+                dialogTask.setArguments(bundle);
+                dialogTask.show(getSupportFragmentManager(),"dialogTask");
+
+            }
+        });
+
         scroll.smoothScrollTo(0,0);
+
 
         taskArea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,6 +371,7 @@ public class MainDetailActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
 
 
         if(PAGEMODE != "NOLEARN"){

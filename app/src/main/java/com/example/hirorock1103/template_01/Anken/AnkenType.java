@@ -4,6 +4,7 @@ public class AnkenType {
 
     private int id;
     private String typeName;
+    private String colorCode;
     private int status;
 
     public int getId() {
@@ -28,5 +29,13 @@ public class AnkenType {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        this.colorCode = colorCode;
     }
 }

@@ -106,4 +106,5 @@ public class Anken {
     public int getComplete() {
         return complete;
     }
+
 }

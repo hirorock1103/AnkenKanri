@@ -2,6 +2,7 @@ package com.example.hirorock1103.template_01.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,8 +22,10 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.Anken.AnkenType;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
+import com.example.hirorock1103.template_01.DB.AnkenTypeManager;
 import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.MainDetailActivity;
 import com.example.hirorock1103.template_01.R;
@@ -40,13 +43,15 @@ public class FragAnkenList2 extends Fragment {
     private MyAdapter adapter;
     private FloatingActionButton fab;
 
+    //list
+    private List<AnkenType> typeList;
+
     //id for contextmenu
     private int ankenId;
 
     //manager
     private AnkenManager ankenManager;
-
-
+    private AnkenTypeManager ankenTypeManager;
 
 
     @Nullable
@@ -69,7 +74,9 @@ public class FragAnkenList2 extends Fragment {
         setListener();
 
         AnkenManager manager = new AnkenManager(getContext());
+        ankenTypeManager = new AnkenTypeManager(getContext());
 
+        //案件リスト
         List<Anken> list;
         if(mode == 1){
             list = manager.getList("finished");
@@ -77,11 +84,8 @@ public class FragAnkenList2 extends Fragment {
             list = manager.getList("notfinished");
         }
 
-
-        for (Anken anken : list){
-            Common.log(anken.getAnkenName());
-        }
-
+        //typelist
+        typeList = ankenTypeManager.getList();
 
         adapter = new MyAdapter(list, getContext());
 
@@ -117,6 +121,7 @@ public class FragAnkenList2 extends Fragment {
         TextView ankenNo;
         TextView completeDate;
         TextView ankenType;
+        TextView restDays;
         ConstraintLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -125,6 +130,7 @@ public class FragAnkenList2 extends Fragment {
             ankenNo = itemView.findViewById(R.id.anken_no);
             completeDate = itemView.findViewById(R.id.complete_date);
             ankenType = itemView.findViewById(R.id.anken_type);
+            restDays = itemView.findViewById(R.id.rest_days);
             layout = itemView.findViewById(R.id.layout);
 
         }
@@ -162,6 +168,13 @@ public class FragAnkenList2 extends Fragment {
         public void onBindViewHolder(@NonNull FragAnkenList2.MyViewHolder holder, int i) {
             Anken anken = list.get(i);
 
+            String colorCode = "";
+            for (AnkenType type : typeList){
+                if(type.getTypeName().equals(anken.getAnkenTypeName())){
+                    colorCode = type.getColorCode();
+                }
+            }
+
             //title
             holder.title.setText(anken.getAnkenName());
             //anken - no
@@ -170,6 +183,10 @@ public class FragAnkenList2 extends Fragment {
             try{
                 String ankentype = anken.getAnkenTypeName().isEmpty() || anken.getAnkenTypeName() == null ? "未設定" : anken.getAnkenTypeName();
                 holder.ankenType.setText(ankentype);
+                if(colorCode.isEmpty() == false){
+                    holder.ankenType.setTextColor(Color.parseColor(colorCode));
+                }
+
             }catch (Exception e){
                 Common.log(e.getMessage());
             }
@@ -180,10 +197,13 @@ public class FragAnkenList2 extends Fragment {
             String msg = "";
             if(anken.getEndDate() == null || anken.getEndDate().isEmpty()){
                 msg = "完成日未定";
+                holder.restDays.setText("残日数: " + "--");
             }else{
-                msg = "完成予定:"+anken.getEndDate()+"(あと"+(Common.getDateDiff(today, anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_2))+"日)";
+                msg = "完成予定: "+anken.getEndDate();
+                holder.restDays.setText("残日数: " +(Common.getDateDiff(today, anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_2))+"日");
             }
             holder.completeDate.setText(msg);
+
 
             //other settings
             final int ankenId = anken.getId();

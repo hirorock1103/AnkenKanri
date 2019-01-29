@@ -1,5 +1,6 @@
 package com.example.hirorock1103.template_01;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.AnkenType;
@@ -28,6 +30,8 @@ import java.util.List;
 
 public class MainAnkenTypeListActivity extends AppCompatActivity {
 
+    private static final String COLOR = "#e23131";
+
     private RecyclerView recyclerView;
     private List<AnkenType> list;
     private AnkenTypeAdapter adapter;
@@ -36,6 +40,9 @@ public class MainAnkenTypeListActivity extends AppCompatActivity {
     //for add ankenType
     private EditText editAnkenType;
     private Button btAdd;
+    private RadioGroup radioGroup;
+
+    private String colorCode = COLOR;
 
     private int ankenTypeId;
 
@@ -52,6 +59,7 @@ public class MainAnkenTypeListActivity extends AppCompatActivity {
         //view
         editAnkenType = findViewById(R.id.edit_title);
         btAdd = findViewById(R.id.add);
+        radioGroup = findViewById(R.id.radio);
 
         setListener();
 
@@ -78,12 +86,39 @@ public class MainAnkenTypeListActivity extends AppCompatActivity {
     }
 
     private void setListener(){
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                switch (checkedId){
+                    case R.id.radio1:
+                        colorCode = "#e23131";
+                        break;
+                    case R.id.radio2:
+                        colorCode = "#8f07de";
+                        break;
+                    case R.id.radio3:
+                        colorCode = "#1f7da3";
+                        break;
+                    case R.id.radio4:
+                        colorCode = "#c78100";
+                        break;
+                    case R.id.radio5:
+                        colorCode = "#4b5b94";
+                        break;
+                }
+            }
+        });
+
+
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //add ankenType
                 AnkenType ankenType = new AnkenType();
                 ankenType.setTypeName(editAnkenType.getText().toString());
+                ankenType.setColorCode(colorCode);
                 ankenType.setStatus(0);
 
                 String error = "";
@@ -108,8 +143,6 @@ public class MainAnkenTypeListActivity extends AppCompatActivity {
                     Snackbar.make(v,error,Snackbar.LENGTH_LONG).show();
 
                 }
-
-
 
             }
         });
@@ -154,8 +187,10 @@ public class MainAnkenTypeListActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AnkenTypeViewHolder holder, int i) {
 
             holder.ankenTypeName.setText(list.get(i).getTypeName());
+            //holder.layout.setBackgroundColor(Color.parseColor(list.get(i).getColorCode()));
             holder.layout.setTag(list.get(i).getId());
             registerForContextMenu(holder.layout);
+
 
         }
 

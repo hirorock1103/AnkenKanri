@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    private final static int DBVERSION = 25;
+    private final static int DBVERSION = 27;
     private final static String DBNAME = "Anken.db";
 
     protected final static String TABLE_ANKEN_NAME = "Anken";
@@ -25,6 +25,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     protected final static String TABLE_ANKEN_TYPE = "AnkenType";
     protected final static String TYPE_COLUMN_ID = "id";
     protected final static String TYPE_COLUMN_TYPENAME = "typeName";
+    protected final static String TYPE_COLUMN_COLORCODE = "colorCode";
     protected final static String TYPE_COLUMN_STATUS = "status";
 
     protected final static String TABLE_MILESTONE = "MileStone";
@@ -106,6 +107,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
                 TYPE_COLUMN_ID + " integer primary key autoincrement, " +
                 ANKEN_COLUMN_TYPE + " integer default 0, " +
                 TYPE_COLUMN_TYPENAME + " text, " +
+                TYPE_COLUMN_COLORCODE + " text, " +
                 TYPE_COLUMN_STATUS + " integer default 0 " +
                 ")";
         sqLiteDatabase.execSQL(query);

@@ -20,6 +20,7 @@ public class AnkenTypeManager extends MyDbHelper {
 
         ContentValues values = new ContentValues();
         values.put(TYPE_COLUMN_TYPENAME, type.getTypeName());
+        values.put(TYPE_COLUMN_COLORCODE, type.getColorCode());
         values.put(TYPE_COLUMN_STATUS, type.getStatus());
 
         SQLiteDatabase db = getWritableDatabase();
@@ -63,6 +64,7 @@ public class AnkenTypeManager extends MyDbHelper {
 
             type.setId(c.getInt(c.getColumnIndex(TYPE_COLUMN_ID)));
             type.setTypeName(c.getString(c.getColumnIndex(TYPE_COLUMN_TYPENAME)));
+            type.setColorCode(c.getString(c.getColumnIndex(TYPE_COLUMN_COLORCODE)));
             type.setStatus(c.getInt(c.getColumnIndex(TYPE_COLUMN_STATUS)));
 
             list.add(type);
@@ -88,6 +90,7 @@ public class AnkenTypeManager extends MyDbHelper {
         ContentValues values = new ContentValues();
         values.put(TYPE_COLUMN_TYPENAME, type.getTypeName());
         values.put(TYPE_COLUMN_STATUS, type.getStatus());
+        values.put(TYPE_COLUMN_COLORCODE, type.getColorCode());
 
         SQLiteDatabase db = getWritableDatabase();
 

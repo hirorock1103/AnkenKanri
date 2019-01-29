@@ -36,12 +36,65 @@
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/radio"
+        app:layout_constraintTop_toBottomOf="@id/edit_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color"
+            android:id="@+id/radio1"
+            android:textColor="#e23131"
+            android:checked="true"
+            />
+        <android.support.v7.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color"
+            android:id="@+id/radio2"
+            android:textColor="#8f07de"
+            />
+        <android.support.v7.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color"
+            android:id="@+id/radio3"
+            android:textColor="#1f7da3"
+            />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color"
+            android:id="@+id/radio4"
+            android:textColor="#c78100"
+            />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="color"
+            android:id="@+id/radio5"
+            android:textColor="#4b5b94"
+            />
+    </RadioGroup>
+
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="登録"
         android:id="@+id/add"
-        app:layout_constraintTop_toBottomOf="@id/edit_title"
+        app:layout_constraintTop_toBottomOf="@id/radio"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp"/>

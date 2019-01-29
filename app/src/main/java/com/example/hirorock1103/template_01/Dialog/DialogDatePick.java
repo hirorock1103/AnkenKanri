@@ -59,7 +59,7 @@ public class DialogDatePick extends AppCompatDialogFragment implements DatePicke
 
         //取得した値を呼び出し元に通知する
         try{
-            listener.getDate(year +"/"+ String.format("%02d",(month + 1)) +"/"+ String.format("%02d",dayOfMonth), tag);
+            listener.getDate(year +"-"+ String.format("%02d",(month + 1)) +"-"+ String.format("%02d",dayOfMonth), tag);
         }catch (Exception e){
             Common.log(e.getMessage());
         }

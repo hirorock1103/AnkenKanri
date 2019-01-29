@@ -215,7 +215,7 @@ public class MainDetailActivity extends AppCompatActivity
         if(startDate.isEmpty() || endDate.isEmpty()){
             spanStr = "期間取得失敗";
         }else{
-            int span = Common.getDateDiff(startDate, endDate, Common.DATE_FORMAT_SAMPLE_1);
+            int span = Common.getDateDiff(startDate, endDate, Common.DATE_FORMAT_SAMPLE_2);
             spanStr = span+"days";
         }
         span.setText(spanStr);
@@ -249,8 +249,8 @@ public class MainDetailActivity extends AppCompatActivity
 
         }else{
 
-            span = Common.getDateDiff(startDate, endDate, Common.DATE_FORMAT_SAMPLE_1);
-            restDays = Common.getDateDiff(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_1), anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_1);
+            span = Common.getDateDiff(startDate, endDate, Common.DATE_FORMAT_SAMPLE_2);
+            restDays = Common.getDateDiff(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2), anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_2);
             progressDay = span - restDays;
         }
 
@@ -286,13 +286,18 @@ public class MainDetailActivity extends AppCompatActivity
         float allHours = anken.getManDay() * 8;
         float usageHours = taskManager.getTaskHistoryMandaysByAnkenId(ankenId) * 8;
 
-        progress3_start.setText("作業時間(h)" + String.valueOf(usageHours));
-        progress3_end.setText("全時間(h)" + String.valueOf(allHours));
+        //over
+        float overHours = 0;
+        if((allHours - usageHours) < 0){
+            overHours = ((float)allHours - (float)usageHours);
+            overHours = -overHours;
+        }
 
+        progress3_start.setText("作業時間(h)" + String.valueOf(usageHours) + ((overHours > 0) ? "(超過" + overHours + "h)" : ""));
+        progress3_end.setText("全時間(h)" + String.valueOf(allHours));
 
         progress3.setMax((int)allHours);
         progress3.setProgress((int)usageHours);
-
 
 
 
@@ -492,8 +497,8 @@ public class MainDetailActivity extends AppCompatActivity
 
             try{
                 if(list.get(i).getEndDate() != null && list.get(i).getEndDate().isEmpty() == false){
-                    String today = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_1);
-                    int diff = Common.getDateDiff(today, list.get(i).getEndDate(), Common.DATE_FORMAT_SAMPLE_1);
+                    String today = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
+                    int diff = Common.getDateDiff(today, list.get(i).getEndDate(), Common.DATE_FORMAT_SAMPLE_2);
                     holder.endDate.setText("期日:" + list.get(i).getEndDate() + "(あと"+diff+"日)");
 
                     if(diff < 0){

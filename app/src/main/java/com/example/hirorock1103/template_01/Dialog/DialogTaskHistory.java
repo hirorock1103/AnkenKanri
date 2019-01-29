@@ -96,7 +96,7 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
         manHour = view.findViewById(R.id.edit_man_day);
 
         //setview
-        targetDate.setText(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_1));
+        targetDate.setText(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2));
 
         seListener();
 

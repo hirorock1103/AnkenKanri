@@ -210,7 +210,7 @@ public class FragTaskList extends Fragment {
             if(task.getEndDate().isEmpty() || task.getEndDate() == null){
                 holder.endDate.setText("期限がセットされていません。");
             }else{
-                int diff = Common.getDateDiff(Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_1), task.getEndDate(), Common.DATE_FORMAT_SAMPLE_1);
+                int diff = Common.getDateDiff(Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_2), task.getEndDate(), Common.DATE_FORMAT_SAMPLE_2);
                 holder.endDate.setText(task.getEndDate()+"(あと" +diff+ "日)");
             }
 

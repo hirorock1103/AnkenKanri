@@ -13,12 +13,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Anken.JoinedData;
+import com.example.hirorock1103.template_01.Anken.Task;
+import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.DB.TaskManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
     private CardView firstRow;
     private TextView count1;
     private TextView count2;
+    private TextView taskListTitle;
+    private TextView radioCount;
+    private TextView radioCountTitle;
+    private RadioGroup radioGroup;
+    private ImageButton masterImageBt1;
+    private ImageButton masterImageBt2;
 
     //
     private RecyclerView recyclerView;
@@ -58,15 +70,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Recyceler view
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView taskInfo;
+        TextView endDate;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             taskInfo = itemView.findViewById(R.id.task_info);
+            endDate = itemView.findViewById(R.id.end_date);
 
         }
     }
@@ -99,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             JoinedData.ValidTask validTask = validTaskList.get(i);
 
             holder.taskInfo.setText(validTask.getTaskName() + "("+validTask.getAnkenName()+")");
+            holder.endDate.setText(validTask.getTaskEndDate());
 
         }
 
@@ -108,12 +125,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    //set views
     private void setView(){
 
         //views
         count1 = findViewById(R.id.count);
         count2 = findViewById(R.id.count2);
+        radioGroup = findViewById(R.id.radio);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Common.log("c:" + checkedId);
+
+                switch (checkedId){
+                    case R.id.radio_1://all
+                        break;
+                    case R.id.radio_2://today
+                        break;
+                    case R.id.radio_3://this week
+                        break;
+                }
+
+            }
+        });
+        taskListTitle = findViewById(R.id.task_list_title);
+        radioCount = findViewById(R.id.radio_count);
+        radioCountTitle = findViewById(R.id.radio_count_title);
+        masterImageBt1 = findViewById(R.id.master_image1);
+        masterImageBt2 = findViewById(R.id.master_image2);
+        masterImageBt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        masterImageBt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainAnkenTypeListActivity.class);
+                startActivity(intent);
+            }
+        });
         firstRow = findViewById(R.id.first_row);
         firstRow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,9 +182,18 @@ public class MainActivity extends AppCompatActivity {
         //dataset
         count1.setText(String.valueOf(ankenManager.getListByIsComplete(0).size()));
 
-
         //for recycler view
         validTaskList  = taskManager.getAllValidTasks();
+
+        taskListTitle.setText("タスク一覧(期日の近い順) ");
+        if(validTaskList.size() > 0){
+            radioCount.setText(String.valueOf(validTaskList.size()));
+            radioCountTitle.setText("件Hit!");
+        }else{
+            radioCount.setText("タスクの登録がありません。");
+            radioCountTitle.setText("");
+        }
+
 
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new MyAdapter(validTaskList);

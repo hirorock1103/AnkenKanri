@@ -17,6 +17,7 @@ public class Common {
 
     public static String DB_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static String DATE_FORMAT_SAMPLE_1 = "yyyy/MM/dd";
+    public static String DATE_FORMAT_SAMPLE_2 = "yyyy-MM-dd";
 
     /**
      * 日付変更

@@ -90,6 +90,12 @@ public class AnkenManager extends MyDbHelper {
 
     }
 
+    //finish this month
+
+
+
+
+
     //select
     public List<Anken> getList(String mode){
 

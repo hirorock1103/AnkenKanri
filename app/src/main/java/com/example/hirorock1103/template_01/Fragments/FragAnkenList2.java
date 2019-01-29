@@ -176,12 +176,12 @@ public class FragAnkenList2 extends Fragment {
 
 
             //get diff between today and goal
-            String today = Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_1);
+            String today = Common.formatDate(new Date(),Common.DATE_FORMAT_SAMPLE_2);
             String msg = "";
             if(anken.getEndDate() == null || anken.getEndDate().isEmpty()){
                 msg = "完成日未定";
             }else{
-                msg = "完成予定:"+anken.getEndDate()+"(あと"+(Common.getDateDiff(today, anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_1))+"日)";
+                msg = "完成予定:"+anken.getEndDate()+"(あと"+(Common.getDateDiff(today, anken.getEndDate(),Common.DATE_FORMAT_SAMPLE_2))+"日)";
             }
             holder.completeDate.setText(msg);
 

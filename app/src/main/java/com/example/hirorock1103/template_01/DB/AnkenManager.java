@@ -90,8 +90,60 @@ public class AnkenManager extends MyDbHelper {
 
     }
 
-    //finish this month
+    //finish this month   getListBySpan
+    public List<Anken> getListBySpan(String from , String to){
 
+        List<Anken> list = new ArrayList<>();
+
+        String query = "SELECT * FROM " + TABLE_ANKEN_NAME
+                + " WHERE " + ANKEN_COLUMN_ISCOMPLETE + " = 0 ";
+
+        String conditions = "(";
+        if(from.isEmpty() == false){
+            conditions +=   ANKEN_COLUMN_END + " >= " + "'"+from+"'";
+        }
+
+        if(to.isEmpty() == false){
+            if(conditions.isEmpty()){
+                conditions +=  ANKEN_COLUMN_END + " <= " + "'"+to+"'";
+            }else{
+                conditions +=  " AND " + ANKEN_COLUMN_END + " <= " + "'"+to+"'";
+            }
+        }
+        conditions += ")";
+
+        query += " AND " + conditions;
+
+
+        query += " ORDER BY " + ANKEN_COLUMN_ID + " ASC ";
+
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query,null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            Anken anken = new Anken();
+            anken.setId(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ID)));
+            anken.setAnkenName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TITLE)));
+            //anken.setAnkenType(c.getInt(c.getColumnIndex(ANKEN_COLUMN_TYPE)));
+            anken.setAnkenTypeName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TYPENAME)));
+            anken.setBudget(c.getInt(c.getColumnIndex(ANKEN_COLUMN_BUDGET)));
+            anken.setStartDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_START)));
+            anken.setEndDate(c.getString(c.getColumnIndex(ANKEN_COLUMN_END)));
+            anken.setManDay(c.getFloat(c.getColumnIndex(ANKEN_COLUMN_MANDAY)));
+            anken.setPrice(c.getInt(c.getColumnIndex(ANKEN_COLUMN_PRICE)));
+            anken.setComplete(c.getInt(c.getColumnIndex(ANKEN_COLUMN_ISCOMPLETE)));
+            anken.setCreatedate(c.getString(c.getColumnIndex(ANKEN_COLUMN_CREATEDATE)));
+            list.add(anken);
+            c.moveToNext();
+        }
+
+        return list;
+
+    }
 
 
 

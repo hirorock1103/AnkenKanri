@@ -16,8 +16,8 @@ public class Common {
 
 
     public static String DB_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static String DATE_FORMAT_SAMPLE_1 = "yyyy/MM/dd";
-    public static String DATE_FORMAT_SAMPLE_2 = "yyyy-MM-dd";
+    public static String DATE_FORMAT_SAMPLE_1 = "yyyy-MM-dd";
+    public static String DATE_FORMAT_SAMPLE_2 = "yyyy/MM/dd";
 
     /**
      * 日付変更
@@ -110,6 +110,47 @@ public class Common {
 
     }
 
+    /**
+     * 月末を取得　任意のパターンで 参考：https://qiita.com/todogzm/items/bb8c144ba17e6de392a3
+     */
+    public static String getLastDate(int targetYear, int targetMonth, String pattern){
+
+        String lastdate = "";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(targetYear,targetMonth-1, 1, 0, 0, 0);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.MILLISECOND, -1);
+
+        Date date = calendar.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        lastdate = sdf.format(date);
+
+        return lastdate;
+    }
+
+    /**
+     * 月初を取得　任意のパターンで
+     */
+    public static String getFirstDate(int targetYear, int targetMonth, String pattern){
+
+        String firstdate = "";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(targetYear,targetMonth-1, 1, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Date date = calendar.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        firstdate = sdf.format(date);
+
+        return firstdate;
+    }
 
 
     /**

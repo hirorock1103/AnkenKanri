@@ -132,6 +132,70 @@ public class TaskManager extends MyDbHelper {
 
     }
 
+    public List<JoinedData.ValidTask> getAllValidTasksBySpan(String from, String to){
+
+        List<JoinedData.ValidTask> list = new ArrayList<>();
+
+        String query = "SELECT *," +
+                TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_END + " as ankenEndDate," +
+                TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " as taskEndDate," +
+                TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_ID + " as ankenId," +
+                TABLE_TASK + "." + TASK_COLUMN_ID + " as taskId " +
+                " FROM " + TABLE_TASK
+                + " INNER JOIN " + TABLE_ANKEN_NAME
+                + " ON " + TABLE_TASK + "." + TASK_COLUMN_ANKENID + "=" + TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_ID
+                + " WHERE " + ANKEN_COLUMN_ISCOMPLETE + " = 0 ";
+
+        String conditions = "";
+        if(from.isEmpty()==false || to.isEmpty()==false){
+            conditions = "(";
+            if(from.isEmpty() == false){
+                conditions += TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " >= " + "'"+from+"'";
+            }
+
+            if(to.isEmpty() == false){
+                if(conditions.isEmpty()){
+                    conditions += TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " <= " + "'"+to+"'";
+                }else{
+                    conditions +=  " AND " + TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " <= " + "'"+to+"'";
+                }
+            }
+            conditions += ")";
+
+            query += " AND " + conditions;
+
+        }
+
+
+        Common.log("conditions : " + conditions);
+
+        query += " ORDER BY " + TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " ASC ";
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            JoinedData.ValidTask validTask = new JoinedData.ValidTask();
+
+            validTask.setId(1);
+            validTask.setAnkenId(c.getInt(c.getColumnIndex("ankenId")));
+            validTask.setTaskId(c.getInt(c.getColumnIndex("taskId")));
+            validTask.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
+            validTask.setAnkenEndDate(c.getString(c.getColumnIndex("ankenEndDate")));
+            validTask.setTaskEndDate(c.getString(c.getColumnIndex("taskEndDate")));
+            validTask.setAnkenName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TITLE)));
+
+            list.add(validTask);
+
+            c.moveToNext();
+        }
+
+        return list;
+
+    }
+
     //select
     public List<Task> getListByAnkenId(int ankenId){
 

@@ -71,6 +71,7 @@ public class MainAnkenTypeListActivity extends AppCompatActivity {
     }
 
     private void reloadView(){
+        editAnkenType.setText("");
         list = ankenTypeManager.getList();
         adapter.setList(list);
         adapter.notifyDataSetChanged();

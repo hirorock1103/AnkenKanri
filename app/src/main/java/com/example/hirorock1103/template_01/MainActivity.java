@@ -24,6 +24,7 @@ import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.DB.TaskManager;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -137,14 +138,73 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Common.log("c:" + checkedId);
 
+                String from = "";
+                String to = "";
+
+                List<JoinedData.ValidTask> validTaskList = new ArrayList<>();
+
                 switch (checkedId){
                     case R.id.radio_1://all
+
+                        from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
+                        to = from;
+
+                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
+
+                        adapter.setList(validTaskList);
+                        adapter.notifyDataSetChanged();
+
                         break;
                     case R.id.radio_2://today
+
+                        from = "";
+                        to = "";
+
+                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
+
+                        adapter.setList(validTaskList);
+                        adapter.notifyDataSetChanged();
+
+
                         break;
                     case R.id.radio_3://this week
+
+                        String year = Common.formatDate(new Date(), "yyyy");
+                        String month = Common.formatDate(new Date(), "MM");
+                        int targetyear = Integer.parseInt(year);
+                        int targetmonth = Integer.parseInt(month);
+                        from = Common.getFirstDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
+                        to = Common.getLastDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
+
+                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
+
+                        adapter.setList(validTaskList);
+                        adapter.notifyDataSetChanged();
+
+                        break;
+
+                    case R.id.radio_4://in seven days
+
+                        from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
+                        to = Common.formatDate(Common.addDateFromToday("DAY", 7), Common.DATE_FORMAT_SAMPLE_2);
+                        
+                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
+
+                        adapter.setList(validTaskList);
+                        adapter.notifyDataSetChanged();
+
                         break;
                 }
+
+
+                if(validTaskList.size() > 0){
+                    radioCount.setText(String.valueOf(validTaskList.size()));
+                    radioCountTitle.setText("件Hit!");
+                }else{
+                    radioCount.setText("タスクの登録がありません。");
+                    radioCountTitle.setText("");
+                }
+
 
             }
         });
@@ -175,17 +235,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         ankenManager = new AnkenManager(this);
         taskManager = new TaskManager(this);
 
         //dataset
         count1.setText(String.valueOf(ankenManager.getListByIsComplete(0).size()));
+        String from = "";
+        String to = "";
+
+        //今月対象の案件を取得するために月初と月末を取得する
+        String year = Common.formatDate(new Date(), "yyyy");
+        String month = Common.formatDate(new Date(), "MM");
+        int targetyear = Integer.parseInt(year);
+        int targetmonth = Integer.parseInt(month);
+        from = Common.getFirstDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
+        to = Common.getLastDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
+        List<Anken> tmp = ankenManager.getListBySpan(from, to);
+        count2.setText(String.valueOf(tmp.size()));
 
         //for recycler view
         validTaskList  = taskManager.getAllValidTasks();
 
-        taskListTitle.setText("タスク一覧(期日の近い順) ");
+        //radioボタンで選択された期間で取得
+        //default -- today
+        from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
+        to = from;
+        validTaskList  = taskManager.getAllValidTasksBySpan(from, to);
+
+        taskListTitle.setText("タスク一覧(期日順) ");
         if(validTaskList.size() > 0){
             radioCount.setText(String.valueOf(validTaskList.size()));
             radioCountTitle.setText("件Hit!");
@@ -193,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
             radioCount.setText("タスクの登録がありません。");
             radioCountTitle.setText("");
         }
-
 
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new MyAdapter(validTaskList);
@@ -205,8 +281,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-
 
     }
 

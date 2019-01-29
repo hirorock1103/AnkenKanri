@@ -928,72 +928,58 @@
                 style="@style/background_corner_radius_primary_light"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="5dp"
                 app:layout_constraintTop_toBottomOf="@id/milestone_title"
                 android:layout_marginTop="15dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="対応中"
-                    android:id="@+id/milestone_count_title0"
-                    android:textSize="@dimen/Small"
-                    android:layout_marginLeft="20dp"
-                    style="@style/background_corner_radius_primary_dark"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/milestone_count_0"
-                    android:text="6件"
-                    android:textSize="@dimen/Middiam"
-                    android:layout_marginLeft="10dp"
-                    app:layout_constraintLeft_toRightOf="@id/milestone_count_title0"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="対応済"
-                    android:id="@+id/milestone_count_title1"
-                    android:textSize="@dimen/Small"
-                    android:layout_marginLeft="20dp"
-                    style="@style/background_corner_radius_primary_dark"
-                    app:layout_constraintLeft_toRightOf="@id/milestone_count_0"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/milestone_count_1"
-                    android:text="2件"
-                    android:textSize="@dimen/Middiam"
-                    android:layout_marginLeft="10dp"
-                    app:layout_constraintLeft_toRightOf="@id/milestone_count_title1"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/ic_arrow"
-                    android:layout_marginRight="1dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_extends"
+                    android:id="@+id/img_extends"
+                    android:background="@null"
+                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="他の案件から参照"
+                    android:textSize="@dimen/Small"
+                    app:layout_constraintTop_toBottomOf="@id/img_extends"
+                    app:layout_constraintLeft_toLeftOf="@id/img_extends"
+                    app:layout_constraintRight_toRightOf="@id/img_extends"
+                    />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_add1"
+                    android:id="@+id/img_add_milestone"
+                    android:background="@null"
+                    app:layout_constraintHorizontal_bias="0.7"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="マイルストーン追加"
+                    android:textSize="@dimen/Small"
+                    app:layout_constraintTop_toBottomOf="@id/img_add_milestone"
+                    app:layout_constraintLeft_toLeftOf="@id/img_add_milestone"
+                    app:layout_constraintRight_toRightOf="@id/img_add_milestone"
+                    />
+
 
 
             </android.support.constraint.ConstraintLayout>
@@ -1017,18 +1003,18 @@
     </ScrollView>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_milestone"
-        android:id="@+id/fab"
-        app:borderWidth="0dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_margin="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@mipmap/ic_milestone"-->
+        <!--android:id="@+id/fab"-->
+        <!--app:borderWidth="0dp"-->
+        <!--android:backgroundTint="@color/colorPrimaryDark"-->
+        <!--android:layout_margin="10dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
 
-        />
+        <!--/>-->
 
 
 </android.support.constraint.ConstraintLayout>

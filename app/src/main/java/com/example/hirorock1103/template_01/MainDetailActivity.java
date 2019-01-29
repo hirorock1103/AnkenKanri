@@ -97,7 +97,8 @@ public class MainDetailActivity extends AppCompatActivity
     private List<MileStone> list;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
-    private FloatingActionButton fab;
+    //private FloatingActionButton fab;
+    private ImageView addMileStone;
     private ScrollView scroll;
 
     //manager
@@ -169,7 +170,8 @@ public class MainDetailActivity extends AppCompatActivity
         setViews();
 
         //buttons
-        fab = findViewById(R.id.fab);
+        //fab = findViewById(R.id.fab);
+        addMileStone = findViewById(R.id.img_add_milestone);
         edit_mark = findViewById(R.id.edit_mark);
         recyclerView = findViewById(R.id.recycler_view);
         scroll = findViewById(R.id.scroll);
@@ -321,7 +323,7 @@ public class MainDetailActivity extends AppCompatActivity
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        addMileStone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

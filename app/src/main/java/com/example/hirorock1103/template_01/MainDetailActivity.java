@@ -360,6 +360,14 @@ public class MainDetailActivity extends AppCompatActivity
             }
         });
 
+        mileStoneExtends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainDetailActivity.this, MainActivityExtendsList.class);
+                startActivity(intent);
+            }
+        });
+
         scroll.smoothScrollTo(0,0);
 
 

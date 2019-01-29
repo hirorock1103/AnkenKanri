@@ -748,7 +748,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="他案件タスクを参照"
+                    android:text="他案件タスク参照"
                     android:textSize="@dimen/Small"
                     app:layout_constraintTop_toBottomOf="@id/img_task_extends"
                     app:layout_constraintLeft_toLeftOf="@id/img_task_extends"
@@ -1021,7 +1021,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="他案件マイルストーンを参照"
+                    android:text="他案件マイルストーン参照"
                     android:textSize="@dimen/Small"
                     app:layout_constraintTop_toBottomOf="@id/img_milestone_extends"
                     app:layout_constraintLeft_toLeftOf="@id/img_milestone_extends"

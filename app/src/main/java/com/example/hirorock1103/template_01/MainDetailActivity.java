@@ -199,20 +199,22 @@ public class MainDetailActivity extends AppCompatActivity
         //setAnken
         anken_title.setText(anken.getAnkenName());
 
+        //span
+        String startDate = (anken.getStartDate().isEmpty() || anken.getStartDate() == null) ? "設定なし" : anken.getStartDate();
+        String endDate = (anken.getEndDate().isEmpty() || anken.getEndDate() == null) ? "設定なし" : anken.getEndDate();
+
+        //setview
         int result = (int)(anken.getPrice() * anken.getManDay());
         budget.setText(String.format("%,d", result ) + "円");
-        start.setText(anken.getStartDate());
-        end.setText(anken.getEndDate());
+        start.setText(startDate);
+        end.setText(endDate);
         type.setText(anken.getAnkenTypeName());
         String str = anken.getManDay()+"人日"+"("+(anken.getManDay() * 8)+"h)";
         manDay.setText(str);
 
-        //span
-        String startDate = anken.getStartDate();
-        String endDate = anken.getEndDate();
 
         String spanStr = "";
-        if(startDate.isEmpty() || endDate.isEmpty()){
+        if(startDate == "設定なし" || endDate == "設定なし"){
             spanStr = "期間取得失敗";
         }else{
             int span = Common.getDateDiff(startDate, endDate, Common.DATE_FORMAT_SAMPLE_2);
@@ -299,8 +301,6 @@ public class MainDetailActivity extends AppCompatActivity
         progress3.setMax((int)allHours);
         progress3.setProgress((int)usageHours);
 
-
-
     }
 
     //setListener
@@ -317,7 +317,6 @@ public class MainDetailActivity extends AppCompatActivity
                 bundle.putString("mode", "edit");
                 anken.setArguments(bundle);
                 anken.show(getSupportFragmentManager(), "ankenDialog");
-
 
             }
         });
@@ -357,9 +356,6 @@ public class MainDetailActivity extends AppCompatActivity
                 }
             });
         }
-
-
-
 
     }
 

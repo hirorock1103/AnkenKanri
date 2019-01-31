@@ -197,7 +197,6 @@ public class MainDetailActivity extends AppCompatActivity
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MyAdapter(list);
-
         recyclerView.setAdapter(adapter);
 
 
@@ -311,6 +310,7 @@ public class MainDetailActivity extends AppCompatActivity
 
         progress3.setMax((int)allHours);
         progress3.setProgress((int)usageHours);
+
 
     }
 
@@ -467,6 +467,10 @@ public class MainDetailActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         setViews();
+        //mile stone
+        list = ankenManager.getMilestoneByAnkenId(ankenId);
+        adapter.setList(list);
+        adapter.notifyDataSetChanged();
     }
 
     //

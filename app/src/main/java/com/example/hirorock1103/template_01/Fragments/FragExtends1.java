@@ -1,15 +1,18 @@
 package com.example.hirorock1103.template_01.Fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,7 +34,10 @@ import java.util.List;
 public class FragExtends1 extends Fragment {
 
     private int ankenId;
-    RadioGroup radios;
+
+    private Button btExtends;
+
+    private RadioGroup radios;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
     private AnkenManager ankenManager;
@@ -49,6 +55,7 @@ public class FragExtends1 extends Fragment {
         //view
         radios = view.findViewById(R.id.radio);
         recyclerView = view.findViewById(R.id.recycler_view);
+        btExtends = view.findViewById(R.id.bt_extends);
 
         setView();
 
@@ -58,6 +65,39 @@ public class FragExtends1 extends Fragment {
     }
 
     private void setView(){
+
+        btExtends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //登録
+                int targetAnkenId = ankenId;
+                int fromAnkenId = radios.getCheckedRadioButtonId();
+                List<MileStone> list = ankenManager.getMilestoneByAnkenId(fromAnkenId);
+
+                for(MileStone ms : list)
+                {
+                    MileStone mileStone = ms;
+                    mileStone.setStatus(0);
+                    mileStone.setAnkenId(targetAnkenId);
+                    ankenManager.addMilestone(mileStone);
+                }
+
+                //change button text and action
+                btExtends.setText("詳細に戻る");
+                btExtends.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), MainDetailActivity.class);
+                        intent.putExtra("ankenId", ankenId);
+                        startActivity(intent);
+                    }
+                });
+
+                //View view = getActivity().findViewById(android.R.id.content);
+                Snackbar.make(v, "マイルストーンを登録しました", Snackbar.LENGTH_SHORT).show();
+
+            }
+        });
 
         radios.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -106,7 +146,6 @@ public class FragExtends1 extends Fragment {
             radios.addView(radioButtons[i]);
 
         }
-
 
     }
 

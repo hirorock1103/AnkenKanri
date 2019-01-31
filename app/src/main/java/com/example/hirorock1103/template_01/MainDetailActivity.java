@@ -364,6 +364,7 @@ public class MainDetailActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainDetailActivity.this, MainActivityExtendsList.class);
+                intent.putExtra("ankenId", ankenId);
                 startActivity(intent);
             }
         });

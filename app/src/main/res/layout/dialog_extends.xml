@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+    private int id;
+    private String taskName;
+    private int ankenId;
+    private String detail;
+    private String endDate;
+    private float manDays;
+    private int status;//0:未対応 1:comlete 2:対応中
+    private String createdate;
+    -->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="タイトル"
+        android:id="@+id/title1"
+        android:textSize="@dimen/Small"
+        app:layout_constraintBottom_toTopOf="@id/edit_title"
+        app:layout_constraintLeft_toLeftOf="@id/edit_title"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.Anken.JoinedData;
 import com.example.hirorock1103.template_01.Anken.MileStone;
 import com.example.hirorock1103.template_01.Common.Common;
 
@@ -323,6 +324,34 @@ public class AnkenManager extends MyDbHelper {
 
             c.moveToNext();
         }
+
+        return list;
+
+    }
+
+    //get milestones
+    public List<JoinedData.AnkenHasMileStone> getAnkenHasMilestone(){
+
+        List<JoinedData.AnkenHasMileStone> list = new ArrayList<>();
+
+        List<Anken> ankenList = this.getList();
+
+        for (Anken anken : ankenList){
+
+            List<MileStone> mileStonesList = new ArrayList<>();
+            mileStonesList = this.getMilestoneByAnkenId(anken.getId());
+            if(mileStonesList.size() > 0){
+
+                JoinedData.AnkenHasMileStone hasMilestone = new JoinedData.AnkenHasMileStone();
+                hasMilestone.setAnkenId(anken.getId());
+                hasMilestone.setAnkenName(anken.getAnkenName());
+                hasMilestone.setMileStonesList(mileStonesList);
+                list.add(hasMilestone);
+
+            }
+
+        }
+
 
         return list;
 

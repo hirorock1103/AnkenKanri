@@ -379,17 +379,17 @@ public class AnkenManager extends MyDbHelper {
             taskList = taskManager.getListByAnkenId(anken.getId());
 
             if(taskList.size() > 0){
-                JoinedData.AnkenHasTask hasTask = new JoinedData.AnkenHasTask();
 
+                JoinedData.AnkenHasTask hasTask = new JoinedData.AnkenHasTask();
                 //set data
                 hasTask.setAnkenId(anken.getId());
                 hasTask.setTaskList(taskList);
                 hasTask.setAnkenName(anken.getAnkenName());
 
+
+                list.add(hasTask);
+
             }
-
-
-
 
         }
 

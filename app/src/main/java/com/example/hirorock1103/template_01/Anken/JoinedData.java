@@ -35,7 +35,7 @@ public class JoinedData {
         public void setAnkenName(String ankenName) {
             this.ankenName = ankenName;
         }
-        
+
         public List<Task> getTaskList() {
             return taskList;
         }

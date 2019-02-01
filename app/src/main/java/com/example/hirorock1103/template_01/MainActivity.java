@@ -8,6 +8,8 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -46,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView radioCount;
     private TextView radioCountTitle;
     private RadioGroup radioGroup;
-    private ImageButton masterImageBt1;
-    private ImageButton masterImageBt2;
 
     //
     private RecyclerView recyclerView;
@@ -211,21 +211,7 @@ public class MainActivity extends AppCompatActivity {
         taskListTitle = findViewById(R.id.task_list_title);
         radioCount = findViewById(R.id.radio_count);
         radioCountTitle = findViewById(R.id.radio_count_title);
-        masterImageBt1 = findViewById(R.id.master_image1);
-        masterImageBt2 = findViewById(R.id.master_image2);
-        masterImageBt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        masterImageBt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainAnkenTypeListActivity.class);
-                startActivity(intent);
-            }
-        });
+        
         firstRow = findViewById(R.id.first_row);
         firstRow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,6 +268,37 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.option_menu_5,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent intent;
+
+        switch (item.getItemId()){
+
+            case R.id.option1:
+
+                intent = new Intent(MainActivity.this, MainAnkenTypeListActivity.class);
+                startActivity(intent);
+
+                return true;
+            case R.id.option2:
+
+                intent = new Intent(MainActivity.this, MainAnkenListActivity.class);
+                startActivity(intent);
+
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

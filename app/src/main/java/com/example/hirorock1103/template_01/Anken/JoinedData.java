@@ -4,11 +4,53 @@ import java.util.List;
 
 public class JoinedData {
 
+    public static class AnkenHasTask{
+
+        private int id;
+        private int ankenId;
+        private String ankenName;
+        private List<Task> taskList;
+
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getAnkenId() {
+            return ankenId;
+        }
+
+        public void setAnkenId(int ankenId) {
+            this.ankenId = ankenId;
+        }
+
+        public String getAnkenName() {
+            return ankenName;
+        }
+
+        public void setAnkenName(String ankenName) {
+            this.ankenName = ankenName;
+        }
+        
+        public List<Task> getTaskList() {
+            return taskList;
+        }
+
+        public void setTaskList(List<Task> taskList) {
+            this.taskList = taskList;
+        }
+    }
+
     public static class AnkenHasMileStone{
 
         private int id;
         private int ankenId;
         private String ankenName;
+        private String ankenTypeName;
         private List<MileStone> mileStonesList;
 
         public int getId() {
@@ -41,6 +83,14 @@ public class JoinedData {
 
         public void setMileStonesList(List<MileStone> mileStonesList) {
             this.mileStonesList = mileStonesList;
+        }
+
+        public String getAnkenTypeName() {
+            return ankenTypeName;
+        }
+
+        public void setAnkenTypeName(String ankenTypeName) {
+            this.ankenTypeName = ankenTypeName;
         }
     }
 

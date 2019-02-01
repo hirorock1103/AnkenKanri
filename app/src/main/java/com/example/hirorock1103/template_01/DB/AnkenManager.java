@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Anken.JoinedData;
 import com.example.hirorock1103.template_01.Anken.MileStone;
+import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
 
 import java.util.ArrayList;
@@ -15,8 +16,12 @@ import java.util.Date;
 import java.util.List;
 
 public class AnkenManager extends MyDbHelper {
+
+    private Context context;
+
     public AnkenManager(Context context) {
         super(context);
+        this.context = context;
     }
 
     //select
@@ -345,6 +350,7 @@ public class AnkenManager extends MyDbHelper {
                 JoinedData.AnkenHasMileStone hasMilestone = new JoinedData.AnkenHasMileStone();
                 hasMilestone.setAnkenId(anken.getId());
                 hasMilestone.setAnkenName(anken.getAnkenName());
+                hasMilestone.setAnkenTypeName(anken.getAnkenTypeName());
                 hasMilestone.setMileStonesList(mileStonesList);
                 list.add(hasMilestone);
 
@@ -356,6 +362,40 @@ public class AnkenManager extends MyDbHelper {
         return list;
 
     }
+
+
+    public List<JoinedData.AnkenHasTask> getAnkenHasTask(){
+
+        TaskManager taskManager = new TaskManager(context);
+
+        List<JoinedData.AnkenHasTask> list = new ArrayList<>();
+
+        List<Anken> ankenList = this.getList();
+
+        for(Anken anken : ankenList){
+
+            List<Task> taskList = new ArrayList<>();
+
+            taskList = taskManager.getListByAnkenId(anken.getId());
+
+            if(taskList.size() > 0){
+                JoinedData.AnkenHasTask hasTask = new JoinedData.AnkenHasTask();
+
+                //set data
+                hasTask.setAnkenId(anken.getId());
+                hasTask.setTaskList(taskList);
+                hasTask.setAnkenName(anken.getAnkenName());
+
+            }
+
+
+
+
+        }
+
+        return list;
+    }
+
 
     //get milestones
     public MileStone getMilestoneByMileStoneId(int milestone){

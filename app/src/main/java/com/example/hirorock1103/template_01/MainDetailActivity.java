@@ -364,8 +364,20 @@ public class MainDetailActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainDetailActivity.this, MainActivityExtendsList.class);
+                intent.putExtra("fragTypeName", "mileStone");
                 intent.putExtra("ankenId", ankenId);
                 startActivity(intent);
+            }
+        });
+
+        taskExtends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainDetailActivity.this, MainActivityExtendsList.class);
+                intent.putExtra("fragTypeName", "task");
+                intent.putExtra("ankenId", ankenId);
+                startActivity(intent);
+
             }
         });
 

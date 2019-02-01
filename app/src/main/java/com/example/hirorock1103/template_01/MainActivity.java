@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         taskListTitle = findViewById(R.id.task_list_title);
         radioCount = findViewById(R.id.radio_count);
         radioCountTitle = findViewById(R.id.radio_count_title);
-        
+
         firstRow = findViewById(R.id.first_row);
         firstRow.setOnClickListener(new View.OnClickListener() {
             @Override

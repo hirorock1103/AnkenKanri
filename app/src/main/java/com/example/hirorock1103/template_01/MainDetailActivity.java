@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Anken.MileStone;
+import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.DB.LearnManager;
@@ -91,7 +92,7 @@ public class MainDetailActivity extends AppCompatActivity
     TextView task_set_title;
     ImageView mileStoneExtends;
     ImageView taskExtends;
-    ImageView taskList;
+    ImageView btTaskList;
     private ConstraintLayout innerLayout;
 
     //when clicked
@@ -102,9 +103,17 @@ public class MainDetailActivity extends AppCompatActivity
 
     //
     private ImageView edit_mark;
+
+    //milestone list view
     private List<MileStone> list;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
+
+    //task list view
+    private List<Task> taskList;
+    private RecyclerView tasklistview;
+    private MyTaskAdapter taskAdapter;
+
     //private FloatingActionButton fab;
     private ImageView addMileStone;
     private ImageView addTaskStone;
@@ -171,7 +180,7 @@ public class MainDetailActivity extends AppCompatActivity
         mileStoneExtends = findViewById(R.id.img_milestone_extends);
         taskExtends = findViewById(R.id.img_task_extends);
         addTaskStone = findViewById(R.id.img_add_task);
-        taskList = findViewById(R.id.task_list);
+        btTaskList = findViewById(R.id.task_list);
 
 
         //
@@ -196,16 +205,28 @@ public class MainDetailActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.recycler_view);
         scroll = findViewById(R.id.scroll);
 
+        //tasklistview
+        tasklistview = findViewById(R.id.recycler_task_view);
+
         setListener();
 
         list = new ArrayList<>();
+        taskList = new ArrayList<>();
         //getMileStone
         list = ankenManager.getMilestoneByAnkenId(ankenId);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+        //set task recyclerview
+        taskList = taskManager.getListByAnkenId(ankenId);
+        taskAdapter = new MyTaskAdapter(taskList);
+        tasklistview.setLayoutManager(linearLayoutManager1);
+        tasklistview.setAdapter(taskAdapter);
 
 
-        //set recyclerView
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        //set recyclerView
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MyAdapter(list);
         recyclerView.setAdapter(adapter);
@@ -438,7 +459,7 @@ public class MainDetailActivity extends AppCompatActivity
         scroll.smoothScrollTo(0,0);
 
 
-        taskList.setOnClickListener(new View.OnClickListener() {
+        btTaskList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainDetailActivity.this, MainTaskActivity.class);
@@ -505,7 +526,6 @@ public class MainDetailActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public void noticeMilestoneResult() {
         //
@@ -546,10 +566,65 @@ public class MainDetailActivity extends AppCompatActivity
         list = ankenManager.getMilestoneByAnkenId(ankenId);
         adapter.setList(list);
         adapter.notifyDataSetChanged();
+
+        //task
+        taskList = taskManager.getListByAnkenId(ankenId);
+        taskAdapter.setList(taskList);
+        taskAdapter.notifyDataSetChanged();
+
+
+
     }
 
-    //
 
+    //RECYCLER VIEW FOR TASK
+    public class MyTaskViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView title;
+
+        public MyTaskViewHolder(@NonNull View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.title);
+        }
+    }
+
+    public class MyTaskAdapter extends RecyclerView.Adapter<MyTaskViewHolder>{
+
+        private List<Task> list;
+
+        MyTaskAdapter(List<Task> list){
+            this.list = list;
+        }
+
+        public void setList(List<Task> list){
+            this.list = list;
+        }
+        @NonNull
+        @Override
+        public MyTaskViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(MainDetailActivity.this).inflate(R.layout.item_row_4, viewGroup, false);
+            return new MyTaskViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyTaskViewHolder holder, int i) {
+
+            Task task = list.get(i);
+            try{
+                holder.title.setText(task.getTaskName());
+            }catch(Exception e){
+                Common.log(e.getMessage());
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+    }
+
+    //RECYCLER VIEW FOR MILE STONE
     public class TimeLineViewHolder extends RecyclerView.ViewHolder {
         public  TimelineView mTimelineView;
         TextView milestoneName;

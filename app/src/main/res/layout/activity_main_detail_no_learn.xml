@@ -913,6 +913,21 @@
 
 
 
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="20dp"
+                    style="@style/background_corner_radius_primary_dark"
+                    android:id="@+id/recycler_task_view"
+                    app:layout_constraintTop_toBottomOf="@id/progress4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    >
+
+                </android.support.v7.widget.RecyclerView>
+
+
             </android.support.constraint.ConstraintLayout>
 
             <!--&lt;!&ndash;learm&ndash;&gt;-->

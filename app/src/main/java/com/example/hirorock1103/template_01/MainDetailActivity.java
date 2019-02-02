@@ -135,7 +135,6 @@ public class MainDetailActivity extends AppCompatActivity
             setContentView(R.layout.activity_main_detail);
         }
 
-
         innerLayout = findViewById(R.id.inner_layout);
 
         ActionBar actionBar = getSupportActionBar();
@@ -152,90 +151,43 @@ public class MainDetailActivity extends AppCompatActivity
         ankenId = bundle.getInt("ankenId", 0);
 
 
-        //view
-        anken_title = findViewById(R.id.anken_title);
-        budget = findViewById(R.id.budget);
-        start = findViewById(R.id.start);
-        end = findViewById(R.id.end);
-        type = findViewById(R.id.type);
-        manDay = findViewById(R.id.man_day);
-        taskResult1 = findViewById(R.id.task_result1);
-        taskResult2 = findViewById(R.id.task_result2);
-        taskResult3 = findViewById(R.id.task_result3);
-        span = findViewById(R.id.span);
-        progress1_start = findViewById(R.id.progress1_start);
-        progress1_end = findViewById(R.id.progress1_end);
-        progress1 = findViewById(R.id.progress1);
-        progress2_start = findViewById(R.id.progress2_start);
-        progress2_end = findViewById(R.id.progress2_end);
-        progress2 = findViewById(R.id.progress2);
-        progress3_start = findViewById(R.id.progress3_start);
-        progress3_end = findViewById(R.id.progress3_end);
-        progress3 = findViewById(R.id.progress3);
-        progress4_start = findViewById(R.id.progress4_start);
-        progress4_end = findViewById(R.id.progress4_end);
-        progress4 = findViewById(R.id.progress4);
-        task_set_title = findViewById(R.id.task_set_title);
-        //add
-        mileStoneExtends = findViewById(R.id.img_milestone_extends);
-        taskExtends = findViewById(R.id.img_task_extends);
-        addTaskStone = findViewById(R.id.img_add_task);
-        btTaskList = findViewById(R.id.task_list);
-
-
-        //
-        taskArea = findViewById(R.id.task_area);
-        taskCount0 = findViewById(R.id.task_count_0);
-        taskCount1 = findViewById(R.id.task_count_1);
-
-        //開発中
-        if(PAGEMODE != "NOLEARN"){
-            learnArea = findViewById(R.id.learn_area);
-            learnCount0 = findViewById(R.id.learn_0);
-            learnCount1 = findViewById(R.id.learn_1);
-        }
-
         //setView
         setViews();
 
-        //buttons
-        //fab = findViewById(R.id.fab);
-        addMileStone = findViewById(R.id.img_add_milestone);
-        edit_mark = findViewById(R.id.edit_mark);
-        recyclerView = findViewById(R.id.recycler_view);
-        scroll = findViewById(R.id.scroll);
+        //setData
+        setData();
 
-        //tasklistview
-        tasklistview = findViewById(R.id.recycler_task_view);
-
+        //set listener
         setListener();
 
-        list = new ArrayList<>();
-        taskList = new ArrayList<>();
         //getMileStone
+        list = new ArrayList<>();
         list = ankenManager.getMilestoneByAnkenId(ankenId);
+
+        //set task recyclerview
+        taskList = new ArrayList<>();
+        taskList = taskManager.getListByAnkenId(ankenId);
+
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
-        //set task recyclerview
-        taskList = taskManager.getListByAnkenId(ankenId);
-        taskAdapter = new MyTaskAdapter(taskList);
-        tasklistview.setLayoutManager(linearLayoutManager1);
-        tasklistview.setAdapter(taskAdapter);
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         //set recyclerView
+        taskAdapter = new MyTaskAdapter(taskList);
+        tasklistview.setLayoutManager(linearLayoutManager1);
+        tasklistview.setAdapter(taskAdapter);
+
+        //set recyclerView
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MyAdapter(list);
         recyclerView.setAdapter(adapter);
-
-
+        
     }
 
-    private void setViews(){
-
+    //set data
+    private void setData(){
         Anken anken = ankenManager.getListByID(ankenId);
 
         //setAnken
@@ -282,7 +234,6 @@ public class MainDetailActivity extends AppCompatActivity
         result3str = (scheduledManday - resultManday) + "人日";
         taskResult3.setText(result3str);
 
-
         //progress1
         progress1_start.setText("start:" + (anken.getStartDate().isEmpty() ? "未セット" : anken.getStartDate()));
         progress1_end.setText("end:" +  (anken.getEndDate().isEmpty() ? "未セット" : anken.getEndDate()));
@@ -322,7 +273,6 @@ public class MainDetailActivity extends AppCompatActivity
         if(tmp2 >= tasktotal){
             progress2.setProgressTintList(ColorStateList.valueOf(Color.RED));
         }
-
 
         ////task infomation
         int c1 = taskManager.getEachCountByStatus( ankenId, 0);
@@ -386,6 +336,61 @@ public class MainDetailActivity extends AppCompatActivity
             p = "設定状況(0%)";
         }
         task_set_title.setText(p);
+
+    }
+
+    //set view
+    private void setViews(){
+
+        //view
+        anken_title = findViewById(R.id.anken_title);
+        budget = findViewById(R.id.budget);
+        start = findViewById(R.id.start);
+        end = findViewById(R.id.end);
+        type = findViewById(R.id.type);
+        manDay = findViewById(R.id.man_day);
+        taskResult1 = findViewById(R.id.task_result1);
+        taskResult2 = findViewById(R.id.task_result2);
+        taskResult3 = findViewById(R.id.task_result3);
+        span = findViewById(R.id.span);
+        progress1_start = findViewById(R.id.progress1_start);
+        progress1_end = findViewById(R.id.progress1_end);
+        progress1 = findViewById(R.id.progress1);
+        progress2_start = findViewById(R.id.progress2_start);
+        progress2_end = findViewById(R.id.progress2_end);
+        progress2 = findViewById(R.id.progress2);
+        progress3_start = findViewById(R.id.progress3_start);
+        progress3_end = findViewById(R.id.progress3_end);
+        progress3 = findViewById(R.id.progress3);
+        progress4_start = findViewById(R.id.progress4_start);
+        progress4_end = findViewById(R.id.progress4_end);
+        progress4 = findViewById(R.id.progress4);
+        task_set_title = findViewById(R.id.task_set_title);
+        //add
+        mileStoneExtends = findViewById(R.id.img_milestone_extends);
+        taskExtends = findViewById(R.id.img_task_extends);
+        addTaskStone = findViewById(R.id.img_add_task);
+        btTaskList = findViewById(R.id.task_list);
+
+        //
+        taskArea = findViewById(R.id.task_area);
+        taskCount0 = findViewById(R.id.task_count_0);
+        taskCount1 = findViewById(R.id.task_count_1);
+
+        //開発中
+        if(PAGEMODE != "NOLEARN"){
+            learnArea = findViewById(R.id.learn_area);
+            learnCount0 = findViewById(R.id.learn_0);
+            learnCount1 = findViewById(R.id.learn_1);
+        }
+
+        addMileStone = findViewById(R.id.img_add_milestone);
+        edit_mark = findViewById(R.id.edit_mark);
+        recyclerView = findViewById(R.id.recycler_view);
+        scroll = findViewById(R.id.scroll);
+
+        //tasklistview
+        tasklistview = findViewById(R.id.recycler_task_view);
 
     }
 
@@ -611,7 +616,7 @@ public class MainDetailActivity extends AppCompatActivity
 
             Task task = list.get(i);
             try{
-                holder.title.setText(task.getTaskName());
+                holder.title.setText("(" + (i+1) + ") " + task.getTaskName());
             }catch(Exception e){
                 Common.log(e.getMessage());
             }

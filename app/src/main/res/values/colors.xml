@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <!--<color name="colorAccent">#D81B60</color>-->
     <color name="colorAccent">#ff7b00</color>
+    <color name="colorAlert">#ff0000</color>
     <color name="layoutColor">#FAFAFA</color>
 
 </resources>

@@ -267,6 +267,32 @@ public class TaskManager extends MyDbHelper {
 
     }
 
+    //getTaskHoursByAnkenId
+    public float getTaskHoursByAnkenId(int ankenId){
+
+        float mandays = 0;
+
+        String query = "SELECT SUM(" +TASK_COLUMN_MANDAYS+ ") as total_mandays FROM " + TABLE_TASK
+                + " WHERE " + TASK_COLUMN_ANKENID + " = " + ankenId;
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            mandays = c.getFloat(c.getColumnIndex("total_mandays"));
+
+            c.moveToNext();
+
+        }
+
+
+        return mandays;
+
+    }
+
 
     //select by id
     public Task getListById(int id){

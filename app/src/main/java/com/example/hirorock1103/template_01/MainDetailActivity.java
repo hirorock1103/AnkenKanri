@@ -1,6 +1,7 @@
 package com.example.hirorock1103.template_01;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -84,6 +85,10 @@ public class MainDetailActivity extends AppCompatActivity
     TextView progress3_start;
     TextView progress3_end;
     ProgressBar progress3;
+    TextView progress4_start;
+    TextView progress4_end;
+    ProgressBar progress4;
+    TextView task_set_title;
     ImageView mileStoneExtends;
     ImageView taskExtends;
     private ConstraintLayout innerLayout;
@@ -157,6 +162,10 @@ public class MainDetailActivity extends AppCompatActivity
         progress3_start = findViewById(R.id.progress3_start);
         progress3_end = findViewById(R.id.progress3_end);
         progress3 = findViewById(R.id.progress3);
+        progress4_start = findViewById(R.id.progress4_start);
+        progress4_end = findViewById(R.id.progress4_end);
+        progress4 = findViewById(R.id.progress4);
+        task_set_title = findViewById(R.id.task_set_title);
         //add
         mileStoneExtends = findViewById(R.id.img_milestone_extends);
         taskExtends = findViewById(R.id.img_task_extends);
@@ -269,6 +278,11 @@ public class MainDetailActivity extends AppCompatActivity
         progress1.setMax(span);
         progress1.setProgress(progressDay);
 
+        if(progressDay >= span){
+            progress1.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        }
+
+
         //progress2
         int tmp1 = taskManager.getEachCountByStatus(ankenId, 0);
         int tmp2 = taskManager.getEachCountByStatus(ankenId, 1);
@@ -280,6 +294,10 @@ public class MainDetailActivity extends AppCompatActivity
 
         progress2.setMax(tasktotal);
         progress2.setProgress(tmp2);
+
+        if(tmp2 >= tasktotal){
+            progress2.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        }
 
 
         ////task infomation
@@ -311,6 +329,40 @@ public class MainDetailActivity extends AppCompatActivity
         progress3.setMax((int)allHours);
         progress3.setProgress((int)usageHours);
 
+        if((int)usageHours >= (int)allHours){
+            progress3.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        }
+
+
+        //progress4
+        /**
+         * 予定工数に対する設定タスクの工数の割合を表示
+         */
+        //allhours
+        //taskAllHours
+        float taskAllHours = taskManager.getTaskHoursByAnkenId(ankenId);
+        progress4_start.setText("設定タスク工数(人日):" + taskAllHours);
+        progress4_end.setText("予定工数(人日):" + anken.getManDay());
+
+        progress4.setMax((int)anken.getManDay());
+        progress4.setProgress((int)taskAllHours);
+
+        if((int)taskAllHours >= (int)anken.getManDay()){
+            progress4.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        }
+
+
+        //割合
+        String p;
+        if(anken.getManDay() > 0){
+
+            float ans = (taskAllHours / anken.getManDay()) * 100;
+
+            p = "設定状況(" + ( String.format("%.1f", ans))  + "%)";
+        }else{
+            p = "設定状況(0%)";
+        }
+        task_set_title.setText(p);
 
     }
 

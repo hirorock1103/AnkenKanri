@@ -40,7 +40,6 @@ public class FragTaskList extends Fragment {
     private int taskId;
 
     private RecyclerView recyclerView;
-    private FloatingActionButton fab;
     private MyAdapter adapter;
 
     //manager
@@ -74,7 +73,6 @@ public class FragTaskList extends Fragment {
 
         //setview
         recyclerView = view.findViewById(R.id.recycler_view);
-        fab = view.findViewById(R.id.fab);
 
         setListener();
 
@@ -95,17 +93,7 @@ public class FragTaskList extends Fragment {
     }
 
     private void setListener(){
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogTask dialogTask = new DialogTask();
-                Bundle bundle = new Bundle();
-                bundle.putInt("ankenId", ankenId);
-                Common.log("ankenId" + ankenId);
-                dialogTask.setArguments(bundle);
-                dialogTask.show(getFragmentManager(),"dialogTask");
-            }
-        });
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements  View.OnCreateContextMenuListener{

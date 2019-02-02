@@ -91,6 +91,7 @@ public class MainDetailActivity extends AppCompatActivity
     TextView task_set_title;
     ImageView mileStoneExtends;
     ImageView taskExtends;
+    ImageView taskList;
     private ConstraintLayout innerLayout;
 
     //when clicked
@@ -170,6 +171,7 @@ public class MainDetailActivity extends AppCompatActivity
         mileStoneExtends = findViewById(R.id.img_milestone_extends);
         taskExtends = findViewById(R.id.img_task_extends);
         addTaskStone = findViewById(R.id.img_add_task);
+        taskList = findViewById(R.id.task_list);
 
 
         //
@@ -258,6 +260,7 @@ public class MainDetailActivity extends AppCompatActivity
         String result3str = "";
         result3str = (scheduledManday - resultManday) + "人日";
         taskResult3.setText(result3str);
+
 
         //progress1
         progress1_start.setText("start:" + (anken.getStartDate().isEmpty() ? "未セット" : anken.getStartDate()));
@@ -351,7 +354,6 @@ public class MainDetailActivity extends AppCompatActivity
             progress4.setProgressTintList(ColorStateList.valueOf(Color.RED));
         }
 
-
         //割合
         String p;
         if(anken.getManDay() > 0){
@@ -407,7 +409,7 @@ public class MainDetailActivity extends AppCompatActivity
                 bundle.putInt("ankenId", ankenId);
                 Common.log("ankenId" + ankenId);
                 dialogTask.setArguments(bundle);
-                dialogTask.show(getSupportFragmentManager(),"dialogTask");
+                dialogTask.show(getSupportFragmentManager(),"taskDialog");
 
             }
         });
@@ -436,7 +438,7 @@ public class MainDetailActivity extends AppCompatActivity
         scroll.smoothScrollTo(0,0);
 
 
-        taskArea.setOnClickListener(new View.OnClickListener() {
+        taskList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainDetailActivity.this, MainTaskActivity.class);
@@ -491,6 +493,15 @@ public class MainDetailActivity extends AppCompatActivity
             dialogAnken = (DialogAnken)fragment;
             dialogAnken.setText(date, tag);
         }
+
+        fragment = getSupportFragmentManager().findFragmentByTag("taskDialog");
+
+        DialogTask taskDialog;
+        if(fragment != null ){
+            taskDialog = (DialogTask)fragment;
+            taskDialog.setText(date);
+        }
+
 
     }
 

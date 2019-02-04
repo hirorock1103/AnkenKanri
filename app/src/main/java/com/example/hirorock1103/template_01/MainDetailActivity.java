@@ -150,7 +150,6 @@ public class MainDetailActivity extends AppCompatActivity
         Bundle bundle = intent.getExtras();
         ankenId = bundle.getInt("ankenId", 0);
 
-
         //setView
         setViews();
 
@@ -177,15 +176,19 @@ public class MainDetailActivity extends AppCompatActivity
         //set recyclerView
         taskAdapter = new MyTaskAdapter(taskList);
         tasklistview.setLayoutManager(linearLayoutManager1);
+        tasklistview.setHasFixedSize(true);
         tasklistview.setAdapter(taskAdapter);
 
         //set recyclerView
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MyAdapter(list);
         recyclerView.setAdapter(adapter);
-        
+
     }
 
+    /**
+     * set data
+     */
     //set data
     private void setData(){
         Anken anken = ankenManager.getListByID(ankenId);
@@ -488,6 +491,17 @@ public class MainDetailActivity extends AppCompatActivity
 
     }
 
+    //reload recycler view
+    public void reloadMileStoneRecyclerView(){
+
+        list = ankenManager.getMilestoneByAnkenId(ankenId);
+        adapter.setList(list);
+        recyclerView.setAdapter(adapter);
+
+        View v = findViewById(android.R.id.content);
+        Snackbar.make(v, "milestoneが更新されました。",Snackbar.LENGTH_SHORT).show();
+    }
+
     //back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -500,6 +514,10 @@ public class MainDetailActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * action from fragment result
+     */
 
     @Override
     public void getDate(String date, String tag) {
@@ -533,26 +551,19 @@ public class MainDetailActivity extends AppCompatActivity
 
     @Override
     public void noticeMilestoneResult() {
-        //
-        reloadRecyclerView();
-    }
-
-    public void reloadRecyclerView(){
-        list = ankenManager.getMilestoneByAnkenId(ankenId);
-        adapter.setList(list);
-        //adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
-        View v = findViewById(android.R.id.content);
-        Snackbar.make(v, "milestoneが更新されました。",Snackbar.LENGTH_SHORT).show();
+        //mile stone
+        reloadMileStoneRecyclerView();
     }
 
     @Override
     public void NoticeAnkenResult() {
 
-        //reload view
+        Common.log("NoticeAnkenResult");
         setViews();
+        setData();
         View view = findViewById(android.R.id.content);
         Snackbar.make(view, "更新が完了しました。",Snackbar.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -560,8 +571,22 @@ public class MainDetailActivity extends AppCompatActivity
 
         Common.log("noticeDialog");
 
+        setData();
+
+        //task
+        taskList = taskManager.getListByAnkenId(ankenId);
+        taskAdapter.setList(taskList);
+        taskAdapter.notifyDataSetChanged();
+
+        View view = findViewById(android.R.id.content);
+        Snackbar.make(view, "更新が完了しました。",Snackbar.LENGTH_SHORT).show();
+
     }
 
+
+    /**
+     * Others
+     */
 
     @Override
     protected void onResume() {
@@ -577,19 +602,18 @@ public class MainDetailActivity extends AppCompatActivity
         taskAdapter.setList(taskList);
         taskAdapter.notifyDataSetChanged();
 
-
-
     }
-
 
     //RECYCLER VIEW FOR TASK
     public class MyTaskViewHolder extends RecyclerView.ViewHolder{
 
         private TextView title;
+        private TextView endDate;
 
         public MyTaskViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
+            endDate = itemView.findViewById(R.id.end_date);
         }
     }
 
@@ -616,10 +640,29 @@ public class MainDetailActivity extends AppCompatActivity
 
             Task task = list.get(i);
             try{
+
+                //set title
                 holder.title.setText("(" + (i+1) + ") " + task.getTaskName());
+
+                //set date
+                String dateMsg;
+                int diff = 0;
+                if(task.getEndDate() != null){
+                    diff = Common.getDateDiff(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2), task.getEndDate(), Common.DATE_FORMAT_SAMPLE_2);
+                }
+                if(diff < 0){
+                    dateMsg = diff + "日が経過！";
+                }else if(diff == 0){
+                    dateMsg = "本日期限！";
+                }else{
+                    dateMsg = "あと" + diff + "日";
+                }
+
+                holder.endDate.setText(task.getEndDate() + " (" + dateMsg + ")");
             }catch(Exception e){
                 Common.log(e.getMessage());
             }
+
 
         }
 
@@ -718,7 +761,6 @@ public class MainDetailActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -745,7 +787,7 @@ public class MainDetailActivity extends AppCompatActivity
                 Common.log("option2 is clicd");
                 ankenManager.deleteMilestone(milestoneId);
                 View view = findViewById(android.R.id.content);
-                reloadRecyclerView();
+                reloadMileStoneRecyclerView();
                 Snackbar.make(view, "削除しました", Snackbar.LENGTH_SHORT).show();
                 return true;
             default:

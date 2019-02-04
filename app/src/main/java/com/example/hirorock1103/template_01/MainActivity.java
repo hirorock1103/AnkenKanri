@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
+import com.example.hirorock1103.template_01.Anken.AnkenAdviser;
 import com.example.hirorock1103.template_01.Anken.JoinedData;
 import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
@@ -49,9 +50,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView radioCountTitle;
     private RadioGroup radioGroup;
 
-    //
+    //task list
     private RecyclerView recyclerView;
     private MyAdapter adapter;
+
+    //comment list
+    private RecyclerView commentRecyclerView;
+    private MyCommentAdapter commentAdapter;
+
     private TaskManager taskManager;
     private AnkenManager ankenManager;
     List<JoinedData.ValidTask> validTaskList;
@@ -74,6 +80,55 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Recyceler view
      */
+
+    //comment list
+    public class MyCommentHolder extends RecyclerView.ViewHolder{
+
+        TextView comment;
+
+        public MyCommentHolder(@NonNull View itemView) {
+            super(itemView);
+            comment = itemView.findViewById(R.id.text_user_comment);
+        }
+    }
+
+    public class MyCommentAdapter extends RecyclerView.Adapter<MyCommentHolder>{
+
+        private List<String> list;
+
+        public MyCommentAdapter(List<String> list){
+            this.list = list;
+        }
+
+        public void setList(List<String> list){
+            this.list = list;
+        }
+
+        @NonNull
+        @Override
+        public MyCommentHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_comment,viewGroup,false);
+            return new MyCommentHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyCommentHolder holder, int i) {
+
+            String comment = list.get(i);
+            if(comment != null){
+                holder.comment.setText(comment);
+            }
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+    }
+
+    //task list
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView taskInfo;
@@ -267,6 +322,27 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+
+        //AnkenAdviser
+        AnkenAdviser ankenAdviser = new AnkenAdviser(this);
+        ankenAdviser.setMsgAnkenWhichIsNotReady();
+        List<String> advisersMessage = ankenAdviser.getMessageList();
+
+        commentRecyclerView = findViewById(R.id.recycler_comment_view);
+        commentAdapter = new MyCommentAdapter(advisersMessage);
+
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
+        layoutManager2.setSmoothScrollbarEnabled(true);
+        layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
+
+        commentRecyclerView.setHasFixedSize(true);
+        commentRecyclerView.setLayoutManager(layoutManager2);
+        commentRecyclerView.setAdapter(commentAdapter);
+
+
+
+
 
     }
 

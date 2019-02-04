@@ -875,7 +875,7 @@
                     android:text="消費"
                     android:layout_marginTop="8dp"
                     android:id="@+id/progress4_start"
-                    app:layout_constraintLeft_toLeftOf="@id/progress4"
+                    app:layout_constraintLeft_toLeftOf="@id/task_set_title"
                     app:layout_constraintTop_toBottomOf="@id/task_set_title"
                     />
 
@@ -895,6 +895,7 @@
                     android:layout_height="wrap_content"
                     android:text="設定状況"
                     android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/task_set_title"
                     android:layout_marginRight="5dp"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -905,6 +906,8 @@
                     android:id="@+id/progress4"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_height="16dp"
                     android:visibility="visible"
                     app:layout_constraintLeft_toLeftOf="@id/progress4_start"
@@ -912,17 +915,15 @@
                     tools:visibility="visible" />
 
 
-
                 <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginTop="20dp"
-                    style="@style/background_corner_radius_primary_dark"
                     android:id="@+id/recycler_task_view"
-                    app:layout_constraintTop_toBottomOf="@id/progress4"
+                    style="@style/background_corner_radius_primary_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progress4"
                     >
 
                 </android.support.v7.widget.RecyclerView>

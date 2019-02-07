@@ -26,52 +26,82 @@ public class AnkenAdviser {
     }
 
 
-    //どの案件が一番やばい？
-
-    //スタートするけど全然準備できてない案件は？
-    public List<Anken> setMsgAnkenWhichIsNotReady(){
+    //案件ごとの問題を取得する
+    public void setMsgEachAnken(){
 
         List<Anken> list = new ArrayList<>();
 
-        //案件のstartdateが〇日より前のものは除外
         //案件の状態が完了になっているものは除外
         AnkenManager ankenManager = new AnkenManager(context);
         list = ankenManager.getListByIsComplete(0);
 
-        for(int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++){
+
             Anken anken = list.get(i);
-            StringBuilder builder = new StringBuilder();
+
+            //開始日が7日以上の案件は除外する
             if(anken.getStartDate() != null && anken.getStartDate().isEmpty() == false){
                 int diff = Common.getDateDiff(Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2) , anken.getStartDate(), Common.DATE_FORMAT_SAMPLE_2);
-                if(diff >= 0){
-                    //開始している案件
-                    builder.append(anken.getAnkenName() + "は既に開始している案件です。" );
 
-
-                }else if(diff <= READYDATEDIFF){
-                    //調査対象の案件
-                    builder.append(anken.getAnkenName() + "は調査対象の案件です。" );
-                }else{
-                    //対象外なので除外
-                    list.remove(i);
+                if(diff > 7){
+                    continue;
                 }
-            }else{
-                builder.append(anken.getAnkenName() + "には開始日がセットされていないませんよ！" );
+
+                List<String> errList = this.getErrorMsg(anken.getId());
+
+                StringBuilder builder = new StringBuilder();
+                if(errList.size() > 0){
+                    builder.append("『" + anken.getAnkenName() + "』に関してのエラー\n");
+                    int n = 1;
+                    for (String err : errList){
+                        builder.append("(" + n + ") " + err);
+                    }
+
+                    msg.add(builder.toString());
+                }
+
             }
 
-            msg.add(builder.toString());
 
         }
 
-        //分析 -- 予定工数に対する、設定タスクの割合が 〇〇%以下
-        if(list.size() == 0){
-            msg.add("準備できていない案件はありませんよ！順調です！");
-        }
 
-
-        return list;
 
     }
+
+    public List<String> getErrorMsg(int ankenId){
+
+        List<String> errList = new ArrayList<>();
+
+        AnkenManager ankenManager = new AnkenManager(context);
+        TaskManager taskManager = new TaskManager(context);
+        Anken anken = ankenManager.getListByID(ankenId);
+        List<Task> taskList = taskManager.getListByAnkenId(ankenId);
+        //List<TaskHistory> taskHistoryList = taskManager.getTaskHistoryByTaskId()
+
+        //もうすぐ案件スタートするけどタスクのセット状況が５０パーセント以下
+        int taskSetSituation = 0;//予定工数とタスク工数
+        float ankenManday = anken.getManDay();
+        float setTaskManday = 0;
+        for(Task task : taskList){
+            setTaskManday += task.getManDays();
+        }
+
+        if(ankenManday > 0){
+            taskSetSituation = (int)((setTaskManday / ankenManday) * 100);
+            if(taskSetSituation < 50){
+                errList.add("タスクの設定状況が" + taskSetSituation + "%です！案件開始日までにタスクを設定する必要があります！");
+            }else if(taskSetSituation > 100){
+                errList.add("タスクの設定状況が100%を超えています！タスクの工数を見直すか案件の工数を見直す必要があります！");
+            }
+        }
+
+
+        return errList;
+
+
+    }
+
 
     //
     public List<String> getMessageList(){

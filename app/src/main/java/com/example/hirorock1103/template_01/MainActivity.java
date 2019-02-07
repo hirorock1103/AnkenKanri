@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     radioCount.setText(String.valueOf(validTaskList.size()));
                     radioCountTitle.setText("件Hit!");
                 }else{
-                    radioCount.setText("タスクの登録がありません。");
+                    radioCount.setText("対象のタスクは存在しません。");
                     radioCountTitle.setText("");
                 }
 
@@ -326,7 +326,9 @@ public class MainActivity extends AppCompatActivity {
 
         //AnkenAdviser
         AnkenAdviser ankenAdviser = new AnkenAdviser(this);
-        ankenAdviser.setMsgAnkenWhichIsNotReady();
+        //ankenAdviser.setMsgAnkenWhichIsNotReady();
+        ankenAdviser.setMsgEachAnken();
+
         List<String> advisersMessage = ankenAdviser.getMessageList();
 
         commentRecyclerView = findViewById(R.id.recycler_comment_view);

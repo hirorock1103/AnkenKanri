@@ -97,7 +97,6 @@ public class MainDetailActivity extends AppCompatActivity
     ImageView taskExtends;
     ImageView btTaskList;
     Switch switch1;
-    private ConstraintLayout innerLayout;
 
     //when clicked
     private int milestoneId;
@@ -138,8 +137,6 @@ public class MainDetailActivity extends AppCompatActivity
         }else{
             setContentView(R.layout.activity_main_detail);
         }
-
-        innerLayout = findViewById(R.id.inner_layout);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -182,6 +179,7 @@ public class MainDetailActivity extends AppCompatActivity
         tasklistview.setLayoutManager(linearLayoutManager1);
         tasklistview.setHasFixedSize(true);
         tasklistview.setAdapter(taskAdapter);
+
 
         //set recyclerView
         recyclerView.setLayoutManager(linearLayoutManager);

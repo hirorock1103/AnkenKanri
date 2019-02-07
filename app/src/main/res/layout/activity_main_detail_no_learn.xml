@@ -31,6 +31,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 />
+
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="終了フラグ"
+                android:textSize="@dimen/Small"
+                android:background="@null"
+                android:layout_marginLeft="3dp"
+                app:layout_constraintLeft_toRightOf="@id/anken_title"
+                app:layout_constraintTop_toTopOf="@id/anken_title"
+                app:layout_constraintBottom_toBottomOf="@id/anken_title"
+                 />
+
+
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"

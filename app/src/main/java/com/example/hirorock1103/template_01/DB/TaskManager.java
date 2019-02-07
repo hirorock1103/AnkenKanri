@@ -201,7 +201,7 @@ public class TaskManager extends MyDbHelper {
 
         List<Task> list = new ArrayList<>();
 
-        String query = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_COLUMN_ANKENID + " = " + ankenId + " ORDER BY " + TASK_COLUMN_ID + " ASC ";
+        String query = "SELECT * FROM " + TABLE_TASK + " WHERE " + TASK_COLUMN_ANKENID + " = " + ankenId + " ORDER BY " + " ( " + TASK_COLUMN_STATUS + " AND " + TASK_COLUMN_ID + ")ASC ";
         SQLiteDatabase db = getWritableDatabase();
         Cursor c = db.rawQuery(query, null);
 

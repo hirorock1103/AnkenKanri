@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -21,10 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
@@ -93,6 +96,7 @@ public class MainDetailActivity extends AppCompatActivity
     ImageView mileStoneExtends;
     ImageView taskExtends;
     ImageView btTaskList;
+    Switch switch1;
     private ConstraintLayout innerLayout;
 
     //when clicked
@@ -192,6 +196,32 @@ public class MainDetailActivity extends AppCompatActivity
     //set data
     private void setData(){
         Anken anken = ankenManager.getListByID(ankenId);
+
+        //switch
+        switch1.setChecked(anken.getComplete() == 1 ? true : false);
+        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //checkがtrueになればdb更新
+                Anken anken = ankenManager.getListByID(ankenId);
+                if(isChecked == true){
+                    anken.setComplete(1);
+                }else{
+                    anken.setComplete(0);
+                }
+                long result = ankenManager.update(anken);
+
+                if(result > 0){
+                    Snackbar.make(buttonView, "状態を変更しました", Snackbar.LENGTH_SHORT).show();
+                }else{
+                    Snackbar.make(buttonView, "更新に失敗しました", Snackbar.LENGTH_SHORT).show();
+                }
+
+                setViews();
+                setData();
+
+            }
+        });
 
         //setAnken
         anken_title.setText(anken.getAnkenName());
@@ -369,6 +399,7 @@ public class MainDetailActivity extends AppCompatActivity
         progress4_end = findViewById(R.id.progress4_end);
         progress4 = findViewById(R.id.progress4);
         task_set_title = findViewById(R.id.task_set_title);
+        switch1 = findViewById(R.id.switch1);
         //add
         mileStoneExtends = findViewById(R.id.img_milestone_extends);
         taskExtends = findViewById(R.id.img_task_extends);
@@ -612,11 +643,13 @@ public class MainDetailActivity extends AppCompatActivity
 
         private TextView title;
         private TextView endDate;
+        private CardView card;
 
         public MyTaskViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             endDate = itemView.findViewById(R.id.end_date);
+            card = itemView.findViewById(R.id.card);
         }
     }
 
@@ -645,7 +678,8 @@ public class MainDetailActivity extends AppCompatActivity
             try{
 
                 //set title
-                holder.title.setText("(" + (i+1) + ") " + task.getTaskName());
+                String title = task.getStatus() == 1 ? "【終了】" + task.getTaskName() : task.getTaskName();
+                holder.title.setText("(" + (i+1) + ") " + title);
 
                 //set date
                 String dateMsg;

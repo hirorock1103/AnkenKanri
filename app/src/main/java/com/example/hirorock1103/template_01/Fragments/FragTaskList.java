@@ -189,13 +189,19 @@ public class FragTaskList extends Fragment {
 
             holder.taskNo.setText("タスクNo."+String.valueOf(task.getId()));
 
+            String title = task.getStatus() == 1 ? "【終了】" + task.getTaskName() : task.getTaskName();
+            holder.taskName.setText(title);
+
+            /*
             if(task.getStatus() == 1){
                 //finish
                 holder.taskName.setText(task.getTaskName() + "(対応済み)" );
                 holder.card.setCardBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             }else{
                 holder.taskName.setText(task.getTaskName());
+                //holder.card.setCardBackgroundColor(Color.WHITE);
             }
+            */
 
 
 
@@ -292,11 +298,20 @@ public class FragTaskList extends Fragment {
         //super.onCreateContextMenu(menu, v, menuInfo);
 
         if(v.getTag() == null){
+
             Common.log("gettag is null");
             Snackbar.make(v, "タスクIDの取得に失敗しました。",Snackbar.LENGTH_SHORT).show();
+
         }else{
+
             selectedTaskId = Integer.parseInt(v.getTag().toString());
-            getActivity().getMenuInflater().inflate(R.menu.option_menu_7, menu);
+            Task task = taskManager.getListById(selectedTaskId);
+            if(task.getStatus() == 1){
+                getActivity().getMenuInflater().inflate(R.menu.option_menu_8, menu);
+            }else{
+                getActivity().getMenuInflater().inflate(R.menu.option_menu_7, menu);
+            }
+
         }
 
     }
@@ -318,11 +333,11 @@ public class FragTaskList extends Fragment {
                 long insertId = taskManager.update(task);
 
                 if(insertId > 0){
-                    Snackbar.make(view, "終了済みにセットしました", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "状態を終了済みに変更しました", Snackbar.LENGTH_SHORT).show();
 
                     list = taskManager.getListByAnkenId(ankenId);
                     adapter.setList(list);
-                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
 
 
                 }else{
@@ -344,7 +359,28 @@ public class FragTaskList extends Fragment {
                     return true;
                 }
                 adapter.setList(list);
-                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
+
+                return true;
+
+            case R.id.option3:
+
+                //update status = 0
+                Task task2 = taskManager.getListById(selectedTaskId);
+                task2.setStatus(0);
+                long insertId2 = taskManager.update(task2);
+
+                if(insertId2 > 0){
+                    Snackbar.make(view, "終了済みから状態を元に戻しました。", Snackbar.LENGTH_SHORT).show();
+
+                    list = taskManager.getListByAnkenId(ankenId);
+                    adapter.setList(list);
+                    recyclerView.setAdapter(adapter);
+
+
+                }else{
+                    Snackbar.make(view, "更新に失敗しました。", Snackbar.LENGTH_SHORT).show();
+                }
 
                 return true;
 

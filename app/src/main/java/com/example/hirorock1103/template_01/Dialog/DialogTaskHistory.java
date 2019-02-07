@@ -3,6 +3,7 @@ package com.example.hirorock1103.template_01.Dialog;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,9 +38,21 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
     TextView pickdate;
     TextView manHour;
 
+    //listener
+    private TaskHistoryListener listener;
 
     //manager
     private TaskManager taskManager;
+
+    public interface TaskHistoryListener{
+        public void noticeTaskHistoryResult();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (TaskHistoryListener)context;
+    }
 
     public void setText(String date){
         targetDate.setText(date);
@@ -166,6 +179,7 @@ public class DialogTaskHistory extends AppCompatDialogFragment {
 
                             //登録できてれば
                             if(insertId > 0){
+                                listener.noticeTaskHistoryResult();
                                 Snackbar.make(view, msg,  Snackbar.LENGTH_SHORT).show();
                             }else{
                                 Snackbar.make(view, "登録に失敗しました。",  Snackbar.LENGTH_SHORT).show();

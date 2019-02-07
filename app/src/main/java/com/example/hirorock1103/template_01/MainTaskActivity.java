@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +19,16 @@ import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Dialog.DialogTask;
+import com.example.hirorock1103.template_01.Dialog.DialogTaskHistory;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
 import com.example.hirorock1103.template_01.Fragments.FragTaskList;
 import com.example.hirorock1103.template_01.R;
 
-public class MainTaskActivity extends AppCompatActivity implements DialogTask.DialogTaskListener,DialogDatePick.DateListener {
+import java.util.List;
 
-    //view
+public class MainTaskActivity extends AppCompatActivity
+        implements DialogTask.DialogTaskListener,DialogDatePick.DateListener,DialogTaskHistory.TaskHistoryListener, FragTaskList.FragTaskListener {
 
-    private MyPagerAdapter adapter;
-    private ViewPager pager;
 
     private int ankenId;
     private AnkenManager ankenManager;
@@ -35,7 +36,7 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_task);
+        setContentView(R.layout.acticity_main_task2);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -62,13 +63,22 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
     }
 
     private void setViews(){
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
-        pager = findViewById(R.id.viewPager);
-        pager.setOffscreenPageLimit(2);
-        pager.setAdapter(adapter);
 
-        TabLayout layout = findViewById(R.id.tabLayout);
-        layout.setupWithViewPager(pager);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        List<Fragment> fraglist = getSupportFragmentManager().getFragments();
+
+        for(Fragment f : fraglist){
+            transaction.remove(f);
+        }
+
+        Fragment fragment = new FragTaskList();
+        Bundle bundle = new Bundle();
+        bundle.putInt("ankenId", ankenId);
+        fragment.setArguments(bundle);
+        transaction.add(R.id.frame, fragment);
+        transaction.commit();
+
     }
 
     @Override
@@ -79,58 +89,35 @@ public class MainTaskActivity extends AppCompatActivity implements DialogTask.Di
 
     @Override
     public void getDate(String date, String tag) {
+
+        Common.log(date);
+
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("dialogTask");
         if(fragment != null){
             Common.log("getDate");
             DialogTask dialogTask = (DialogTask)fragment;
             dialogTask.setText(date);
         }
+
+        fragment = getSupportFragmentManager().findFragmentByTag("dialogTaskHistory");
+        if(fragment != null){
+            Common.log("getDate");
+            DialogTaskHistory dialogTask = (DialogTaskHistory)fragment;
+            dialogTask.setText(date);
+        }
+
     }
 
-
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-
-        private CharSequence[] tabTitles = Task.getStatusArray();
-
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            switch (i) {
-                case 0:
-                    Fragment fragment1 = new FragTaskList();
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putInt("ankenId", ankenId);
-                    bundle1.putInt("dataType", 0);
-                    fragment1.setArguments(bundle1);
-                    return fragment1;
-                case 1:
-                    Fragment fragment2 = new FragTaskList();
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putInt("ankenId", ankenId);
-                    bundle2.putInt("dataType", 1);
-                    fragment2.setArguments(bundle2);
-                    return fragment2;
-
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return tabTitles.length;
-        }
+    @Override
+    public void noticeTaskHistoryResult() {
+        setViews();
     }
+
+    @Override
+    public void noticeFragTask() {
+        setViews();
+    }
+
 
 
     //back button

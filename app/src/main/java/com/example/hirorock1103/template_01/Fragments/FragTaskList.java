@@ -2,6 +2,7 @@ package com.example.hirorock1103.template_01.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -32,12 +35,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.net.ssl.SNIHostName;
+
 public class FragTaskList extends Fragment {
 
-    private int ankenId;
-    private int dataType;
+    private static final int MENU1 = 1;
+    private static final int MENU2 = 2;
+    private static final int MENU3 = 3;
 
-    private int taskId;
+    private int ankenId;
+
+    private int selectedTaskId;
 
     private RecyclerView recyclerView;
     private MyAdapter adapter;
@@ -45,15 +53,23 @@ public class FragTaskList extends Fragment {
     //manager
     TaskManager taskManager;
 
+    //listener
+    FragTaskListener listener;
+
+    public interface FragTaskListener{
+        public void noticeFragTask();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (FragTaskListener)context;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-
-        taskManager = new TaskManager(getContext());
-
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.f_task_list, container, false);
 
         Bundle bundle = getArguments();
 
@@ -64,20 +80,21 @@ public class FragTaskList extends Fragment {
             Common.log("ankenId is empty!");
         }
 
-        try{
-            dataType = bundle.getInt("dataType");
-        }catch (Exception e){
-            dataType = 0;
+        taskManager = new TaskManager(getContext());
+        List<Task> list = taskManager.getListByAnkenId(ankenId);
+
+        //データが存在しない場合
+        if(list.size() == 0 ){
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.no_data, container, false);
+            return view;
         }
 
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.f_task_list, container, false);
 
         //setview
         recyclerView = view.findViewById(R.id.recycler_view);
 
         setListener();
-
-        Common.log("data:" + dataType);
-        List<Task> list = taskManager.getListByAnkenIdAndStatus(ankenId, dataType);
 
 
         adapter = new MyAdapter(list);
@@ -85,8 +102,6 @@ public class FragTaskList extends Fragment {
         layoutManager.setSmoothScrollbarEnabled(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        registerForContextMenu(recyclerView);
 
         return view;
 
@@ -106,6 +121,9 @@ public class FragTaskList extends Fragment {
         private TextView availableManday;//available_manday
         private Button bthistory;
         private Button btHistoryList;
+        private ImageView btEdit;
+        private CardView card;
+        //private Button btDelete;
         private ConstraintLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -120,7 +138,10 @@ public class FragTaskList extends Fragment {
             btHistoryList = itemView.findViewById(R.id.bt_open_tasklist);
             availableManday = itemView.findViewById(R.id.available_manday);
             layout = itemView.findViewById(R.id.layout);
-            layout.setOnCreateContextMenuListener(this);
+            btEdit = itemView.findViewById(R.id.bt_edit);
+            card = itemView.findViewById(R.id.card);
+            //btDelete = itemView.findViewById(R.id.bt_delete_task);
+            //layout.setOnCreateContextMenuListener(this);
 
         }
 
@@ -128,8 +149,9 @@ public class FragTaskList extends Fragment {
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
 
-            menu.add(getAdapterPosition(),1,2,"do test");
-            menu.add(getAdapterPosition(),2,1,"action");
+            menu.add(getAdapterPosition(),MENU1,1,"終了済みにセット");
+            menu.add(getAdapterPosition(),MENU2,2,"削除");
+            menu.add(getAdapterPosition(),MENU3,3,"編集");
 
         }
     }
@@ -153,7 +175,7 @@ public class FragTaskList extends Fragment {
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_task_row, viewGroup, false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_task_row2, viewGroup, false);
             MyViewHolder holder = new MyViewHolder(view);
             return holder;
 
@@ -166,7 +188,16 @@ public class FragTaskList extends Fragment {
             final int taskId = task.getId();
 
             holder.taskNo.setText("タスクNo."+String.valueOf(task.getId()));
-            holder.taskName.setText(task.getTaskName());
+
+            if(task.getStatus() == 1){
+                //finish
+                holder.taskName.setText(task.getTaskName() + "(対応済み)" );
+                holder.card.setCardBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            }else{
+                holder.taskName.setText(task.getTaskName());
+            }
+
+
 
             //bthistory -- open dialog
             holder.bthistory.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +225,35 @@ public class FragTaskList extends Fragment {
                 }
             });
 
+            //btDelete
+            /*holder.btDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //削除
+                    taskManager.delete(taskId);
+                    Snackbar.make(v, "削除しました！", Snackbar.LENGTH_SHORT).show();
+                    adapter.notifyItemRemoved(num);
+
+                    listener.noticeFragTask();
+
+                }
+            });
+            */
+
+            //edit
+            holder.btEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //dialog 表示
+                    DialogTask dialogTask = new DialogTask();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("taskId", taskId);
+                    dialogTask.setArguments(bundle);
+                    dialogTask.show(getFragmentManager(), "dialogTask");
+
+                }
+            });
+
             //rest of deadline
             if(task.getEndDate().isEmpty() || task.getEndDate() == null){
                 holder.endDate.setText("期限がセットされていません。");
@@ -213,58 +273,82 @@ public class FragTaskList extends Fragment {
             float availableManday = task.getManDays() - restManDays;
             holder.availableManday.setText(availableManday + "("+(availableManday*8)+"h)");
 
+            //set context menu
+            holder.layout.setTag(String.valueOf(task.getId()));
+            registerForContextMenu(holder.layout);
+
         }
 
         @Override
         public int getItemCount() {
             return list.size();
         }
+
+
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        //super.onCreateContextMenu(menu, v, menuInfo);
+
+        if(v.getTag() == null){
+            Common.log("gettag is null");
+            Snackbar.make(v, "タスクIDの取得に失敗しました。",Snackbar.LENGTH_SHORT).show();
+        }else{
+            selectedTaskId = Integer.parseInt(v.getTag().toString());
+            getActivity().getMenuInflater().inflate(R.menu.option_menu_7, menu);
+        }
+
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        Common.log("item:" + item.getGroupId());
-
-        List<Task> list = adapter.getList();
-        String.valueOf(adapter.getItemCount());
-
         View view = getActivity().findViewById(android.R.id.content);
+
+        List<Task> list;
 
         switch(item.getItemId()){
 
             case R.id.option1:
 
-                //edit
-                DialogTask dialogTask = new DialogTask();
-                Bundle bundle = new Bundle();
-                bundle.putInt("taskId", taskId);
-                dialogTask.show(getFragmentManager(), "dialogTaskHistory");
-                return true;
-
-            case R.id.option2:
-
                 //update status = 1
-                Task task = taskManager.getListById(taskId);
+                Task task = taskManager.getListById(selectedTaskId);
                 task.setStatus(1);
                 long insertId = taskManager.update(task);
 
                 if(insertId > 0){
                     Snackbar.make(view, "終了済みにセットしました", Snackbar.LENGTH_SHORT).show();
+
+                    list = taskManager.getListByAnkenId(ankenId);
+                    adapter.setList(list);
+                    adapter.notifyDataSetChanged();
+
+
                 }else{
                     Snackbar.make(view, "更新に失敗しました。", Snackbar.LENGTH_SHORT).show();
                 }
 
-
                 return true;
 
-            case R.id.option3:
+            case R.id.option2:
 
                 //delete
-                taskManager.delete(taskId);
+                taskManager.delete(selectedTaskId);
                 Snackbar.make(view,"削除しました。",Snackbar.LENGTH_SHORT).show();
+
+                list = taskManager.getListByAnkenId(ankenId);
+
+                if(list.size() == 0){
+                    getActivity().setContentView(R.layout.no_data);
+                    return true;
+                }
+                adapter.setList(list);
+                adapter.notifyDataSetChanged();
+
                 return true;
+
+
         }
 
         return super.onContextItemSelected(item);

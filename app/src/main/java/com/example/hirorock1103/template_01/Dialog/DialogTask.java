@@ -122,7 +122,15 @@ public class DialogTask extends AppCompatDialogFragment {
                                 //update task
                                 task = taskManager.getListById(taskId);
                                 task.setTaskName(edit_title.getText().toString());
+                                float mandays = Float.parseFloat(edit_man_day.getText().toString());
+                                task.setManDays(mandays);
+                                task.setEndDate(end_date.getText().toString());
+                                task.setDetail(detail.getText().toString());
                                 insertId = taskManager.update(task);
+
+                                Common.log("mandays:" + mandays);
+                                Common.log("detail:" + detail.getText().toString());
+
                                 msg = "タスクを更新しました。";
 
                             }else{

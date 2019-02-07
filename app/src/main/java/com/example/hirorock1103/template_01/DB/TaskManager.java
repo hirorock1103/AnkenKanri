@@ -356,6 +356,7 @@ public class TaskManager extends MyDbHelper {
         ContentValues values = new ContentValues();
         values.put(TASK_COLUMN_NAME, task.getTaskName());
         values.put(TASK_COLUMN_DETAIL, task.getDetail());
+        values.put(TASK_COLUMN_MANDAYS, task.getManDays());
         values.put(TASK_COLUMN_ANKENID, task.getAnkenId());
         values.put(TASK_COLUMN_STATUS, task.getStatus());
         values.put(TASK_COLUMN_ENDDATE, task.getEndDate());

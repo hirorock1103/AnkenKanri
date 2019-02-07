@@ -2,12 +2,14 @@ package com.example.hirorock1103.template_01;
 
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,23 +35,31 @@ public class MainTaskHistoryActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MyAdapter adapter;
 
+    //ids
+    private int taskHistoryId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_task_history);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        recyclerView = findViewById(R.id.recycler_view);
 
         ankenId = getIntent().getExtras().getInt("ankenId",0);
         taskId = getIntent().getExtras().getInt("taskId", 0);
 
         taskManager = new TaskManager(this);
-
         list = taskManager.getTaskHistoryByTaskId(taskId);
+
+        if(list.size() == 0){
+            setContentView(R.layout.no_data);
+            return;
+        }
+
+        setContentView(R.layout.activity_main_task_history);
+
+        recyclerView = findViewById(R.id.recycler_view);
 
         adapter = new MyAdapter(list);
 
@@ -58,7 +68,6 @@ public class MainTaskHistoryActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
 
     }
 
@@ -95,8 +104,7 @@ public class MainTaskHistoryActivity extends AppCompatActivity {
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(MainTaskHistoryActivity.this).inflate(R.layout.task_history_row, null);
-
+            View view = LayoutInflater.from(MainTaskHistoryActivity.this).inflate(R.layout.task_history_row, viewGroup,false);
             return new MyViewHolder(view);
         }
 
@@ -111,6 +119,7 @@ public class MainTaskHistoryActivity extends AppCompatActivity {
             holder.manday.setText((history.getManDay()*8) + "h");
 
             //context menu
+            holder.layout.setTag(String.valueOf(history.getId()));
             registerForContextMenu(holder.layout);
 
         }
@@ -121,6 +130,42 @@ public class MainTaskHistoryActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        taskHistoryId = Integer.parseInt(v.getTag().toString());
+
+        MainTaskHistoryActivity.this.getMenuInflater().inflate(R.menu.option_menu_6, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        View view = MainTaskHistoryActivity.this.findViewById(android.R.id.content);
+
+        switch (item.getItemId()){
+
+            case R.id.option2:
+                //delete
+                taskManager.deleteTaskHistory(taskHistoryId);
+                list = taskManager.getTaskHistoryByTaskId(taskId);
+                if(list.size() == 0){
+                    setContentView(R.layout.no_data);
+                }
+
+                adapter.setList(list);
+                adapter.notifyDataSetChanged();
+
+                Snackbar.make(view, "削除しました", Snackbar.LENGTH_SHORT).show();
+                return true;
+
+
+        }
+
+        return super.onContextItemSelected(item);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

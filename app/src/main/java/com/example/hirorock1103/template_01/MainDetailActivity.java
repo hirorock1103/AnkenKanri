@@ -590,8 +590,10 @@ public class MainDetailActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
+
         super.onResume();
         setViews();
+        setData();
         //mile stone
         list = ankenManager.getMilestoneByAnkenId(ankenId);
         adapter.setList(list);
@@ -603,6 +605,7 @@ public class MainDetailActivity extends AppCompatActivity
         taskAdapter.notifyDataSetChanged();
 
     }
+
 
     //RECYCLER VIEW FOR TASK
     public class MyTaskViewHolder extends RecyclerView.ViewHolder{

@@ -154,7 +154,7 @@ public class TaskManager extends MyDbHelper {
             }
 
             if(to.isEmpty() == false){
-                if(conditions.isEmpty()){
+                if(from.isEmpty()){
                     conditions += TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " <= " + "'"+to+"'";
                 }else{
                     conditions +=  " AND " + TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " <= " + "'"+to+"'";

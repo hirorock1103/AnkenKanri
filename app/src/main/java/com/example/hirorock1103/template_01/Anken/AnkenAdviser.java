@@ -51,7 +51,7 @@ public class AnkenAdviser {
 
                 StringBuilder builder = new StringBuilder();
                 if(errList.size() > 0){
-                    builder.append("『" + anken.getAnkenName() + "』に関してのエラー\n");
+                    builder.append("『" + anken.getAnkenName() + "』に関してのアラート\n");
                     int n = 1;
                     for (String err : errList){
                         builder.append("(" + n + ") " + err);

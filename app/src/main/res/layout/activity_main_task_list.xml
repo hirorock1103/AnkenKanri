@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hirorock1103.template_01.MainTaskListActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/upper"
+        android:padding="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/background_corner_radius_primary_dark"
+            android:text="期日の近いタスク順"
+            android:id="@+id/task_list_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:id="@+id/radio"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/task_list_title"
+            app:layout_constraintLeft_toLeftOf="@id/task_list_title"
+            >
+
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本日中"
+                    android:textSize="12sp"
+                    android:id="@+id/radio_1"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_4"
+                    android:textSize="12sp"
+                    android:text="7日以内"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_3"
+                    android:textSize="12sp"
+                    android:text="今月中"
+                    />
+
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_2"
+                    android:textSize="12sp"
+                    android:text="全体"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_5"
+                    android:textSize="12sp"
+                    android:text="期日越え"
+                    />
+
+
+
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="3dp"
+            android:id="@+id/radio_count"
+            app:layout_constraintTop_toBottomOf="@id/radio"
+            app:layout_constraintLeft_toLeftOf="@id/radio"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="件のタスクがHit!"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/radio_count_title"
+            app:layout_constraintLeft_toRightOf="@id/radio_count"
+            app:layout_constraintBottom_toBottomOf="@id/radio_count"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:padding="3dp"
+        android:id="@+id/lower"
+        app:layout_constraintTop_toBottomOf="@id/upper"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            style="@style/background_corner_radius_primary_light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

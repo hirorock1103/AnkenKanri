@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -35,238 +36,80 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final static int MODE = 1;
+    //view
+    ImageView ankenImage;
+    TextView ankenCount;
+    ImageView taskImage;
+    TextView taskCount;
 
-    //for test
-    private Button bt_4;
-    private Button bt_5;
-
-    //views
-    private CardView firstRow;
-    private TextView count1;
-    private TextView count2;
-    private TextView taskListTitle;
-    private TextView radioCount;
-    private TextView radioCountTitle;
-    private RadioGroup radioGroup;
-
-    //task list
-    private RecyclerView recyclerView;
-    private MyAdapter adapter;
-
-    //comment list
-    private RecyclerView commentRecyclerView;
-    private MyCommentAdapter commentAdapter;
-
-    private TaskManager taskManager;
     private AnkenManager ankenManager;
-    List<JoinedData.ValidTask> validTaskList;
+    private TaskManager taskManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(MODE == 0){
-            setContentView(R.layout.activity_main);
-            setViewFor0();
-
-        }else{
-            setContentView(R.layout.activity_main_2);
-            setView();
-        }
+        setContentView(R.layout.activity_main_3);
+        setView();
+        setListener();
+        setData();
 
     }
 
-    /**
-     * Recyceler view
-     */
+    private void setData(){
 
-    //comment list
-    public class MyCommentHolder extends RecyclerView.ViewHolder{
+        //anken
+        ankenManager = new AnkenManager(this);
+        List<Anken> ankenList = ankenManager.getListByIsComplete(0);
+        ankenCount.setText("(" + String.valueOf(ankenList.size()) +")");
 
-        TextView comment;
-
-        public MyCommentHolder(@NonNull View itemView) {
-            super(itemView);
-            comment = itemView.findViewById(R.id.text_user_comment);
-        }
-    }
-
-    public class MyCommentAdapter extends RecyclerView.Adapter<MyCommentHolder>{
-
-        private List<String> list;
-
-        public MyCommentAdapter(List<String> list){
-            this.list = list;
-        }
-
-        public void setList(List<String> list){
-            this.list = list;
-        }
-
-        @NonNull
-        @Override
-        public MyCommentHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_comment,viewGroup,false);
-            return new MyCommentHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MyCommentHolder holder, int i) {
-
-            String comment = list.get(i);
-            if(comment != null){
-                holder.comment.setText(comment);
+        //task
+        taskManager = new TaskManager(this);
+        List<Task> taskAllList = new ArrayList<>();
+        for (Anken anken : ankenList){
+            List<Task> taskList = taskManager.getListByAnkenIdAndStatus(anken.getId(), 0);
+            for(Task task : taskList){
+                taskAllList.add(task);
             }
-
-
         }
+        taskCount.setText("(" + String.valueOf(taskAllList.size()) +")");
 
-        @Override
-        public int getItemCount() {
-            return list.size();
-        }
     }
 
-    //task list
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    private void setListener(){
+        //jump to anken list
+        ankenImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainAnkenListActivity.class);
+                startActivity(intent);
+            }
+        });
+        //jump to task list
+        taskImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainTaskListActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        TextView taskInfo;
-        TextView endDate;
 
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            taskInfo = itemView.findViewById(R.id.task_info);
-            endDate = itemView.findViewById(R.id.end_date);
-
-        }
-    }
-
-    public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
-
-        private List<JoinedData.ValidTask> validTaskList;
-
-        MyAdapter(List<JoinedData.ValidTask> validTaskList){
-            this.validTaskList = validTaskList;
-        }
-
-        public void setList(List<JoinedData.ValidTask> validTaskList){
-            this.validTaskList = validTaskList;
-        }
-
-        @NonNull
-        @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
-            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_row_1,viewGroup, false);
-
-            return new MyViewHolder(view);
-
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
-
-            JoinedData.ValidTask validTask = validTaskList.get(i);
-
-            holder.taskInfo.setText(validTask.getTaskName() + "("+validTask.getAnkenName()+")");
-            holder.endDate.setText(validTask.getTaskEndDate());
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return validTaskList.size();
-        }
     }
 
     //set views
     private void setView(){
 
+        ankenImage = findViewById(R.id.anken_image);
+        ankenCount = findViewById(R.id.anken_count1);
+        taskImage = findViewById(R.id.task_image);
+        taskCount = findViewById(R.id.task_count1);
+
+
+        /*
         //views
         count1 = findViewById(R.id.count);
         count2 = findViewById(R.id.count2);
-        radioGroup = findViewById(R.id.radio);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Common.log("c:" + checkedId);
-
-                String from = "";
-                String to = "";
-
-                List<JoinedData.ValidTask> validTaskList = new ArrayList<>();
-
-                switch (checkedId){
-                    case R.id.radio_1://all
-
-                        from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
-                        to = from;
-
-                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
-
-                        adapter.setList(validTaskList);
-                        adapter.notifyDataSetChanged();
-
-                        break;
-                    case R.id.radio_2://today
-
-                        from = "";
-                        to = "";
-
-                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
-
-                        adapter.setList(validTaskList);
-                        adapter.notifyDataSetChanged();
-
-
-                        break;
-                    case R.id.radio_3://this week
-
-                        String year = Common.formatDate(new Date(), "yyyy");
-                        String month = Common.formatDate(new Date(), "MM");
-                        int targetyear = Integer.parseInt(year);
-                        int targetmonth = Integer.parseInt(month);
-                        from = Common.getFirstDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
-                        to = Common.getLastDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
-
-                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
-
-                        adapter.setList(validTaskList);
-                        adapter.notifyDataSetChanged();
-
-                        break;
-
-                    case R.id.radio_4://in seven days
-
-                        from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
-                        to = Common.formatDate(Common.addDateFromToday("DAY", 7), Common.DATE_FORMAT_SAMPLE_2);
-                        
-                        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
-
-                        adapter.setList(validTaskList);
-                        adapter.notifyDataSetChanged();
-
-                        break;
-                }
-
-
-                if(validTaskList.size() > 0){
-                    radioCount.setText(String.valueOf(validTaskList.size()));
-                    radioCountTitle.setText("件Hit!");
-                }else{
-                    radioCount.setText("対象のタスクは存在しません。");
-                    radioCountTitle.setText("");
-                }
-
-
-            }
-        });
-        taskListTitle = findViewById(R.id.task_list_title);
-        radioCount = findViewById(R.id.radio_count);
-        radioCountTitle = findViewById(R.id.radio_count_title);
-
         firstRow = findViewById(R.id.first_row);
         firstRow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ankenManager = new AnkenManager(this);
-        taskManager = new TaskManager(this);
 
         //dataset
         count1.setText(String.valueOf(ankenManager.getListByIsComplete(0).size()));
@@ -294,54 +136,7 @@ public class MainActivity extends AppCompatActivity {
         List<Anken> tmp = ankenManager.getListBySpan(from, to);
         count2.setText(String.valueOf(tmp.size()));
 
-        //for recycler view
-        validTaskList  = taskManager.getAllValidTasks();
-
-        //radioボタンで選択された期間で取得
-        //default -- today
-        from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
-        to = from;
-        validTaskList  = taskManager.getAllValidTasksBySpan(from, to);
-
-        taskListTitle.setText("タスク一覧(期日順) ");
-        if(validTaskList.size() > 0){
-            radioCount.setText(String.valueOf(validTaskList.size()));
-            radioCountTitle.setText("件Hit!");
-        }else{
-            radioCount.setText("タスクの登録がありません。");
-            radioCountTitle.setText("");
-        }
-
-        recyclerView = findViewById(R.id.recycler_view);
-        adapter = new MyAdapter(validTaskList);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setSmoothScrollbarEnabled(true);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-
-        //AnkenAdviser
-        AnkenAdviser ankenAdviser = new AnkenAdviser(this);
-        //ankenAdviser.setMsgAnkenWhichIsNotReady();
-        ankenAdviser.setMsgEachAnken();
-
-        List<String> advisersMessage = ankenAdviser.getMessageList();
-
-        commentRecyclerView = findViewById(R.id.recycler_comment_view);
-        commentAdapter = new MyCommentAdapter(advisersMessage);
-
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
-        layoutManager2.setSmoothScrollbarEnabled(true);
-        layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
-
-        commentRecyclerView.setHasFixedSize(true);
-        commentRecyclerView.setLayoutManager(layoutManager2);
-        commentRecyclerView.setAdapter(commentAdapter);
-
+        */
 
 
 
@@ -382,29 +177,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setView();
+        setData();
     }
 
-    private void setViewFor0(){
-        bt_4 = findViewById(R.id.bt_4);
-        bt_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                //open dialog
-                Intent intent = new Intent(MainActivity.this, MainAnkenTypeListActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        bt_5 = findViewById(R.id.bt_5);
-        bt_5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainAnkenListActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 }

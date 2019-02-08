@@ -58,7 +58,135 @@
                 app:layout_constraintBottom_toBottomOf="@id/title1"
                 />
 
+
+
+
+            <!--layout1-->
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout1"
+                android:layout_marginTop="10dp"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toBottomOf="@id/end_date"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="見積工数"
+                    android:textStyle="bold"
+                    style="@style/background_corner_radius_primary_light"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/Small"
+                    android:id="@+id/man_day_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/man_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="10人日(30h)"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/man_day_title"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!--layout2-->
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout2"
+                android:layout_marginTop="5dp"
+                app:layout_constraintHorizontal_bias="0.45"
+                app:layout_constraintBottom_toBottomOf="@id/layout1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消費工数"
+                    style="@style/background_corner_radius_primary_light"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/Small"
+                    android:textStyle="bold"
+                    android:id="@+id/usage_man_day_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/usage_man_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="5dp"
+                    android:text="5人日(40h)"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/usage_man_day_title"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <!--layout3-->
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout3"
+                android:layout_marginTop="5dp"
+                app:layout_constraintHorizontal_bias="0.85"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/layout1"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="使用可能工数"
+                    style="@style/background_corner_radius_primary_light"
+                    android:id="@+id/t1"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/Small"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/available_manday"
+                    android:text="3人日(24h)"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/t1"
+                    />
+
+
+            </android.support.constraint.ConstraintLayout>
+
         </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
 
     </android.support.v7.widget.CardView>
 

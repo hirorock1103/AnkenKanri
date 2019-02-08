@@ -131,6 +131,32 @@
             />
 
 
+        <!--task-->
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/mail"
+            android:id="@+id/mail_image"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/task2_image"
+            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="各種報告"
+            android:id="@+id/mail_title1"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/mail_image"
+            app:layout_constraintLeft_toLeftOf="@id/mail_image"
+            app:layout_constraintRight_toRightOf="@id/mail_image"
+
+            />
+
 
 
     </android.support.constraint.ConstraintLayout>

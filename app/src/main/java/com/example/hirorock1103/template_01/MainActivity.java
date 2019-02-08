@@ -1,6 +1,7 @@
 package com.example.hirorock1103.template_01;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     TextView ankenCount;
     ImageView taskImage;
     TextView taskCount;
+    ImageView task2Image;
+    TextView task2Count;
+
 
     private AnkenManager ankenManager;
     private TaskManager taskManager;
@@ -93,6 +97,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //jump to task list
+        task2Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainTaskListActivity.class);
+                intent.putExtra("datatype", "expired");
+                startActivity(intent);
+            }
+        });
+
 
 
     }
@@ -104,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
         ankenCount = findViewById(R.id.anken_count1);
         taskImage = findViewById(R.id.task_image);
         taskCount = findViewById(R.id.task_count1);
-
+        task2Image = findViewById(R.id.task2_image);
+        task2Count = findViewById(R.id.task2_count1);
 
         /*
         //views

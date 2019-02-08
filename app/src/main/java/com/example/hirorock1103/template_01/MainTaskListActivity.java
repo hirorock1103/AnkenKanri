@@ -1,20 +1,25 @@
 package com.example.hirorock1103.template_01;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.JoinedData;
+import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.DB.TaskManager;
@@ -25,11 +30,20 @@ import java.util.List;
 
 public class MainTaskListActivity extends AppCompatActivity {
 
+    //datatype
+    private String datatype;
+
 
     //views
     private TextView radioCount;
     private TextView radioCountTitle;
     private RadioGroup radioGroup;
+    private TextView title;
+    private Button btMail;
+
+    //mail text
+    private String mailSubject;
+    private String mailContents;
 
     //task list
     private RecyclerView recyclerView;
@@ -45,6 +59,15 @@ public class MainTaskListActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_task_list);
+
+        //datatype
+        try{
+            datatype = getIntent().getExtras().getString("datatype");
+        }catch(Exception e){
+            datatype = null;
+            Common.log(e.getMessage());
+        }
+
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -64,6 +87,8 @@ public class MainTaskListActivity extends AppCompatActivity {
         radioCount = findViewById(R.id.radio_count);
         radioCountTitle = findViewById(R.id.radio_count_title);
         radioGroup = findViewById(R.id.radio);
+        title = findViewById(R.id.task_list_title);
+        btMail = findViewById(R.id.bt_mail);
     }
 
     private void setData(){
@@ -73,9 +98,33 @@ public class MainTaskListActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(adapter);
-        //初期値は本日終了タスク
-        radioGroup.check(R.id.radio_1);
 
+        if(datatype != null && datatype.equals("expired")){
+            radioGroup.removeAllViews();
+            title.setText("期限切れタスク一覧");
+            String from = "";
+            String to =  Common.formatDate(Common.addDateFromToday("DAY", -1), Common.DATE_FORMAT_SAMPLE_2);
+            validTaskList = taskManager.getAllValidTasksBySpan(from, to);
+            adapter.setList(validTaskList);
+            adapter.notifyDataSetChanged();
+            //text for mail
+            mailSubject = "期限切れタスク一覧" + "(" + validTaskList.size() + "件)";
+            if(validTaskList.size() > 0){
+                radioCount.setText(String.valueOf(validTaskList.size()));
+                radioCountTitle.setText("件Hit!");
+
+                mailContents = getMailContents(validTaskList);
+
+            }else{
+                radioCount.setText("タスクの登録がありません。");
+                radioCountTitle.setText("");
+                mailContents = "対象のタスクがありません。";
+
+            }
+        }else{
+            //初期値は本日終了タスク
+            radioGroup.check(R.id.radio_1);
+        }
 
     }
     //task list
@@ -147,7 +196,27 @@ public class MainTaskListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private String getMailContents(List<JoinedData.ValidTask> validTaskList){
+        StringBuilder builder = new StringBuilder();
+        for (JoinedData.ValidTask validTask : validTaskList){
+
+            builder.append(validTask.getTaskName() + "【" + validTask.getAnkenName() + "】<br>");
+            builder.append("[期限]" + validTask.getTaskEndDate() + "<br><br>");
+
+        }
+
+        return builder.toString();
+    }
+
     private void setListener(){
+
+        //send mail
+        btMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Common.sendMail(MainTaskListActivity.this, mailSubject, mailContents);
+            }
+        });
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -159,7 +228,7 @@ public class MainTaskListActivity extends AppCompatActivity {
                 List<JoinedData.ValidTask> validTaskList = new ArrayList<>();
 
                 switch (checkedId){
-                    case R.id.radio_1://all
+                    case R.id.radio_1://today
 
                         from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
                         to = from;
@@ -167,14 +236,18 @@ public class MainTaskListActivity extends AppCompatActivity {
                         adapter.setList(validTaskList);
                         adapter.notifyDataSetChanged();
 
+                        mailSubject = "本日期限タスク" + "(" + validTaskList.size() + "件)";
+
                         break;
-                    case R.id.radio_2://today
+                    case R.id.radio_2://all
 
                         from = "";
                         to = "";
                         validTaskList = taskManager.getAllValidTasksBySpan(from, to);
                         adapter.setList(validTaskList);
                         adapter.notifyDataSetChanged();
+
+                        mailSubject = "全タスク" + "(" + validTaskList.size() + "件)";
 
                         break;
                     case R.id.radio_3://this week
@@ -190,6 +263,8 @@ public class MainTaskListActivity extends AppCompatActivity {
                         adapter.setList(validTaskList);
                         adapter.notifyDataSetChanged();
 
+                        mailSubject = "今月期限タスク" + "(" + validTaskList.size() + "件)";
+
                         break;
 
                     case R.id.radio_4://in seven days
@@ -200,8 +275,10 @@ public class MainTaskListActivity extends AppCompatActivity {
                         adapter.setList(validTaskList);
                         adapter.notifyDataSetChanged();
 
-                        break;
+                        mailSubject = "７日以内の期限タスク" + "(" + validTaskList.size() + "件)";
 
+                        break;
+                    /*
                     case R.id.radio_5:
                         from = "";
                         to =  Common.formatDate(Common.addDateFromToday("DAY", -1), Common.DATE_FORMAT_SAMPLE_2);
@@ -209,7 +286,7 @@ public class MainTaskListActivity extends AppCompatActivity {
                         adapter.setList(validTaskList);
                         adapter.notifyDataSetChanged();
 
-                        break;
+                        break;*/
 
                         default:
                             validTaskList = new ArrayList<>();
@@ -222,9 +299,17 @@ public class MainTaskListActivity extends AppCompatActivity {
                 if(validTaskList.size() > 0){
                     radioCount.setText(String.valueOf(validTaskList.size()));
                     radioCountTitle.setText("件Hit!");
+
+                    mailContents = getMailContents(validTaskList);
+
+
                 }else{
-                    radioCount.setText("タスクの登録がありません。");
+
+                    radioCount.setText("対象のタスクがありません。");
                     radioCountTitle.setText("");
+
+                    mailContents = "対象のタスクがありません。";
+
                 }
             }
         });

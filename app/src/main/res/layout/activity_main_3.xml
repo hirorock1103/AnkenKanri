@@ -92,6 +92,46 @@
 
 
 
+        <!--task2-->
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/task2"
+            android:id="@+id/task2_image"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/anken_count1"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="期限切れタスク"
+            android:id="@+id/task2_title1"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/task2_image"
+            app:layout_constraintLeft_toLeftOf="@id/task2_image"
+            app:layout_constraintRight_toRightOf="@id/task2_image"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(12)"
+            android:id="@+id/task2_count1"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/task2_title1"
+            app:layout_constraintLeft_toLeftOf="@id/task2_image"
+            app:layout_constraintRight_toRightOf="@id/task2_image"
+
+            />
+
+
+
 
     </android.support.constraint.ConstraintLayout>
 

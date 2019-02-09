@@ -106,8 +106,8 @@ public class JoinedData {
         private float taskManday;
         private float ankenManday;
         private float historyManday;
-        private String from;
-        private String to;
+        private String historyTargetDate;
+
 
         public int getId() {
             return id;
@@ -189,20 +189,12 @@ public class JoinedData {
             this.historyManday = historyManday;
         }
 
-        public String getFrom() {
-            return from;
+        public String getHistoryTargetDate() {
+            return historyTargetDate;
         }
 
-        public void setFrom(String from) {
-            this.from = from;
-        }
-
-        public String getTo() {
-            return to;
-        }
-
-        public void setTo(String to) {
-            this.to = to;
+        public void setHistoryTargetDate(String historyTargetDate) {
+            this.historyTargetDate = historyTargetDate;
         }
     }
 

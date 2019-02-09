@@ -364,6 +364,7 @@ public class AnkenManager extends MyDbHelper {
     }
 
 
+
     public List<JoinedData.AnkenHasTask> getAnkenHasTask(){
 
         TaskManager taskManager = new TaskManager(context);

@@ -27,7 +27,8 @@
         <activity android:name=".MainTaskHistoryActivity" />
         <activity android:name=".MainActivityExtendsList" />
         <activity android:name=".MainActivity2" />
-        <activity android:name=".MainTaskListActivity"></activity>
+        <activity android:name=".MainTaskListActivity" />
+        <activity android:name=".MainTaskHistoryActivity2"></activity>
     </application>
 
 </manifest>

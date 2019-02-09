@@ -132,6 +132,90 @@ public class TaskManager extends MyDbHelper {
 
     }
 
+
+
+    public List<JoinedData.AnkenTaskHistory> getAnkenHistory(String from ,String to){
+        List<JoinedData.AnkenTaskHistory> list = new ArrayList<>();
+
+        String query = "SELECT * , " +
+                TABLE_TASKHISTORY + "." + TASKHISTORY_ID + " as id," +
+                TABLE_TASKHISTORY + "." + TASKHISTORY_CONTENTS + " as historyContents," +
+                TABLE_TASKHISTORY + "." + TASKHISTORY_MANDAY + " as taskHistoryManday," +
+                TABLE_TASKHISTORY + "." + TASKHISTORY_TARGETDATE + " as taskHistoryTargetdate," +
+                TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_ID + " as ankenId," +
+                TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_TITLE + " as ankenName," +
+                TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_MANDAY + " as ankenManday," +
+                TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_END + " as ankenEnddate," +
+                TABLE_TASK + "." + TASK_COLUMN_ID + " as taskId," +
+                TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " as taskEndDate," +
+                TABLE_TASK + "." + TASK_COLUMN_MANDAYS + " as taskManday," +
+                TABLE_TASK + "." + TASK_COLUMN_NAME + " as taskName " +
+                " FROM " + TABLE_TASKHISTORY + " INNER JOIN " + TABLE_TASK +
+                " ON " + TABLE_TASKHISTORY + "." + TASKHISTORY_TASK_ID + " = " + TABLE_TASK + "." + TASK_COLUMN_ID +
+                " INNER JOIN " + TABLE_ANKEN_NAME +
+                " ON " + TABLE_TASK + "." + TASK_COLUMN_ANKENID + " = " + TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_ID
+                + " WHERE " + TABLE_TASKHISTORY + "." + TASKHISTORY_ID + " > 0 ";
+
+
+        String conditions = "";
+        if(from.isEmpty()==false || to.isEmpty()==false){
+            conditions = "(";
+            if(from.isEmpty() == false){
+                conditions += TABLE_TASKHISTORY + "." + TASKHISTORY_TARGETDATE + " >= " + "'"+from+"'";
+            }
+
+            if(to.isEmpty() == false){
+                if(from.isEmpty()){
+                    conditions += TABLE_TASKHISTORY + "." + TASKHISTORY_TARGETDATE + " <= " + "'"+to+"'";
+                }else{
+                    conditions +=  " AND " + TABLE_TASKHISTORY + "." + TASKHISTORY_TARGETDATE + " <= " + "'"+to+"'";
+                }
+            }
+            conditions += ")";
+
+            query += " AND " + conditions;
+
+        }
+
+        query += " ORDER BY " + TABLE_TASKHISTORY + "." + TASKHISTORY_ID + " ASC ";
+
+        Common.log(query);
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            JoinedData.AnkenTaskHistory taskHistory = new JoinedData.AnkenTaskHistory();
+
+            taskHistory.setId(c.getInt(c.getColumnIndex("id")));
+            taskHistory.setAnkenId(c.getInt(c.getColumnIndex("ankenId")));
+            taskHistory.setTaskId(c.getInt(c.getColumnIndex("taskId")));
+            taskHistory.setAnkenName(c.getString(c.getColumnIndex("ankenName")));
+            taskHistory.setAnkenEndDate(c.getString(c.getColumnIndex("ankenEnddate")));
+            taskHistory.setAnkenManday(c.getFloat(c.getColumnIndex("ankenManday")));
+            taskHistory.setTaskName(c.getString(c.getColumnIndex("taskName")));
+            taskHistory.setTaskEndDate(c.getString(c.getColumnIndex("taskEndDate")));
+            taskHistory.setTaskManday(c.getFloat(c.getColumnIndex("taskManday")));
+            taskHistory.setHistoryManday(c.getFloat(c.getColumnIndex("taskHistoryManday")));
+            taskHistory.setHistoryTargetDate(c.getString(c.getColumnIndex("taskHistoryTargetdate")));
+
+
+            list.add(taskHistory);
+
+            c.moveToNext();
+        }
+
+
+        return list;
+
+
+    }
+
+
+
     public List<JoinedData.ValidTask> getAllValidTasksBySpan(String from, String to){
 
         List<JoinedData.ValidTask> list = new ArrayList<>();

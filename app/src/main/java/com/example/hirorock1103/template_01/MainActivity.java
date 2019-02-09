@@ -78,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         }
         taskCount.setText("(" + String.valueOf(taskAllList.size()) +")");
 
+        //task expired
+        String from = "";
+        String to =  Common.formatDate(Common.addDateFromToday("DAY", -1), Common.DATE_FORMAT_SAMPLE_2);
+        List<JoinedData.ValidTask> validTask = taskManager.getAllValidTasksBySpan(from, to);
+        task2Count.setText("(" + validTask.size() + ")");
+
     }
 
     private void setListener(){

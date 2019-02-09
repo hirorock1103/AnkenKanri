@@ -140,6 +140,7 @@ public class TaskManager extends MyDbHelper {
                 TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_END + " as ankenEndDate," +
                 TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " as taskEndDate," +
                 TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_ID + " as ankenId," +
+                TABLE_TASK + "." + TASK_COLUMN_MANDAYS + " as taskManday," +
                 TABLE_TASK + "." + TASK_COLUMN_ID + " as taskId " +
                 " FROM " + TABLE_TASK
                 + " INNER JOIN " + TABLE_ANKEN_NAME
@@ -182,6 +183,7 @@ public class TaskManager extends MyDbHelper {
             validTask.setId(1);
             validTask.setAnkenId(c.getInt(c.getColumnIndex("ankenId")));
             validTask.setTaskId(c.getInt(c.getColumnIndex("taskId")));
+            validTask.setTaskManday(c.getFloat(c.getColumnIndex("taskManday")));
             validTask.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
             validTask.setAnkenEndDate(c.getString(c.getColumnIndex("ankenEndDate")));
             validTask.setTaskEndDate(c.getString(c.getColumnIndex("taskEndDate")));

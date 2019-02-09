@@ -94,6 +94,118 @@ public class JoinedData {
         }
     }
 
+    public static class AnkenTaskHistory{
+
+        private int id;
+        private int taskId;
+        private int ankenId;
+        private String taskName;
+        private String ankenName;
+        private String ankenEndDate;
+        private String taskEndDate;
+        private float taskManday;
+        private float ankenManday;
+        private float historyManday;
+        private String from;
+        private String to;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getTaskId() {
+            return taskId;
+        }
+
+        public void setTaskId(int taskId) {
+            this.taskId = taskId;
+        }
+
+        public int getAnkenId() {
+            return ankenId;
+        }
+
+        public void setAnkenId(int ankenId) {
+            this.ankenId = ankenId;
+        }
+
+        public String getTaskName() {
+            return taskName;
+        }
+
+        public void setTaskName(String taskName) {
+            this.taskName = taskName;
+        }
+
+        public String getAnkenName() {
+            return ankenName;
+        }
+
+        public void setAnkenName(String ankenName) {
+            this.ankenName = ankenName;
+        }
+
+        public String getAnkenEndDate() {
+            return ankenEndDate;
+        }
+
+        public void setAnkenEndDate(String ankenEndDate) {
+            this.ankenEndDate = ankenEndDate;
+        }
+
+        public String getTaskEndDate() {
+            return taskEndDate;
+        }
+
+        public void setTaskEndDate(String taskEndDate) {
+            this.taskEndDate = taskEndDate;
+        }
+
+        public float getTaskManday() {
+            return taskManday;
+        }
+
+        public void setTaskManday(float taskManday) {
+            this.taskManday = taskManday;
+        }
+
+        public float getAnkenManday() {
+            return ankenManday;
+        }
+
+        public void setAnkenManday(float ankenManday) {
+            this.ankenManday = ankenManday;
+        }
+
+        public float getHistoryManday() {
+            return historyManday;
+        }
+
+        public void setHistoryManday(float historyManday) {
+            this.historyManday = historyManday;
+        }
+
+        public String getFrom() {
+            return from;
+        }
+
+        public void setFrom(String from) {
+            this.from = from;
+        }
+
+        public String getTo() {
+            return to;
+        }
+
+        public void setTo(String to) {
+            this.to = to;
+        }
+    }
+
     public static class ValidTask{
 
         private int id;
@@ -101,6 +213,7 @@ public class JoinedData {
         private int ankenId;
         private int ankenStatus;
         private int taskStatus;
+        private float taskManday;
         private String ankenName;
         private String taskName;
         private String ankenEndDate;
@@ -185,6 +298,14 @@ public class JoinedData {
 
         public void setTodayHistory(boolean todayHistory) {
             isTodayHistory = todayHistory;
+        }
+
+        public float getTaskManday() {
+            return taskManday;
+        }
+
+        public void setTaskManday(float taskManday) {
+            this.taskManday = taskManday;
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.hirorock1103.template_01;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,12 +24,14 @@ import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.DB.TaskManager;
+import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
+import com.example.hirorock1103.template_01.Dialog.DialogTaskHistory;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainTaskListActivity extends AppCompatActivity {
+public class MainTaskListActivity extends AppCompatActivity implements DialogDatePick.DateListener, DialogTaskHistory.TaskHistoryListener {
 
     //datatype
     private String datatype;
@@ -100,44 +103,63 @@ public class MainTaskListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         if(datatype != null && datatype.equals("expired")){
-            radioGroup.removeAllViews();
-            title.setText("期限切れタスク一覧");
-            String from = "";
-            String to =  Common.formatDate(Common.addDateFromToday("DAY", -1), Common.DATE_FORMAT_SAMPLE_2);
-            validTaskList = taskManager.getAllValidTasksBySpan(from, to);
-            adapter.setList(validTaskList);
-            adapter.notifyDataSetChanged();
-            //text for mail
-            mailSubject = "期限切れタスク一覧" + "(" + validTaskList.size() + "件)";
-            if(validTaskList.size() > 0){
-                radioCount.setText(String.valueOf(validTaskList.size()));
-                radioCountTitle.setText("件Hit!");
-
-                mailContents = getMailContents(validTaskList);
-
-            }else{
-                radioCount.setText("タスクの登録がありません。");
-                radioCountTitle.setText("");
-                mailContents = "対象のタスクがありません。";
-
-            }
+            setDataExpired();
         }else{
             //初期値は本日終了タスク
             radioGroup.check(R.id.radio_1);
         }
 
     }
+
+    @Override
+    public void getDate(String date, String tag) {
+
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("dialogTaskHistory");
+        if(fragment != null){
+            DialogTaskHistory dialogfragment = (DialogTaskHistory)fragment;
+            dialogfragment.setText(date);
+        }
+
+    }
+
+    @Override
+    public void noticeTaskHistoryResult() {
+
+        if(datatype != null && datatype.equals("expired")){
+            setDataExpired();
+        }else{
+            int selectedRadioId = radioGroup.getCheckedRadioButtonId();
+            //登録後
+            setData();
+            //現在選択しているradio button
+            radioGroup.check(selectedRadioId);
+        }
+
+
+    }
+
     //task list
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView taskInfo;
         TextView endDate;
 
+        TextView manDay;//man_day
+        TextView usageManDay;//usage_man_day
+        TextView availableManday;//available_manday
+        Button bthistory;
+
+
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             taskInfo = itemView.findViewById(R.id.task_info);
             endDate = itemView.findViewById(R.id.end_date);
+            manDay = itemView.findViewById(R.id.man_day);
+            usageManDay = itemView.findViewById(R.id.usage_man_day);
+            bthistory = itemView.findViewById(R.id.bt_open_taskhistory);
+            availableManday = itemView.findViewById(R.id.available_manday);
 
         }
     }
@@ -159,7 +181,6 @@ public class MainTaskListActivity extends AppCompatActivity {
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
             View view = LayoutInflater.from(MainTaskListActivity.this).inflate(R.layout.item_row_1,viewGroup, false);
-
             return new MyViewHolder(view);
 
         }
@@ -168,10 +189,37 @@ public class MainTaskListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
 
-            JoinedData.ValidTask validTask = validTaskList.get(i);
+            final JoinedData.ValidTask validTask = validTaskList.get(i);
             Common.log(validTask.getTaskName());
             holder.taskInfo.setText(validTask.getTaskName() + "("+validTask.getAnkenName()+")");
             holder.endDate.setText(validTask.getTaskEndDate());
+
+            //予定工数
+            holder.manDay.setText((validTask.getTaskManday())+"人日("+(validTask.getTaskManday()*8)+"h)");//10人日(×8h=80h)
+
+            //消費した工数
+            float restManDays = taskManager.getTaskHistoryMandaysByTaskId(validTask.getTaskId());
+            holder.usageManDay.setText(restManDays + "人日(" + (restManDays*8) + "h)");
+
+            //使用可能工数
+            float availableManday = validTask.getTaskManday() - restManDays;
+            holder.availableManday.setText(availableManday + "("+(availableManday*8)+"h)");
+
+            //bthistory -- open dialog
+            holder.bthistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //open dialog
+                    DialogTaskHistory taskHistory = new DialogTaskHistory();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ankenId", validTask.getAnkenId());
+                    bundle.putInt("taskId", validTask.getTaskId());
+                    taskHistory.setArguments(bundle);
+                    taskHistory.show(getSupportFragmentManager(),"dialogTaskHistory");
+                }
+            });
+
+
 
         }
 
@@ -206,6 +254,29 @@ public class MainTaskListActivity extends AppCompatActivity {
         }
 
         return builder.toString();
+    }
+
+    private void setDataExpired(){
+        radioGroup.removeAllViews();
+        title.setText("期限切れタスク一覧");
+        String from = "";
+        String to =  Common.formatDate(Common.addDateFromToday("DAY", -1), Common.DATE_FORMAT_SAMPLE_2);
+        validTaskList = taskManager.getAllValidTasksBySpan(from, to);
+        adapter.setList(validTaskList);
+        adapter.notifyDataSetChanged();
+        //text for mail
+        mailSubject = "期限切れタスク一覧" + "(" + validTaskList.size() + "件)";
+        if(validTaskList.size() > 0){
+            radioCount.setText(String.valueOf(validTaskList.size()));
+            radioCountTitle.setText("件Hit!");
+            mailContents = getMailContents(validTaskList);
+
+        }else{
+            radioCount.setText("タスクの登録がありません。");
+            radioCountTitle.setText("");
+            mailContents = "対象のタスクがありません。";
+
+        }
     }
 
     private void setListener(){

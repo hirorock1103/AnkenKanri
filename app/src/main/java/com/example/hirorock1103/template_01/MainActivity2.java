@@ -337,11 +337,7 @@ public class MainActivity2 extends AppCompatActivity {
         commentRecyclerView.setHasFixedSize(true);
         commentRecyclerView.setLayoutManager(layoutManager2);
         commentRecyclerView.setAdapter(commentAdapter);
-
-
-
-
-
+        
     }
 
     @Override

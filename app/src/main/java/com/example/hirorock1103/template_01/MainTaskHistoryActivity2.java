@@ -69,8 +69,6 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity implements Dialo
 
     }
 
-
-
     private void setView(){
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -133,9 +131,8 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity implements Dialo
                 adapter.notifyDataSetChanged();
                 count.setText(String.valueOf(list.size()));
 
-                //
+                //set mail
                 setMail(from, to, list);
-
 
             }
         });

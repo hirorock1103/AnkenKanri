@@ -53,6 +53,30 @@ public class FragAnkenList2 extends Fragment {
     private AnkenManager ankenManager;
     private AnkenTypeManager ankenTypeManager;
 
+    private FragAnkenListener listener;
+
+    public interface FragAnkenListener{
+        public void noticeFragAnkenListener(int ankenId);
+    }
+
+    public void setAnkenId(int ankenId){
+        this.ankenId = ankenId;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try{
+            listener = (FragAnkenListener)context;
+        }catch (ClassCastException e){
+            View view = getActivity().findViewById(android.R.id.content);
+            Snackbar.make(view, "FragAnkenListenerをimplemtensしてください", Snackbar.LENGTH_SHORT).show();
+        }
+
+
+    }
+
 
     @Nullable
     @Override
@@ -242,17 +266,18 @@ public class FragAnkenList2 extends Fragment {
 
         Anken anken = ankenManager.getListByID(ankenId);
         if(anken.isComplete() == 1){
-            //getActivity().getMenuInflater().inflate(R.menu.option_menu_3, menu);
+            listener.noticeFragAnkenListener(ankenId);
+            getActivity().getMenuInflater().inflate(R.menu.option_menu_3, menu);
         }else{
             getActivity().getMenuInflater().inflate(R.menu.option_menu_2, menu);
         }
-
 
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
+        Common.log("ankenId:" + ankenId);
 
         switch(item.getItemId()){
 
@@ -282,8 +307,6 @@ public class FragAnkenList2 extends Fragment {
 
             case R.id.option4:
 
-                Common.log("option4");
-                Common.log("ankenId:" + ankenId);
                 //make complete true
                 Anken anken2 = ankenManager.getListByID(ankenId);
                 anken2.setComplete(0);
@@ -297,9 +320,7 @@ public class FragAnkenList2 extends Fragment {
 
                 return true;
 
-
             case R.id.option5:
-                Common.log("option5");
                 //delete completely
                 ankenManager.delete(ankenId);
                 View v = getView();

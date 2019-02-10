@@ -10,16 +10,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.Dialog.DialogAnken;
 import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 import com.example.hirorock1103.template_01.Fragments.FragAnkenList2;
-import com.example.hirorock1103.template_01.Fragments.FragTaskList;
+
+
+import java.util.List;
 
 public class MainAnkenListActivity extends AppCompatActivity
-        implements DialogAnken.DialogAnkenListener, DialogDatePick.DateListener {
+        implements DialogAnken.DialogAnkenListener, DialogDatePick.DateListener, FragAnkenList2.FragAnkenListener {
 
     private MyPagerFragmentAdapter adapter;
     private ViewPager pager;
@@ -68,6 +68,15 @@ public class MainAnkenListActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         setViews();
+    }
+
+    @Override
+    public void noticeFragAnkenListener(int ankenId) {
+        List<Fragment> list = getSupportFragmentManager().getFragments();
+        if(list.get(0) != null){
+            FragAnkenList2 f = (FragAnkenList2)list.get(0);
+            f.setAnkenId(ankenId);
+        }
     }
 
 

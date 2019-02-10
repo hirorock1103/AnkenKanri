@@ -86,17 +86,6 @@ public class MainActivity extends AppCompatActivity {
         List<JoinedData.ValidTask> validTask = taskManager.getAllValidTasksBySpan(from, to);
         task2Count.setText("(" + validTask.size() + ")");
 
-
-        //sample
-        String from1 = "";
-        String to1 = "";
-        List<JoinedData.AnkenTaskHistory> sampleList = taskManager.getAnkenHistory(from1, to1);
-
-        for(JoinedData.AnkenTaskHistory data : sampleList){
-            Common.log("getTaskName:" + data.getTaskName());
-            Common.log("getHistoryManday:" + data.getHistoryManday());
-        }
-
     }
 
     private void setListener(){

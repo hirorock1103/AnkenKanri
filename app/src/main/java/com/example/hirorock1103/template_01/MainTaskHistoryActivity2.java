@@ -175,7 +175,7 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity implements Dialo
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView targetDate;
-        TextView contents;
+        //TextView contents;
         TextView manday;
         TextView taskDetail;
         ConstraintLayout layout;
@@ -183,7 +183,7 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity implements Dialo
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             targetDate = itemView.findViewById(R.id.target_date_title);
-            contents = itemView.findViewById(R.id.contents);
+            //contents = itemView.findViewById(R.id.contents);
             manday = itemView.findViewById(R.id.man_day);
             taskDetail = itemView.findViewById(R.id.task_detail);
             layout = itemView.findViewById(R.id.layout);
@@ -217,9 +217,9 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity implements Dialo
             //set contents to view
             holder.targetDate.setText(history.getHistoryTargetDate());
             holder.manday.setText((history.getHistoryManday()*8) + "h");
-            holder.taskDetail.setText(history.getTaskName() + "(" + history.getAnkenName() + ")");
-            String contents = (history.getContents().isEmpty() || history.getContents() == null) ? "詳細：なし" : "詳細：" + history.getContents();
-            holder.contents.setText(contents);
+            holder.taskDetail.setText(history.getTaskName() + "\n(" + history.getAnkenName() + ")");
+            //String contents = (history.getContents().isEmpty() || history.getContents() == null) ? "詳細：なし" : "詳細：" + history.getContents();
+            //holder.contents.setText(contents);
 
             //context menu
             holder.layout.setTag(String.valueOf(history.getId()));

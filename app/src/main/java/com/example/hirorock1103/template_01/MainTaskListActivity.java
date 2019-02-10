@@ -199,11 +199,11 @@ public class MainTaskListActivity extends AppCompatActivity implements DialogDat
 
             //消費した工数
             float restManDays = taskManager.getTaskHistoryMandaysByTaskId(validTask.getTaskId());
-            holder.usageManDay.setText(restManDays + "人日(" + (restManDays*8) + "h)");
+            holder.usageManDay.setText(String.format("%.1f", restManDays) + "人日(" + (restManDays*8) + "h)");
 
             //使用可能工数
             float availableManday = validTask.getTaskManday() - restManDays;
-            holder.availableManday.setText(availableManday + "("+(availableManday*8)+"h)");
+            holder.availableManday.setText(String.format("%.1f", availableManday) + "人日("+(availableManday*8)+"h)");
 
             //bthistory -- open dialog
             holder.bthistory.setOnClickListener(new View.OnClickListener() {

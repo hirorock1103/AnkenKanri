@@ -250,10 +250,10 @@ public class MainDetailActivity extends AppCompatActivity
 
         //実績の登録 taskresult2
         float resultManday = taskManager.getTaskHistoryMandaysByAnkenId(ankenId);
-        float resultHour = resultManday * 8;
+        //float resultHour = resultManday * 8;
         float scheduledManday = anken.getManDay();
-        float scheduledHour = scheduledManday * 8;
-        String resultStr = resultManday + "人日";
+        //float scheduledHour = scheduledManday * 8;
+        String resultStr = String.format("%.1f", resultManday) + "人日";
         taskResult2.setText(resultStr);
 
         //実績ベースの費用 taskresult1
@@ -262,7 +262,8 @@ public class MainDetailActivity extends AppCompatActivity
 
         //残日数
         String result3str = "";
-        result3str = (scheduledManday - resultManday) + "人日";
+        float tmp = scheduledManday - resultManday;
+        result3str = String.format("%.1f", tmp) + "人日"  + "(" + (tmp * 8) +"h)";
         taskResult3.setText(result3str);
 
         //progress1

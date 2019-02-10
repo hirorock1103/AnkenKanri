@@ -33,22 +33,25 @@ public class MainAnkenListActivity extends AppCompatActivity
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         setListener();
-        setViews();
+        setViews(0);
 
     }
 
-    private void setViews(){
+    private void setViews(int item){
         adapter = new MyPagerFragmentAdapter(getSupportFragmentManager());
         pager = findViewById(R.id.viewPager);
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
+        if(item > 0){
+            pager.setCurrentItem(item);
+        }
         TabLayout layout = findViewById(R.id.tabLayout);
         layout.setupWithViewPager(pager);
     }
 
     @Override
     public void NoticeAnkenResult() {
-        setViews();
+        setViews(0);
     }
 
     @Override
@@ -67,16 +70,25 @@ public class MainAnkenListActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        setViews();
+        setViews(0);
     }
 
     @Override
-    public void noticeFragAnkenListener(int ankenId) {
-        List<Fragment> list = getSupportFragmentManager().getFragments();
-        if(list.get(0) != null){
-            FragAnkenList2 f = (FragAnkenList2)list.get(0);
-            f.setAnkenId(ankenId);
+    public void noticeFragAnkenListener(int ankenId, String mode) {
+        if(mode == null){
+            List<Fragment> list = getSupportFragmentManager().getFragments();
+            if(list.get(0) != null){
+                FragAnkenList2 f = (FragAnkenList2)list.get(0);
+                f.setAnkenId(ankenId);
+            }
+        }else{
+
+            if(mode.equals("delete")){
+                setViews(1);
+            }
+
         }
+
     }
 
 

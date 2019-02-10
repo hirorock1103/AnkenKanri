@@ -56,7 +56,7 @@ public class FragAnkenList2 extends Fragment {
     private FragAnkenListener listener;
 
     public interface FragAnkenListener{
-        public void noticeFragAnkenListener(int ankenId);
+        public void noticeFragAnkenListener(int ankenId, String mode);
     }
 
     public void setAnkenId(int ankenId){
@@ -74,7 +74,6 @@ public class FragAnkenList2 extends Fragment {
             Snackbar.make(view, "FragAnkenListenerをimplemtensしてください", Snackbar.LENGTH_SHORT).show();
         }
 
-
     }
 
 
@@ -90,7 +89,6 @@ public class FragAnkenList2 extends Fragment {
         }catch (Exception e){
             Common.log("mode error:" + e.getMessage());
         }
-
 
         recyclerView = view.findViewById(R.id.recycler_view);
         fab = view.findViewById(R.id.fab);
@@ -266,7 +264,7 @@ public class FragAnkenList2 extends Fragment {
 
         Anken anken = ankenManager.getListByID(ankenId);
         if(anken.isComplete() == 1){
-            listener.noticeFragAnkenListener(ankenId);
+            listener.noticeFragAnkenListener(ankenId, null);
             getActivity().getMenuInflater().inflate(R.menu.option_menu_3, menu);
         }else{
             getActivity().getMenuInflater().inflate(R.menu.option_menu_2, menu);
@@ -276,8 +274,6 @@ public class FragAnkenList2 extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
-        Common.log("ankenId:" + ankenId);
 
         switch(item.getItemId()){
 
@@ -295,9 +291,7 @@ public class FragAnkenList2 extends Fragment {
                 //make complete true
                 Anken anken = ankenManager.getListByID(ankenId);
                 anken.setComplete(1);
-
                 long insertId = ankenManager.update(anken);
-
                 if(insertId > 0){
                     View v = getView();
                     Snackbar.make(v, "終了済みにセットしました。",Snackbar.LENGTH_SHORT).show();
@@ -325,6 +319,7 @@ public class FragAnkenList2 extends Fragment {
                 ankenManager.delete(ankenId);
                 View v = getView();
                 Snackbar.make(v, "削除しました。",Snackbar.LENGTH_SHORT).show();
+                listener.noticeFragAnkenListener(ankenId, "delete");
                 return true;
         }
 

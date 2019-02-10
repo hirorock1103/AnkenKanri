@@ -13,20 +13,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.hirorock1103.template_01.Anken.Anken;
 import com.example.hirorock1103.template_01.Anken.AnkenAdviser;
 import com.example.hirorock1103.template_01.Anken.JoinedData;
-import com.example.hirorock1103.template_01.Anken.Task;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.AnkenManager;
 import com.example.hirorock1103.template_01.DB.TaskManager;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

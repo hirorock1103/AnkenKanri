@@ -16,8 +16,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         >
 
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -131,8 +129,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="3dp"
             android:id="@+id/count"
-            style="@style/background_corner_radius_primary_dark"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             />
@@ -141,7 +140,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="件Hit!"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="1dp"
+            android:id="@+id/radio_count_title"
             app:layout_constraintLeft_toRightOf="@id/count"
             app:layout_constraintTop_toTopOf="@id/count"
             app:layout_constraintBottom_toBottomOf="@id/count"

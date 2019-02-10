@@ -273,11 +273,12 @@ public class FragTaskList extends Fragment {
 
             //消費した工数
             float restManDays = taskManager.getTaskHistoryMandaysByTaskId(taskId);
-            holder.usageManDay.setText(restManDays + "人日(" + (restManDays*8) + "h)");
+            Common.log(restManDays + " -> " + String.format("%.1f", restManDays));
+            holder.usageManDay.setText(String.format("%.1f", restManDays) + "人日(" + (restManDays*8) + "h)");
 
             //使用可能工数
             float availableManday = task.getManDays() - restManDays;
-            holder.availableManday.setText(availableManday + "("+(availableManday*8)+"h)");
+            holder.availableManday.setText(String.format("%.1f", availableManday) + "人日("+(availableManday*8)+"h)");
 
             //set context menu
             holder.layout.setTag(String.valueOf(task.getId()));

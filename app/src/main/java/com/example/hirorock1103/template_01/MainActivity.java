@@ -148,42 +148,6 @@ public class MainActivity extends AppCompatActivity {
         task2Count = findViewById(R.id.task2_count1);
         historyImage = findViewById(R.id.history_image);
 
-
-        /*
-        //views
-        count1 = findViewById(R.id.count);
-        count2 = findViewById(R.id.count2);
-        firstRow = findViewById(R.id.first_row);
-        firstRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainAnkenListActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ankenManager = new AnkenManager(this);
-
-        //dataset
-        count1.setText(String.valueOf(ankenManager.getListByIsComplete(0).size()));
-        String from = "";
-        String to = "";
-
-        //今月対象の案件を取得するために月初と月末を取得する
-        String year = Common.formatDate(new Date(), "yyyy");
-        String month = Common.formatDate(new Date(), "MM");
-        int targetyear = Integer.parseInt(year);
-        int targetmonth = Integer.parseInt(month);
-        from = Common.getFirstDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
-        to = Common.getLastDate(targetyear,targetmonth, Common.DATE_FORMAT_SAMPLE_2);
-        List<Anken> tmp = ankenManager.getListBySpan(from, to);
-        count2.setText(String.valueOf(tmp.size()));
-
-        */
-
-
-
-
     }
 
     @Override

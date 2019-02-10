@@ -97,6 +97,7 @@ public class MainTaskListActivity extends AppCompatActivity implements DialogDat
     private void setData(){
         taskManager = new TaskManager(this);
         validTaskList = new ArrayList<>();
+        validTaskList = taskManager.getAllValidTasks();
         adapter = new MyAdapter(validTaskList);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
@@ -129,6 +130,7 @@ public class MainTaskListActivity extends AppCompatActivity implements DialogDat
             setDataExpired();
         }else{
             int selectedRadioId = radioGroup.getCheckedRadioButtonId();
+            Common.log("selectedRadioId:" + selectedRadioId);
             //登録後
             setData();
             //現在選択しているradio button
@@ -249,7 +251,12 @@ public class MainTaskListActivity extends AppCompatActivity implements DialogDat
         for (JoinedData.ValidTask validTask : validTaskList){
 
             builder.append(validTask.getTaskName() + "【" + validTask.getAnkenName() + "】<br>");
-            builder.append("[期限]" + validTask.getTaskEndDate() + "<br><br>");
+            builder.append("[期限]" + validTask.getTaskEndDate() + "<br>");
+            builder.append("[詳細]" + validTask.getTaskContents() + "<br>");
+            float useManDays = taskManager.getTaskHistoryMandaysByTaskId(validTask.getTaskId());
+            float manDays = validTask.getTaskManday();
+            float restManDays = manDays - useManDays;
+            builder.append("[使用可能工数]" + String.format("%.1f",restManDays) + "人日(" + String.format("%.1f",(restManDays * 8)) + "h)<br><br>");
 
         }
 

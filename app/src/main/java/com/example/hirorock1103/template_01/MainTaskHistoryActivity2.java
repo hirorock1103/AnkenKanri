@@ -153,6 +153,7 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity implements Dialo
         for(JoinedData.AnkenTaskHistory history : list){
             builder.append("[" + history.getHistoryTargetDate() + "]<br>");
             builder.append(history.getTaskName() + "(" + history.getAnkenName() + ")<br>");
+            builder.append("作業内容:" + history.getContents() + "<br>");
             builder.append("消費工数:" + (history.getHistoryManday() * 8) + "h<br><br>");
         }
 

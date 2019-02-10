@@ -217,6 +217,7 @@ public class JoinedData {
         private float taskManday;
         private String ankenName;
         private String taskName;
+        private String taskContents;
         private String ankenEndDate;
         private String taskEndDate;
         private boolean isTodayHistory;
@@ -307,6 +308,14 @@ public class JoinedData {
 
         public void setTaskManday(float taskManday) {
             this.taskManday = taskManday;
+        }
+
+        public String getTaskContents() {
+            return taskContents;
+        }
+
+        public void setTaskContents(String taskContents) {
+            this.taskContents = taskContents;
         }
     }
 

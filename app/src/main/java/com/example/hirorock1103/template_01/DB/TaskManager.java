@@ -100,6 +100,7 @@ public class TaskManager extends MyDbHelper {
                 TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_END + " as ankenEndDate," +
                 TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " as taskEndDate," +
                 TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_ID + " as ankenId," +
+                TABLE_TASK + "." + TASK_COLUMN_DETAIL + " as taskContents," +
                 TABLE_TASK + "." + TASK_COLUMN_ID + " as taskId " +
                 " FROM " + TABLE_TASK
                 + " INNER JOIN " + TABLE_ANKEN_NAME
@@ -121,6 +122,7 @@ public class TaskManager extends MyDbHelper {
             validTask.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
             validTask.setAnkenEndDate(c.getString(c.getColumnIndex("ankenEndDate")));
             validTask.setTaskEndDate(c.getString(c.getColumnIndex("taskEndDate")));
+            validTask.setTaskContents(c.getString(c.getColumnIndex("taskContents")));
             validTask.setAnkenName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TITLE)));
 
             list.add(validTask);
@@ -226,6 +228,7 @@ public class TaskManager extends MyDbHelper {
                 TABLE_TASK + "." + TASK_COLUMN_ENDDATE + " as taskEndDate," +
                 TABLE_ANKEN_NAME + "." + ANKEN_COLUMN_ID + " as ankenId," +
                 TABLE_TASK + "." + TASK_COLUMN_MANDAYS + " as taskManday," +
+                TABLE_TASK + "." + TASK_COLUMN_DETAIL + " as taskContents," +
                 TABLE_TASK + "." + TASK_COLUMN_ID + " as taskId " +
                 " FROM " + TABLE_TASK
                 + " INNER JOIN " + TABLE_ANKEN_NAME
@@ -272,6 +275,7 @@ public class TaskManager extends MyDbHelper {
             validTask.setTaskName(c.getString(c.getColumnIndex(TASK_COLUMN_NAME)));
             validTask.setAnkenEndDate(c.getString(c.getColumnIndex("ankenEndDate")));
             validTask.setTaskEndDate(c.getString(c.getColumnIndex("taskEndDate")));
+            validTask.setTaskContents(c.getString(c.getColumnIndex("taskContents")));
             validTask.setAnkenName(c.getString(c.getColumnIndex(ANKEN_COLUMN_TITLE)));
 
             list.add(validTask);

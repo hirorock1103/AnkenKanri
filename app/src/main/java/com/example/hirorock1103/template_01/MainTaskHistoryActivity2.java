@@ -14,21 +14,36 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.hirorock1103.template_01.Anken.JoinedData;
 import com.example.hirorock1103.template_01.Anken.TaskHistory;
 import com.example.hirorock1103.template_01.Common.Common;
 import com.example.hirorock1103.template_01.DB.TaskManager;
+import com.example.hirorock1103.template_01.Dialog.DialogDatePick;
 
+import java.util.Date;
 import java.util.List;
 
-public class MainTaskHistoryActivity2 extends AppCompatActivity {
-
-    private int ankenId;
-    private int taskId;
+public class MainTaskHistoryActivity2 extends AppCompatActivity implements DialogDatePick.DateListener {
 
     //data
-    private List<TaskHistory> list;
+    private List<JoinedData.AnkenTaskHistory> list;
+
+    //view
+    ImageView pickDateImg;
+    ImageView pickDate2Img;
+    TextView fromDate;
+    TextView toDate;
+    TextView count;
+    Button search;
+    Button mail;
+    String mailSubjebt;
+    String mailContents;
+
+    //manager
     private TaskManager taskManager;
 
     //recycler view
@@ -46,29 +61,118 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        ankenId = getIntent().getExtras().getInt("ankenId",0);
-        taskId = getIntent().getExtras().getInt("taskId", 0);
+        setContentView(R.layout.activity_main_task_history2);
 
-        taskManager = new TaskManager(this);
-        list = taskManager.getTaskHistoryByTaskId(taskId);
+        setView();
+        setListener();
+        setData();
 
-        if(list.size() == 0){
-            setContentView(R.layout.no_data);
-            return;
-        }
+    }
 
-        setContentView(R.layout.activity_main_task_history);
+
+
+    private void setView(){
 
         recyclerView = findViewById(R.id.recycler_view);
+        pickDateImg = findViewById(R.id.pick_date_img);
+        pickDate2Img = findViewById(R.id.pick_date2_img);
+        fromDate = findViewById(R.id.target_date1);
+        toDate = findViewById(R.id.target_date2);
+        count = findViewById(R.id.count);
+        search = findViewById(R.id.search);
+        mail = findViewById(R.id.mail);
+    }
+    private void setData(){
 
+        taskManager = new TaskManager(this);
+        String from = Common.formatDate(new Date(), Common.DATE_FORMAT_SAMPLE_2);
+        String to = from;
+        fromDate.setText(from);
+        toDate.setText(to);
+        list = taskManager.getAnkenHistory(from, to);
+        count.setText(String.valueOf(list.size()));
+
+        //set mail
+        setMail(from, to, list);
+
+        //list
         adapter = new MyAdapter(list);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setSmoothScrollbarEnabled(true);
-
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    private void setListener(){
+        pickDateImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogDatePick datePick = new DialogDatePick();
+                Bundle bundle = new Bundle();
+                bundle.putString("from", "from");
+                datePick.setArguments(bundle);
+                datePick.show(getSupportFragmentManager(), "datepick");
+            }
+        });
+        pickDate2Img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogDatePick datePick = new DialogDatePick();
+                datePick.show(getSupportFragmentManager(), "datepick");
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //再検索 -- list のみ更新する
+                String from = fromDate.getText().toString();
+                String to = toDate.getText().toString();
+                list = taskManager.getAnkenHistory(from, to);
+                adapter.setList(list);
+                adapter.notifyDataSetChanged();
+                count.setText(String.valueOf(list.size()));
+
+                //
+                setMail(from, to, list);
+
+
+            }
+        });
+        mail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Common.sendMail(MainTaskHistoryActivity2.this,mailSubjebt,mailContents);
+            }
+        });
+    }
+
+    private void setMail(String from, String to, List<JoinedData.AnkenTaskHistory> list){
+
+        mailSubjebt = "実績検索(" + from + "～" + to +  ")";
+
+        StringBuilder builder = new StringBuilder();
+        for(JoinedData.AnkenTaskHistory history : list){
+            builder.append("[" + history.getHistoryTargetDate() + "]<br>");
+            builder.append(history.getTaskName() + "(" + history.getAnkenName() + ")<br>");
+            builder.append("消費工数:" + (history.getHistoryManday() * 8) + "h<br><br>");
+        }
+
+        mailContents = builder.toString();
+    }
+
+    @Override
+    public void getDate(String date, String tag) {
+        setText(date,tag);
+    }
+
+    private void setText(String date, String tag){
+        if(tag != null && tag.equals("from")){
+            fromDate.setText(date);
+        }else{
+            toDate.setText(date);
+        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -76,27 +180,27 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity {
         TextView targetDate;
         TextView contents;
         TextView manday;
+        TextView taskDetail;
         ConstraintLayout layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
             targetDate = itemView.findViewById(R.id.target_date_title);
             contents = itemView.findViewById(R.id.contents);
             manday = itemView.findViewById(R.id.man_day);
+            taskDetail = itemView.findViewById(R.id.task_detail);
             layout = itemView.findViewById(R.id.layout);
-
         }
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
-        private List<TaskHistory> list;
+        private List<JoinedData.AnkenTaskHistory> list;
 
-        MyAdapter(List<TaskHistory> list){
+        MyAdapter(List<JoinedData.AnkenTaskHistory> list){
             this.list = list;
         }
-        public void setList(List<TaskHistory> list){
+        public void setList(List<JoinedData.AnkenTaskHistory> list){
             this.list = list;
         }
 
@@ -104,19 +208,21 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity {
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(MainTaskHistoryActivity2.this).inflate(R.layout.task_history_row, viewGroup,false);
+            View view = LayoutInflater.from(MainTaskHistoryActivity2.this).inflate(R.layout.task_history_row_2, viewGroup,false);
             return new MyViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
 
-            TaskHistory history = list.get(i);
+            JoinedData.AnkenTaskHistory history = list.get(i);
 
             //set contents to view
-            holder.targetDate.setText(history.getTargetdate());
-            holder.contents.setText(history.getContent().isEmpty() ? "説明なし" : history.getContent());
-            holder.manday.setText((history.getManDay()*8) + "h");
+            holder.targetDate.setText(history.getHistoryTargetDate());
+            holder.manday.setText((history.getHistoryManday()*8) + "h");
+            holder.taskDetail.setText(history.getTaskName() + "(" + history.getAnkenName() + ")");
+            String contents = (history.getContents().isEmpty() || history.getContents() == null) ? "詳細：なし" : "詳細：" + history.getContents();
+            holder.contents.setText(contents);
 
             //context menu
             holder.layout.setTag(String.valueOf(history.getId()));
@@ -130,42 +236,6 @@ public class MainTaskHistoryActivity2 extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        taskHistoryId = Integer.parseInt(v.getTag().toString());
-
-        MainTaskHistoryActivity2.this.getMenuInflater().inflate(R.menu.option_menu_6, menu);
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        View view = MainTaskHistoryActivity2.this.findViewById(android.R.id.content);
-
-        switch (item.getItemId()){
-
-            case R.id.option2:
-                //delete
-                taskManager.deleteTaskHistory(taskHistoryId);
-                list = taskManager.getTaskHistoryByTaskId(taskId);
-                if(list.size() == 0){
-                    setContentView(R.layout.no_data);
-                }
-
-                adapter.setList(list);
-                adapter.notifyDataSetChanged();
-
-                Snackbar.make(view, "削除しました", Snackbar.LENGTH_SHORT).show();
-                return true;
-
-
-        }
-
-        return super.onContextItemSelected(item);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

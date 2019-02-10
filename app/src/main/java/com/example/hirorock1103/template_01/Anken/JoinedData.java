@@ -106,6 +106,7 @@ public class JoinedData {
         private float taskManday;
         private float ankenManday;
         private float historyManday;
+        private String contents;
         private String historyTargetDate;
 
 
@@ -195,6 +196,14 @@ public class JoinedData {
 
         public void setHistoryTargetDate(String historyTargetDate) {
             this.historyTargetDate = historyTargetDate;
+        }
+
+        public String getContents() {
+            return contents;
+        }
+
+        public void setContents(String contents) {
+            this.contents = contents;
         }
     }
 

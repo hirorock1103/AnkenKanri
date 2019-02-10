@@ -3,7 +3,174 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.hirorock1103.template_01.MainTaskHistoryActivity2">
+    android:layout_height="wrap_content"
+    tools:context="com.example.hirorock1103.template_01.MainTaskHistoryActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pick_date_area"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日付(from)"
+            android:id="@+id/pick_date"
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/Small"
+            style="@style/background_corner_radius_primary_dark"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_cal"
+            android:id="@+id/pick_date_img"
+            app:layout_constraintLeft_toRightOf="@id/pick_date"
+            app:layout_constraintBottom_toBottomOf="@id/pick_date"
+            app:layout_constraintTop_toTopOf="@id/pick_date"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/Small"
+            android:text="2019/02/01"
+            android:layout_marginLeft="3dp"
+            android:id="@+id/target_date1"
+            app:layout_constraintLeft_toRightOf="@id/pick_date_img"
+            app:layout_constraintBottom_toBottomOf="@id/pick_date_img"
+            app:layout_constraintTop_toTopOf="@id/pick_date_img"
+
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="～"
+            android:id="@+id/to_title"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintLeft_toRightOf="@+id/target_date1"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日付(to)"
+            android:id="@+id/pick_date2"
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/Small"
+            style="@style/background_corner_radius_primary_dark"
+            app:layout_constraintLeft_toRightOf="@id/to_title"
+            app:layout_constraintBottom_toBottomOf="@id/to_title"
+            app:layout_constraintTop_toTopOf="@id/to_title"
+            />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_cal"
+            android:id="@+id/pick_date2_img"
+            app:layout_constraintLeft_toRightOf="@id/pick_date2"
+            app:layout_constraintBottom_toBottomOf="@id/pick_date2"
+            app:layout_constraintTop_toTopOf="@id/pick_date2"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/Small"
+            android:text="2019/02/01"
+            android:layout_marginLeft="3dp"
+            android:id="@+id/target_date2"
+            app:layout_constraintLeft_toRightOf="@id/pick_date2_img"
+            app:layout_constraintBottom_toBottomOf="@id/pick_date2_img"
+            app:layout_constraintTop_toTopOf="@id/pick_date2_img"
+
+            />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="search"
+            android:id="@+id/search"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/pick_date"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_area"
+        android:padding="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/pick_date_area"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:id="@+id/count"
+            style="@style/background_corner_radius_primary_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="件Hit!"
+            android:layout_marginLeft="2dp"
+            app:layout_constraintLeft_toRightOf="@id/count"
+            app:layout_constraintTop_toTopOf="@id/count"
+            app:layout_constraintBottom_toBottomOf="@id/count"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/recycler_view"
+        style="@style/background_corner_radius_primary_light"
+        app:layout_constraintTop_toBottomOf="@+id/comment_area"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="メール"
+        android:id="@+id/mail"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        />
 
 </android.support.constraint.ConstraintLayout>

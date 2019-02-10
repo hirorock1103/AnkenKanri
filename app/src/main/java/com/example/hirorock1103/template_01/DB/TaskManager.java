@@ -201,6 +201,7 @@ public class TaskManager extends MyDbHelper {
             taskHistory.setTaskManday(c.getFloat(c.getColumnIndex("taskManday")));
             taskHistory.setHistoryManday(c.getFloat(c.getColumnIndex("taskHistoryManday")));
             taskHistory.setHistoryTargetDate(c.getString(c.getColumnIndex("taskHistoryTargetdate")));
+            taskHistory.setContents(c.getString(c.getColumnIndex("historyContents")));
 
 
             list.add(taskHistory);

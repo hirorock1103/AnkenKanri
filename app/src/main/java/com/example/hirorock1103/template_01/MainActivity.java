@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView task2Image;
     TextView task2Count;
     ImageView historyImage;
-    TextView historyCount;
 
 
 
@@ -130,10 +129,7 @@ public class MainActivity extends AppCompatActivity {
         historyImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainTaskHistoryActivity.class);
-                intent.putExtra("ankenId", 0);
-                intent.putExtra("taskId", 0);
-                intent.putExtra("mode", "all");
+                Intent intent = new Intent(MainActivity.this, MainTaskHistoryActivity2.class);
                 startActivity(intent);
             }
         });
@@ -151,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         task2Image = findViewById(R.id.task2_image);
         task2Count = findViewById(R.id.task2_count1);
         historyImage = findViewById(R.id.history_image);
-        historyCount = findViewById(R.id.history_count1);
+
 
         /*
         //views

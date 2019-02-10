@@ -48,7 +48,11 @@ public class DialogDatePick extends AppCompatDialogFragment implements DatePicke
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        Common.log("onCreateDialog");
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+
+        return datePickerDialog;
 
     }
 
@@ -61,7 +65,8 @@ public class DialogDatePick extends AppCompatDialogFragment implements DatePicke
         try{
             listener.getDate(year +"/"+ String.format("%02d",(month + 1)) +"/"+ String.format("%02d",dayOfMonth), tag);
         }catch (Exception e){
-            Common.log(e.getMessage());
+            //エラー発生時はリスナーセットした側での問題の可能性も！
+            Common.log(e.toString());
         }
 
     }
